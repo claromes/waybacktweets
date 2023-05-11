@@ -62,7 +62,7 @@ def attr(i):
 st.title('Wayback Tweets', anchor=False)
 st.write('Archived tweets on Wayback Machine')
 
-username = st.text_input('Type Twitter username', placeholder='Type Twitter username', label_visibility='collapsed')
+handle = st.text_input('Type Twitter handle', placeholder='Type Twitter handle', label_visibility='collapsed')
 
 query = st.button('Query', type='primary', use_container_width=True)
 
