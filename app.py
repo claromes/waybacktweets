@@ -22,7 +22,7 @@ def embed(tweet):
 
 def query_api(handle):
     if not handle:
-        st.error("Type Twitter's handle")
+        st.error("Type Twitter handle.")
         st.stop()
 
     url = 'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{}/status/*&output=json'.format(handle)
