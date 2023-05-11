@@ -68,7 +68,7 @@ query = st.button('Query', type='primary', use_container_width=True)
 
 
 if query:
-    links = query_api(username)
+    links = query_api(handle)
     parsed_links = parse_links(links)[0]
     tweet_links = parse_links(links)[1]
     mimetype = parse_links(links)[2]
