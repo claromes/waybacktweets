@@ -99,10 +99,9 @@ if query:
 
             if only_deleted:
                 if tweet == None:
-                    st.error('Tweet has been deleted.')
-
                     attr(i)
 
+                    st.error('Tweet has been deleted.')
                     st.markdown('<iframe src="{}" height=700 width=550></iframe>'.format(link), unsafe_allow_html=True)
                     st.divider()
                 else: st.empty()
