@@ -13,32 +13,36 @@ st.set_page_config(
 
 # https://discuss.streamlit.io/t/remove-hide-running-man-animation-on-top-of-page/21773/3
 hide_streamlit_style = """
-                <style>
-                div[data-testid="stToolbar"] {
-                visibility: hidden;
-                height: 0%;
-                position: fixed;
-                }
-                div[data-testid="stDecoration"] {
-                visibility: hidden;
-                height: 0%;
-                position: fixed;
-                }
-                div[data-testid="stStatusWidget"] {
-                visibility: hidden;
-                height: 0%;
-                position: fixed;
-                }
-                #MainMenu {
-                visibility: hidden;
-                height: 0%;
-                }
-                header {
-                visibility: hidden;
-                height: 0%;
-                }
-                </style>
-                """
+<style>
+    div[data-testid="stToolbar"] {
+    visibility: hidden;
+    height: 0%;
+    position: fixed;
+    }
+    div[data-testid="stDecoration"] {
+    visibility: hidden;
+    height: 0%;
+    position: fixed;
+    }
+    div[data-testid="stStatusWidget"] {
+    visibility: hidden;
+    height: 0%;
+    position: fixed;
+    }
+    #MainMenu {
+    visibility: hidden;
+    height: 0%;
+    }
+    header {
+    visibility: hidden;
+    height: 0%;
+    }
+    footer {
+    visibility: hidden;
+    height: 0%;
+    }
+</style>
+"""
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 def embed(tweet):
@@ -85,7 +89,7 @@ def attr(i):
     {}. **Wayback Machine:** [link]({}) | **MIME Type:** {} | **From:** {} | **Tweet:** [link]({})
     '''.format(i+1, link, mimetype[i], datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S"), tweet_links[i]))
 
-st.title('Wayback Tweets', anchor=False)
+st.title('Wayback Tweets [![GitHub stars](https://img.shields.io/github/stars/claromes/waybacktweets?style=social)](https://github.com/claromes/waybacktweets)', anchor=False)
 st.write('Archived tweets on Wayback Machine')
 
 handle = st.text_input('username', placeholder='username', label_visibility='collapsed')
