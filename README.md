@@ -7,7 +7,7 @@ Archived tweets on Wayback Machine in a easy way
 ## Bugs
 
 - [ ] "web.archive.org took too long to respond."
-- [ ] `only_deleted` checkbox selected for handles without deleted tweets
+- [x] `only_deleted` checkbox selected for handles without deleted tweets
 
 ## TODO
 
