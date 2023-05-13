@@ -12,7 +12,7 @@ st.set_page_config(
 )
 
 # https://discuss.streamlit.io/t/remove-hide-running-man-animation-on-top-of-page/21773/3
-hide_streamlit_style = """
+hide_streamlit_style = '''
 <style>
     div[data-testid="stToolbar"] {
     visibility: hidden;
@@ -42,7 +42,7 @@ hide_streamlit_style = """
     height: 0%;
     }
 </style>
-"""
+'''
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 def embed(tweet):
@@ -89,12 +89,11 @@ def attr(i):
     {}. **Wayback Machine:** [link]({}) | **MIME Type:** {} | **From:** {} | **Tweet:** [link]({})
     '''.format(i+1, link, mimetype[i], datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S"), tweet_links[i]))
 
-st.title('Wayback Tweets [![GitHub stars](https://img.shields.io/github/stars/claromes/waybacktweets?style=social)](https://github.com/claromes/waybacktweets)', anchor=False)
+st.title('Wayback Tweets [![Fork me on GitHub](https://img.shields.io/badge/-Fork%20me%20on%20GitHub-ededed?logo=github&style=social)](https://github.com/claromes/waybacktweets)', anchor=False)
 st.write('Archived tweets on Wayback Machine')
 
 handle = st.text_input('username', placeholder='username', label_visibility='collapsed')
 query = st.button('Query', type='primary', use_container_width=True, key='init')
-only_deleted = st.checkbox('Only deleted tweets')
 
 if query or handle:
     with st.spinner(''):
@@ -104,6 +103,8 @@ if query or handle:
         tweet_links = parse_links(links)[1]
         mimetype = parse_links(links)[2]
         timestamp = parse_links(links)[3]
+
+        only_deleted = st.checkbox('Only deleted tweets')
 
         if links or stop:
             st.divider()
