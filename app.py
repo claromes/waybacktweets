@@ -3,7 +3,7 @@ import datetime
 import streamlit as st
 import streamlit.components.v1 as components
 
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 
 st.set_page_config(
     page_title='Wayback Tweets',
