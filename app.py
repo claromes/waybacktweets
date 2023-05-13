@@ -3,13 +3,43 @@ import datetime
 import streamlit as st
 import streamlit.components.v1 as components
 
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 
 st.set_page_config(
     page_title='Wayback Tweets',
     page_icon='🏛️',
     layout='centered'
 )
+
+# https://discuss.streamlit.io/t/remove-hide-running-man-animation-on-top-of-page/21773/3
+hide_streamlit_style = """
+                <style>
+                div[data-testid="stToolbar"] {
+                visibility: hidden;
+                height: 0%;
+                position: fixed;
+                }
+                div[data-testid="stDecoration"] {
+                visibility: hidden;
+                height: 0%;
+                position: fixed;
+                }
+                div[data-testid="stStatusWidget"] {
+                visibility: hidden;
+                height: 0%;
+                position: fixed;
+                }
+                #MainMenu {
+                visibility: hidden;
+                height: 0%;
+                }
+                header {
+                visibility: hidden;
+                height: 0%;
+                }
+                </style>
+                """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 def embed(tweet):
     api = 'https://publish.twitter.com/oembed?url={}'.format(tweet)
@@ -20,9 +50,10 @@ def embed(tweet):
     else:
         return None
 
+@st.cache_data(show_spinner=False)
 def query_api(handle):
     if not handle:
-        st.error("Type Twitter handle.")
+        st.warning('username, please!')
         st.stop()
 
     url = 'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{}/status/*&output=json'.format(handle)
@@ -38,6 +69,7 @@ def parse_links(links):
     tweet_links = []
     parsed_mimetype = []
 
+
     for link in links[1:]:
         url = 'https://web.archive.org/web/{}/{}'.format(link[1], link[2])
 
@@ -50,61 +82,56 @@ def parse_links(links):
 
 def attr(i):
     st.markdown('''
-    {}. [Wayback Machine link]({})
-
-    **MIME Type:** {}
-
-    **From:** {}
-
-    [Tweet link]({})
+    {}. **Wayback Machine:** [link]({}) | **MIME Type:** {} | **From:** {} | **Tweet:** [link]({})
     '''.format(i+1, link, mimetype[i], datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S"), tweet_links[i]))
-
-    st.markdown('**Preview:**')
 
 st.title('Wayback Tweets', anchor=False)
 st.write('Archived tweets on Wayback Machine')
 
-handle = st.text_input('Type Twitter handle', placeholder='Type Twitter handle', label_visibility='collapsed')
+handle = st.text_input('username', placeholder='username', label_visibility='collapsed')
+query = st.button('Query', type='primary', use_container_width=True, key='init')
+only_deleted = st.checkbox('Only deleted tweets')
 
-query = st.button('Query', type='primary', use_container_width=True)
+if query or handle:
+    with st.spinner(''):
+        progress = st.empty()
+        links = query_api(handle)
+        parsed_links = parse_links(links)[0]
+        tweet_links = parse_links(links)[1]
+        mimetype = parse_links(links)[2]
+        timestamp = parse_links(links)[3]
 
+        if links or stop:
+            st.divider()
 
-if query:
-    links = query_api(handle)
-    parsed_links = parse_links(links)[0]
-    tweet_links = parse_links(links)[1]
-    mimetype = parse_links(links)[2]
-    timestamp = parse_links(links)[3]
+            return_none_count = 0
 
-    if links:
-        only_deleted = st.checkbox('Only deleted tweets')
+            for i, link in enumerate(parsed_links):
+                tweet = embed('{}'.format(tweet_links[i]))
 
-        st.write('{} URLs have been captured'.format(len(parsed_links)))
-
-        st.divider()
-
-        for i, link in enumerate(parsed_links):
-            tweet = embed('{}'.format(tweet_links[i]))
-
-            if not only_deleted:
-                attr(i)
-
-                if tweet == None:
-                    st.error('Tweet has been deleted.')
-                    st.markdown('<iframe src="{}" height=700 width=550></iframe>'.format(link), unsafe_allow_html=True)
-                    st.divider()
-                else:
-                    components.html(tweet, height=700, scrolling=True)
-                    st.divider()
-
-            if only_deleted:
-                if tweet == None:
+                if not only_deleted:
                     attr(i)
 
-                    st.error('Tweet has been deleted.')
-                    st.markdown('<iframe src="{}" height=700 width=550></iframe>'.format(link), unsafe_allow_html=True)
-                    st.divider()
-                else: st.empty()
+                    if tweet == None:
+                        st.error('Tweet has been deleted.')
+                        st.markdown('<iframe src="{}" height=700 width=700 scrolling="no"></iframe>'.format(link), unsafe_allow_html=True)
+                        st.divider()
+                    else:
+                        components.html(tweet,width=700, height=700, scrolling=True)
+                        st.divider()
 
-    if not links:
-        st.error('Unable to query the Wayback Machine API.')
+                    progress.write('{}/{} URLs have been captured'.format(i + 1, len(parsed_links)))
+
+                if only_deleted:
+                    if tweet == None:
+                        return_none_count += 1
+                        attr(i)
+
+                        st.error('Tweet has been deleted.')
+                        st.markdown('<iframe src="{}" height=700 width=700 scrolling="no"></iframe>'.format(link), unsafe_allow_html=True)
+                        st.divider()
+
+                        progress.write('{}/{} URLs have been captured'.format(return_none_count, len(parsed_links)))
+
+        if not links:
+            st.error('Unable to query the Wayback Machine API.')
