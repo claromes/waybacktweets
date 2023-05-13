@@ -93,7 +93,7 @@ st.title('Wayback Tweets [![Fork me on GitHub](https://img.shields.io/badge/-For
 st.write('Archived tweets on Wayback Machine')
 
 handle = st.text_input('username', placeholder='username', label_visibility='collapsed')
-query = st.button('Query', type='primary', use_container_width=True, key='init')
+query = st.button('Query', type='primary', use_container_width=True)
 
 if query or handle:
     with st.spinner(''):
@@ -111,8 +111,23 @@ if query or handle:
 
             return_none_count = 0
 
-            for i, link in enumerate(parsed_links):
-                tweet = embed('{}'.format(tweet_links[i]))
+            if 'current_index' not in st.session_state:
+                st.session_state.current_index = 0
+
+            previous, _ , next = st.columns([3, 4, 3])
+
+            if previous.button('Previous', type='primary', use_container_width=True):
+                st.session_state.current_index -= 50
+
+            if next.button('Next', type='primary', use_container_width=True):
+                st.session_state.current_index += 50
+
+            start_index = st.session_state.current_index
+            end_index = min(len(parsed_links), start_index + 50)
+
+            for i in range(start_index, end_index):
+                link = parsed_links[i]
+                tweet = embed(tweet_links[i])
 
                 if not only_deleted:
                     attr(i)
@@ -137,6 +152,9 @@ if query or handle:
                         st.divider()
 
                         progress.write('{}/{} URLs have been captured'.format(return_none_count, len(parsed_links)))
+
+            if st.session_state.current_index >= len(parsed_links):
+                st.session_state.current_index = 0
 
         if not links:
             st.error('Unable to query the Wayback Machine API.')
