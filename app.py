@@ -43,7 +43,7 @@ hide_streamlit_style = '''
     }
 </style>
 '''
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+# st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 def embed(tweet):
     api = 'https://publish.twitter.com/oembed?url={}'.format(tweet)
@@ -67,6 +67,7 @@ def query_api(handle):
     else:
         return None
 
+@st.cache_data(show_spinner=False)
 def parse_links(links):
     parsed_links = []
     timestamp = []
@@ -106,24 +107,25 @@ if query or handle:
 
         only_deleted = st.checkbox('Only deleted tweets')
 
-        if links or stop:
+        if links:
             st.divider()
 
             return_none_count = 0
+            tweets_per_page = 2
 
             if 'current_index' not in st.session_state:
                 st.session_state.current_index = 0
 
             previous, _ , next = st.columns([3, 4, 3])
 
-            if previous.button('Previous', type='primary', use_container_width=True):
-                st.session_state.current_index -= 50
+            if previous.button('Previous', use_container_width=True) and st.session_state.current_index > 0:
+                st.session_state.current_index -= tweets_per_page
 
-            if next.button('Next', type='primary', use_container_width=True):
-                st.session_state.current_index += 50
+            if next.button('Next', use_container_width=True) and st.session_state.current_index < len(parsed_links):
+                st.session_state.current_index += tweets_per_page
 
             start_index = st.session_state.current_index
-            end_index = min(len(parsed_links), start_index + 50)
+            end_index = min(len(parsed_links), start_index + tweets_per_page)
 
             for i in range(start_index, end_index):
                 link = parsed_links[i]
@@ -151,7 +153,7 @@ if query or handle:
                         st.markdown('<iframe src="{}" height=700 width=700 scrolling="no"></iframe>'.format(link), unsafe_allow_html=True)
                         st.divider()
 
-                        progress.write('{}/{} URLs have been captured'.format(return_none_count, len(parsed_links)))
+                        progress.write('{}/{}-{} URLs have been captured'.format(return_none_count, start_index, end_index))
 
             if st.session_state.current_index >= len(parsed_links):
                 st.session_state.current_index = 0
