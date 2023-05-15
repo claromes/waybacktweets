@@ -29,14 +29,14 @@ Streamlit will be served at http://localhost:8501
 - [ ] "web.archive.org took too long to respond."
 - [x] `only_deleted` checkbox selected for handles without deleted tweets
     - [ ] Add message
+- [ ] Pagination: set session variable on first click
 
 ## Roadmap
 
-- [ ] Pagination
+- [x] Pagination
     - [x] Footer
     - [x] Disabled/ Empty
-    - [ ] Double click
 - [ ] Feedbacks
 - [ ] Prevent duplicate URLs
 - [ ] Grid
-- [ ] About/Pagination
+- [ ] Docs
