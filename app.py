@@ -45,6 +45,15 @@ hide_streamlit_style = '''
 '''
 # st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
+if 'current_index' not in st.session_state:
+    st.session_state.current_index = 0
+
+if 'disabled_next' not in st.session_state:
+    st.session_state.disabled_next = False
+
+if 'disabled_prev' not in st.session_state:
+    st.session_state.disabled_prev = False
+
 def embed(tweet):
     api = 'https://publish.twitter.com/oembed?url={}'.format(tweet)
     response = requests.get(api)
@@ -113,17 +122,6 @@ if query or handle:
             return_none_count = 0
             tweets_per_page = 2
 
-            if 'current_index' not in st.session_state:
-                st.session_state.current_index = 0
-
-            previous, _ , next = st.columns([3, 4, 3])
-
-            if previous.button('Previous', use_container_width=True) and st.session_state.current_index > 0:
-                st.session_state.current_index -= tweets_per_page
-
-            if next.button('Next', use_container_width=True) and st.session_state.current_index < len(parsed_links):
-                st.session_state.current_index += tweets_per_page
-
             start_index = st.session_state.current_index
             end_index = min(len(parsed_links), start_index + tweets_per_page)
 
@@ -154,6 +152,26 @@ if query or handle:
                         st.divider()
 
                         progress.write('{}/{}-{} URLs have been captured'.format(return_none_count, start_index, end_index))
+
+                if start_index == 0:
+                    st.session_state.disabled_prev = True
+                else:
+                    st.session_state.disabled_prev = False
+
+                if i + 1 == len(parsed_links):
+                    st.session_state.disabled_next = True
+                else:
+                    st.session_state.disabled_next = False
+
+            print(start_index, end_index)
+
+            prev, _ , next = st.columns([3, 4, 3])
+
+            if prev.button('Previous', disabled=st.session_state.disabled_prev, type='primary', use_container_width=True) and st.session_state.current_index > 0:
+                st.session_state.current_index -= tweets_per_page
+
+            if next.button('Next', disabled=st.session_state.disabled_next, type='primary', use_container_width=True) and end_index < len(parsed_links):
+                st.session_state.current_index += tweets_per_page
 
             if st.session_state.current_index >= len(parsed_links):
                 st.session_state.current_index = 0

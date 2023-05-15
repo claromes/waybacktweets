@@ -33,8 +33,9 @@ Streamlit will be served at http://localhost:8501
 ## Roadmap
 
 - [ ] Pagination
-    - [ ] Footer
-    - [ ] Disabled/ Empty
+    - [x] Footer
+    - [x] Disabled/ Empty
+    - [ ] Double click
 - [ ] Feedbacks
 - [ ] Prevent duplicate URLs
 - [ ] Grid
