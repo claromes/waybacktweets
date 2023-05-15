@@ -43,7 +43,8 @@ hide_streamlit_style = '''
     }
 </style>
 '''
-# st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
+#st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 if 'current_index' not in st.session_state:
     st.session_state.current_index = 0
@@ -53,6 +54,15 @@ if 'disabled_next' not in st.session_state:
 
 if 'disabled_prev' not in st.session_state:
     st.session_state.disabled_prev = False
+
+def scroll_into_view():
+    js = '''
+    <script>
+        window.parent.document.getElementById('wayback-tweets').scrollIntoView();
+    </script>
+    '''
+
+    st.components.v1.html(js)
 
 def embed(tweet):
     api = 'https://publish.twitter.com/oembed?url={}'.format(tweet)
@@ -167,10 +177,12 @@ if query or handle:
 
             prev, _ , next = st.columns([3, 4, 3])
 
-            if prev.button('Previous', disabled=st.session_state.disabled_prev, type='primary', use_container_width=True) and st.session_state.current_index > 0:
+            if prev.button('Previous', disabled=st.session_state.disabled_prev, type='primary', use_container_width=True):
+                scroll_into_view()
                 st.session_state.current_index -= tweets_per_page
 
-            if next.button('Next', disabled=st.session_state.disabled_next, type='primary', use_container_width=True) and end_index < len(parsed_links):
+            if next.button('Next', disabled=st.session_state.disabled_next, type='primary', use_container_width=True):
+                scroll_into_view()
                 st.session_state.current_index += tweets_per_page
 
             if st.session_state.current_index >= len(parsed_links):
