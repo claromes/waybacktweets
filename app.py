@@ -49,6 +49,12 @@ hide_streamlit_style = '''
 if 'current_index' not in st.session_state:
     st.session_state.current_index = 0
 
+if 'current_query' not in st.session_state:
+    st.session_state.current_query = ''
+
+if 'current_handle' not in st.session_state:
+    st.session_state.current_handle = ''
+
 if 'disabled_next' not in st.session_state:
     st.session_state.disabled_next = False
 
@@ -115,7 +121,15 @@ st.write('Archived tweets on Wayback Machine')
 handle = st.text_input('username', placeholder='username', label_visibility='collapsed')
 query = st.button('Query', type='primary', use_container_width=True)
 
+
+
 if query or handle:
+    if handle != st.session_state.current_handle:
+        st.session_state.current_index = 0
+
+    if query != st.session_state.current_query:
+        st.session_state.current_index = 0
+
     with st.spinner(''):
         progress = st.empty()
         links = query_api(handle)
@@ -128,6 +142,9 @@ if query or handle:
 
         if links:
             st.divider()
+
+            st.session_state.current_handle = handle
+            st.session_state.current_query = query
 
             return_none_count = 0
             tweets_per_page = 2
@@ -185,8 +202,8 @@ if query or handle:
                 scroll_into_view()
                 st.session_state.current_index += tweets_per_page
 
-            if st.session_state.current_index >= len(parsed_links):
-                st.session_state.current_index = 0
+            # if st.session_state.current_index >= len(parsed_links):
+            #     st.session_state.current_index = 0
 
         if not links:
             st.error('Unable to query the Wayback Machine API.')
