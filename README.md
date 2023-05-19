@@ -33,6 +33,7 @@ Streamlit will be served at http://localhost:8501
     - [ ] Check and add message if handle has no deleted tweets in the range
 - [x] Pagination: set session variable on first click
 - [x] Pagination: scroll to top
+- [ ] Review data cache
 
 ## Roadmap
 
