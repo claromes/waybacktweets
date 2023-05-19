@@ -3,7 +3,7 @@ import datetime
 import streamlit as st
 import streamlit.components.v1 as components
 
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 
 st.set_page_config(
     page_title='Wayback Tweets',
@@ -67,6 +67,19 @@ if 'next_button' not in st.session_state:
 if 'prev_button' not in st.session_state:
     st.session_state.prev_button = False
 
+if 'update_component' not in st.session_state:
+    st.session_state.update_component = 0
+
+def scroll_into_view():
+    js = '''
+    <script>
+        window.parent.document.querySelector('section.main').scrollTo(0, 0);
+        let update_component = {} // Force component update to generate scroll
+    </script>
+    '''.format(st.session_state.update_component)
+
+    components.html(js, width=0, height=0)
+
 def embed(tweet):
     api = 'https://publish.twitter.com/oembed?url={}'.format(tweet)
     response = requests.get(api)
@@ -112,7 +125,7 @@ def attr(i):
     '''.format(i+1, link, mimetype[i], datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S"), tweet_links[i]))
 
 st.title('Wayback Tweets [![GitHub release (latest by date)](https://img.shields.io/github/v/release/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/releases)', anchor=False)
-st.write('Archived tweets on Wayback Machine')
+st.write('Search archived tweets on Wayback Machine in a easy way')
 
 handle = st.text_input('username', placeholder='username', label_visibility='collapsed')
 query = st.button('Query', type='primary', use_container_width=True)
@@ -146,8 +159,16 @@ if query or handle:
             def prev_page():
                 st.session_state.current_index -= tweets_per_page
 
+                #scroll to top config
+                st.session_state.update_component += 1
+                scroll_into_view()
+
             def next_page():
                 st.session_state.current_index += tweets_per_page
+
+                #scroll to top config
+                st.session_state.update_component += 1
+                scroll_into_view()
 
             start_index = st.session_state.current_index
             end_index = min(len(parsed_links), start_index + tweets_per_page)
@@ -161,10 +182,10 @@ if query or handle:
 
                     if tweet == None:
                         st.error('Tweet has been deleted.')
-                        st.markdown('<iframe src="{}" height=700 width=700 scrolling="no"></iframe>'.format(link), unsafe_allow_html=True)
+                        components.iframe(src=link, width=700, height=700)
                         st.divider()
                     else:
-                        components.html(tweet,width=700, height=700, scrolling=True)
+                        components.html(tweet, width=700, height=700, scrolling=True)
                         st.divider()
 
                     progress.write('{}/{} URLs have been captured'.format(i + 1, len(parsed_links)))
@@ -175,7 +196,7 @@ if query or handle:
                         attr(i)
 
                         st.error('Tweet has been deleted.')
-                        st.markdown('<iframe src="{}" height=700 width=700 scrolling="no"></iframe>'.format(link), unsafe_allow_html=True)
+                        components.iframe(src=link, width=700, height=700)
                         st.divider()
 
                         progress.write('{}/{}-{} URLs have been captured'.format(return_none_count, start_index, end_index))
