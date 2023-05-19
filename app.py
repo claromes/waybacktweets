@@ -3,7 +3,7 @@ import datetime
 import streamlit as st
 import streamlit.components.v1 as components
 
-__version__ = '0.0.2'
+__version__ = '0.1.0'
 
 st.set_page_config(
     page_title='Wayback Tweets',
@@ -12,34 +12,60 @@ st.set_page_config(
 )
 
 # https://discuss.streamlit.io/t/remove-hide-running-man-animation-on-top-of-page/21773/3
-hide_streamlit_style = """
-                <style>
-                div[data-testid="stToolbar"] {
-                visibility: hidden;
-                height: 0%;
-                position: fixed;
-                }
-                div[data-testid="stDecoration"] {
-                visibility: hidden;
-                height: 0%;
-                position: fixed;
-                }
-                div[data-testid="stStatusWidget"] {
-                visibility: hidden;
-                height: 0%;
-                position: fixed;
-                }
-                #MainMenu {
-                visibility: hidden;
-                height: 0%;
-                }
-                header {
-                visibility: hidden;
-                height: 0%;
-                }
-                </style>
-                """
+hide_streamlit_style = '''
+<style>
+    div[data-testid="stToolbar"] {
+    visibility: hidden;
+    height: 0%;
+    position: fixed;
+    }
+    div[data-testid="stDecoration"] {
+    visibility: hidden;
+    height: 0%;
+    position: fixed;
+    }
+    div[data-testid="stStatusWidget"] {
+    visibility: hidden;
+    height: 0%;
+    position: fixed;
+    }
+    #MainMenu {
+    visibility: hidden;
+    height: 0%;
+    }
+    header {
+    visibility: hidden;
+    height: 0%;
+    }
+    footer {
+    visibility: hidden;
+    height: 0%;
+    }
+</style>
+'''
+
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
+if 'current_index' not in st.session_state:
+    st.session_state.current_index = 0
+
+if 'current_query' not in st.session_state:
+    st.session_state.current_query = ''
+
+if 'current_handle' not in st.session_state:
+    st.session_state.current_handle = ''
+
+if 'prev_disabled' not in st.session_state:
+    st.session_state.prev_disabled = False
+
+if 'next_disabled' not in st.session_state:
+    st.session_state.next_disabled = False
+
+if 'next_button' not in st.session_state:
+    st.session_state.next_button = False
+
+if 'prev_button' not in st.session_state:
+    st.session_state.prev_button = False
 
 def embed(tweet):
     api = 'https://publish.twitter.com/oembed?url={}'.format(tweet)
@@ -63,12 +89,12 @@ def query_api(handle):
     else:
         return None
 
+@st.cache_data(show_spinner=False)
 def parse_links(links):
     parsed_links = []
     timestamp = []
     tweet_links = []
     parsed_mimetype = []
-
 
     for link in links[1:]:
         url = 'https://web.archive.org/web/{}/{}'.format(link[1], link[2])
@@ -85,14 +111,19 @@ def attr(i):
     {}. **Wayback Machine:** [link]({}) | **MIME Type:** {} | **From:** {} | **Tweet:** [link]({})
     '''.format(i+1, link, mimetype[i], datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S"), tweet_links[i]))
 
-st.title('Wayback Tweets', anchor=False)
+st.title('Wayback Tweets [![GitHub release (latest by date)](https://img.shields.io/github/v/release/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/releases)', anchor=False)
 st.write('Archived tweets on Wayback Machine')
 
 handle = st.text_input('username', placeholder='username', label_visibility='collapsed')
-query = st.button('Query', type='primary', use_container_width=True, key='init')
-only_deleted = st.checkbox('Only deleted tweets')
+query = st.button('Query', type='primary', use_container_width=True)
 
 if query or handle:
+    if handle != st.session_state.current_handle:
+        st.session_state.current_index = 0
+
+    if query != st.session_state.current_query:
+        st.session_state.current_index = 0
+
     with st.spinner(''):
         progress = st.empty()
         links = query_api(handle)
@@ -101,13 +132,29 @@ if query or handle:
         mimetype = parse_links(links)[2]
         timestamp = parse_links(links)[3]
 
-        if links or stop:
+        only_deleted = st.checkbox('Only deleted tweets')
+
+        if links:
             st.divider()
 
-            return_none_count = 0
+            st.session_state.current_handle = handle
+            st.session_state.current_query = query
 
-            for i, link in enumerate(parsed_links):
-                tweet = embed('{}'.format(tweet_links[i]))
+            return_none_count = 0
+            tweets_per_page = 50
+
+            def prev_page():
+                st.session_state.current_index -= tweets_per_page
+
+            def next_page():
+                st.session_state.current_index += tweets_per_page
+
+            start_index = st.session_state.current_index
+            end_index = min(len(parsed_links), start_index + tweets_per_page)
+
+            for i in range(start_index, end_index):
+                link = parsed_links[i]
+                tweet = embed(tweet_links[i])
 
                 if not only_deleted:
                     attr(i)
@@ -131,7 +178,22 @@ if query or handle:
                         st.markdown('<iframe src="{}" height=700 width=700 scrolling="no"></iframe>'.format(link), unsafe_allow_html=True)
                         st.divider()
 
-                        progress.write('{}/{} URLs have been captured'.format(return_none_count, len(parsed_links)))
+                        progress.write('{}/{}-{} URLs have been captured'.format(return_none_count, start_index, end_index))
+
+                if start_index <= 0:
+                    st.session_state.prev_disabled = True
+                else:
+                    st.session_state.prev_disabled = False
+
+                if i + 1 == len(parsed_links):
+                    st.session_state.next_disabled = True
+                else:
+                    st.session_state.next_disabled = False
+
+            prev, _ , next = st.columns([3, 4, 3])
+
+            prev.button('Previous', disabled=st.session_state.prev_disabled, key='prev_button_key', on_click=prev_page, type='primary', use_container_width=True)
+            next.button('Next', disabled=st.session_state.next_disabled, key='next_button_key', on_click=next_page, type='primary', use_container_width=True)
 
         if not links:
             st.error('Unable to query the Wayback Machine API.')
