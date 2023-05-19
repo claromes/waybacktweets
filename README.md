@@ -28,8 +28,9 @@ Streamlit will be served at http://localhost:8501
 
 - [ ] "web.archive.org took too long to respond."
 - [x] `only_deleted` checkbox selected for handles without deleted tweets
-    - [ ] Add message
-- [ ] Pagination: set session variable on first click
+    - [ ] Add message if handle has no deleted tweets
+- [x] Pagination: set session variable on first click
+- [ ] Pagination: scroll to top
 
 ## Roadmap
 
@@ -39,4 +40,4 @@ Streamlit will be served at http://localhost:8501
 - [ ] Feedbacks
 - [ ] Prevent duplicate URLs
 - [ ] Grid
-- [ ] Docs
+- [ ] About
