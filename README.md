@@ -4,6 +4,8 @@
 
 Archived tweets on Wayback Machine in a easy way
 
+[waybacktweets.streamlit.app](https://waybacktweets.streamlit.app/)
+
 *Thanks Tristan Lee for the idea.*
 
 ## Development
@@ -41,3 +43,4 @@ Streamlit will be served at http://localhost:8501
 - [ ] Prevent duplicate URLs
 - [ ] Grid
 - [ ] About
+- [ ] Changelog
