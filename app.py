@@ -3,7 +3,7 @@ import datetime
 import streamlit as st
 import streamlit.components.v1 as components
 
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 
 st.set_page_config(
     page_title='Wayback Tweets',
@@ -102,7 +102,6 @@ def query_api(handle):
     else:
         return None
 
-@st.cache_data(show_spinner=False)
 def parse_links(links):
     parsed_links = []
     timestamp = []
@@ -154,7 +153,7 @@ if query or handle:
             st.session_state.current_query = query
 
             return_none_count = 0
-            tweets_per_page = 50
+            tweets_per_page = 100
 
             def prev_page():
                 st.session_state.current_index -= tweets_per_page
@@ -182,10 +181,10 @@ if query or handle:
 
                     if tweet == None:
                         st.error('Tweet has been deleted.')
-                        components.iframe(src=link, width=700, height=700)
+                        components.iframe(src=link, width=700, height=1000, scrolling=True)
                         st.divider()
                     else:
-                        components.html(tweet, width=700, height=700, scrolling=True)
+                        components.html(tweet, width=700, height=1000, scrolling=True)
                         st.divider()
 
                     progress.write('{}/{} URLs have been captured'.format(i + 1, len(parsed_links)))
@@ -196,10 +195,10 @@ if query or handle:
                         attr(i)
 
                         st.error('Tweet has been deleted.')
-                        components.iframe(src=link, width=700, height=700)
+                        components.iframe(src=link, width=700, height=1000, scrolling=True)
                         st.divider()
 
-                        progress.write('{}/{}-{} URLs have been captured'.format(return_none_count, start_index, end_index))
+                    progress.write('{} URLs have been captured in the range {}-{}/{}'.format(return_none_count, start_index, end_index, len(parsed_links)))
 
                 if start_index <= 0:
                     st.session_state.prev_disabled = True
