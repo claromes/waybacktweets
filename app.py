@@ -3,7 +3,7 @@ import datetime
 import streamlit as st
 import streamlit.components.v1 as components
 
-__version__ = '0.1.2'
+__version__ = '0.1.2.1'
 
 st.set_page_config(
     page_title='Wayback Tweets',
@@ -153,7 +153,7 @@ if query or handle:
             st.session_state.current_query = query
 
             return_none_count = 0
-            tweets_per_page = 100
+            tweets_per_page = 50
 
             def prev_page():
                 st.session_state.current_index -= tweets_per_page
@@ -187,7 +187,11 @@ if query or handle:
                         components.html(tweet, width=700, height=1000, scrolling=True)
                         st.divider()
 
-                    progress.write('{}/{} URLs have been captured'.format(i + 1, len(parsed_links)))
+                    if i + 1 == end_index:
+                        progress.write('{} of {} URLs have been captured'.format(i + 1, len(parsed_links)))
+                    else:
+                        progress.write('{} to {} of {} URLs have been captured'.format(i + 1, end_index, len(parsed_links)))
+
 
                 if only_deleted:
                     if tweet == None:
@@ -198,7 +202,7 @@ if query or handle:
                         components.iframe(src=link, width=700, height=1000, scrolling=True)
                         st.divider()
 
-                    progress.write('{} URLs have been captured in the range {}-{}/{}'.format(return_none_count, start_index, end_index, len(parsed_links)))
+                    progress.write('{} URLs have been captured in the range {}-{} of {}'.format(return_none_count, start_index, end_index, len(parsed_links)))
 
                 if start_index <= 0:
                     st.session_state.prev_disabled = True
