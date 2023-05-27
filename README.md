@@ -32,7 +32,6 @@ Streamlit will be served at http://localhost:8501
 - [x] `only_deleted` checkbox selected for handles without deleted tweets
 - [x] Pagination: set session variable on first click
 - [x] Pagination: scroll to top
-- [ ] Review data cache
 
 ## Roadmap
 
@@ -40,6 +39,8 @@ Streamlit will be served at http://localhost:8501
     - [x] Footer
     - [x] Disabled/ Empty
 - [ ] Feedbacks
+- [ ] Download dataset
+- [ ] Review data cache
 - [ ] Range size defined by user
 - [ ] Prevent duplicate URLs
 - [ ] Hide Twitter header banner (iframe)
