@@ -2,7 +2,7 @@
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/releases)
 
-Archived tweets on Wayback Machine in a easy way
+Archived tweets on Wayback Machine in an easy way
 
 [waybacktweets.streamlit.app](https://waybacktweets.streamlit.app/)
 

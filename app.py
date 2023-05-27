@@ -124,7 +124,7 @@ def attr(i):
     '''.format(i+1, link, mimetype[i], datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S"), tweet_links[i]))
 
 st.title('Wayback Tweets [![GitHub release (latest by date)](https://img.shields.io/github/v/release/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/releases)', anchor=False)
-st.write('Search archived tweets on Wayback Machine in a easy way')
+st.write('Search archived tweets on Wayback Machine in an easy way')
 
 handle = st.text_input('username', placeholder='username', label_visibility='collapsed')
 query = st.button('Query', type='primary', use_container_width=True)
