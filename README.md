@@ -45,5 +45,5 @@ Streamlit will be served at http://localhost:8501
 - [ ] Prevent duplicate URLs
 - [ ] Hide Twitter header banner (iframe)
 - [ ] Grid
-- [ ] About
+- [ ] Contributing/ Docs
 - [ ] Changelog
