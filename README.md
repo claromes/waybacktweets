@@ -44,7 +44,6 @@ Streamlit will be served at http://localhost:8501
 - [ ] Range size defined by user
 - [ ] Prevent duplicate URLs
 - [ ] Hide Twitter header banner (iframe)
-- [ ] Grid
 - [ ] Contributing/ Docs
 - [ ] Changelog
 - [ ] `parse_links` exception

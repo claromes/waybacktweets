@@ -3,7 +3,7 @@ import datetime
 import streamlit as st
 import streamlit.components.v1 as components
 
-__version__ = '0.1.2.1'
+__version__ = '0.1.3'
 
 st.set_page_config(
     page_title='Wayback Tweets',
@@ -122,7 +122,11 @@ def attr(i):
     {}. **Wayback Machine:** [link]({}) | **MIME Type:** {} | **From:** {} | **Tweet:** [link]({})
     '''.format(i+1, link, mimetype[i], datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S"), tweet_links[i]))
 
-st.title('Wayback Tweets [![GitHub release (latest by date)](https://img.shields.io/github/v/release/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/releases)', anchor=False)
+st.title('''
+Wayback Tweets
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/releases)
+[![Star](https://img.shields.io/github/stars/claromes/waybacktweets?style=social)](https://github.com/claromes/waybacktweets)
+''', anchor=False)
 st.write('Search archived tweets on Wayback Machine in an easy way')
 
 handle = st.text_input('username', placeholder='username', label_visibility='collapsed')
@@ -222,5 +226,9 @@ if query or handle:
             if not links:
                 st.error('Unable to query the Wayback Machine API.')
     except TypeError as e:
-        st.error('{}. Refresh this page and try again.'.format(e))
+        st.error('''
+        {}. Refresh this page and try again.
+
+        If the problem persists [open an issue](https://github.com/claromes/waybacktweets/issues) or send me a [tweet](https://twitter.com/compose/tweet?text=@claromes).
+        '''.format(e))
         st.session_state.current_index = 0
