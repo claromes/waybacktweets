@@ -40,10 +40,10 @@ Streamlit will be served at http://localhost:8501
     - [x] Disabled/ Empty
 - [ ] Feedbacks
 - [ ] Download dataset
-- [ ] Review data cache
+- [ ] Add/Review data cache
 - [ ] Range size defined by user
 - [ ] Prevent duplicate URLs
 - [ ] Hide Twitter header banner (iframe)
-- [ ] Grid
 - [ ] Contributing/ Docs
 - [ ] Changelog
+- [ ] `parse_links` exception
