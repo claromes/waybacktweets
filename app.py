@@ -80,6 +80,7 @@ def scroll_into_view():
 
     components.html(js, width=0, height=0)
 
+@st.cache_data(ttl=3600, show_spinner=False)
 def embed(tweet):
     api = 'https://publish.twitter.com/oembed?url={}'.format(tweet)
     response = requests.get(api)
@@ -89,6 +90,7 @@ def embed(tweet):
     else:
         return None
 
+@st.cache_data(ttl=3600, show_spinner=False)
 def query_api(handle):
     if not handle:
         st.warning('username, please!')
@@ -101,6 +103,7 @@ def query_api(handle):
     else:
         return None
 
+@st.cache_data(ttl=3600, show_spinner=False)
 def parse_links(links):
     parsed_links = []
     timestamp = []
