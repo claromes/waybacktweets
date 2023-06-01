@@ -3,7 +3,7 @@ import datetime
 import streamlit as st
 import streamlit.components.v1 as components
 
-__version__ = '0.1.3'
+__version__ = '0.1.3.1'
 
 st.set_page_config(
     page_title='Wayback Tweets',
@@ -80,7 +80,7 @@ def scroll_into_view():
 
     components.html(js, width=0, height=0)
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=1800, show_spinner=False)
 def embed(tweet):
     api = 'https://publish.twitter.com/oembed?url={}'.format(tweet)
     response = requests.get(api)
@@ -90,7 +90,7 @@ def embed(tweet):
     else:
         return None
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=1800, show_spinner=False)
 def query_api(handle):
     if not handle:
         st.warning('username, please!')
@@ -103,7 +103,7 @@ def query_api(handle):
     else:
         return None
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=1800, show_spinner=False)
 def parse_links(links):
     parsed_links = []
     timestamp = []
