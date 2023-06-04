@@ -3,7 +3,7 @@ import datetime
 import streamlit as st
 import streamlit.components.v1 as components
 
-__version__ = '0.1.3.1'
+__version__ = '0.1.3.2'
 
 st.set_page_config(
     page_title='Wayback Tweets',
@@ -128,7 +128,6 @@ def attr(i):
 st.title('''
 Wayback Tweets
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/releases)
-[![Star](https://img.shields.io/github/stars/claromes/waybacktweets?style=social)](https://github.com/claromes/waybacktweets)
 ''', anchor=False)
 st.write('Search archived tweets on Wayback Machine in an easy way')
 
