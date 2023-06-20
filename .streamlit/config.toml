@@ -1,3 +1,8 @@
 [theme]
 base="light"
 primaryColor="#ab2e33"
+backgroundColor="#e7e7e7"
+
+[client]
+displayEnabled=true
+toolbarMode="minimal"

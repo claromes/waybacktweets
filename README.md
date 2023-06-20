@@ -1,8 +1,8 @@
 # 🏛️ Wayback Tweets
 
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/releases)
+[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases)
 
-Archived tweets on Wayback Machine in an easy way
+Tool that displays multiple archived tweets on Wayback Machine to avoid opening each link manually.
 
 [waybacktweets.streamlit.app](https://waybacktweets.streamlit.app/)
 
@@ -10,7 +10,7 @@ Archived tweets on Wayback Machine in an easy way
 
 ## Development
 
-### Requirements
+### Requirement
 
 - Python 3.8+
 
@@ -38,12 +38,11 @@ Streamlit will be served at http://localhost:8501
 - [x] Pagination
     - [x] Footer
     - [x] Disabled/ Empty
-- [ ] Feedbacks
+- [x] Feedbacks
 - [ ] Download dataset
 - [ ] Review data cache
 - [ ] Range size defined by user
 - [ ] Prevent duplicate URLs
 - [ ] Hide Twitter header banner (iframe)
-- [ ] Contributing/ Docs
 - [ ] Changelog
 - [ ] `parse_links` exception

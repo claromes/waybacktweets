@@ -3,48 +3,32 @@ import datetime
 import streamlit as st
 import streamlit.components.v1 as components
 
-__version__ = '0.1.3.2'
+__version__ = '0.1.4-beta'
+
+year = datetime.datetime.now().year
 
 st.set_page_config(
     page_title='Wayback Tweets',
     page_icon='🏛️',
-    layout='centered'
+    layout='centered',
+    menu_items={
+
+        'About': '''
+        ## 🏛️ Wayback Tweets
+
+        [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![License](https://img.shields.io/github/license/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/blob/main/LICENSE.md)
+
+        Tool that displays multiple archived tweets on Wayback Machine to avoid opening each link manually.
+
+        This tool is experimental, please feel free to send your [feedbacks](https://github.com/claromes/waybacktweets/issues).
+
+        Copyright © {}, [claromes.gitlab.io](https://claromes.gitlab.io).
+
+        -------
+        '''.format(year),
+        'Report a bug': 'https://github.com/claromes/waybacktweets/issues'
+    }
 )
-
-# https://discuss.streamlit.io/t/remove-hide-running-man-animation-on-top-of-page/21773/3
-hide_streamlit_style = '''
-<style>
-    div[data-testid="stToolbar"] {
-    visibility: hidden;
-    height: 0%;
-    position: fixed;
-    }
-    div[data-testid="stDecoration"] {
-    visibility: hidden;
-    height: 0%;
-    position: fixed;
-    }
-    div[data-testid="stStatusWidget"] {
-    visibility: hidden;
-    height: 0%;
-    position: fixed;
-    }
-    #MainMenu {
-    visibility: hidden;
-    height: 0%;
-    }
-    header {
-    visibility: hidden;
-    height: 0%;
-    }
-    footer {
-    visibility: hidden;
-    height: 0%;
-    }
-</style>
-'''
-
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 if 'current_index' not in st.session_state:
     st.session_state.current_index = 0
@@ -80,7 +64,7 @@ def scroll_into_view():
 
     components.html(js, width=0, height=0)
 
-@st.cache_data(ttl=1800, show_spinner=False)
+@st.cache_data(ttl=3600, show_spinner=False)
 def embed(tweet):
     api = 'https://publish.twitter.com/oembed?url={}'.format(tweet)
     response = requests.get(api)
@@ -90,7 +74,7 @@ def embed(tweet):
     else:
         return None
 
-@st.cache_data(ttl=1800, show_spinner=False)
+@st.cache_data(ttl=3600, show_spinner=False)
 def query_api(handle):
     if not handle:
         st.warning('username, please!')
@@ -103,7 +87,7 @@ def query_api(handle):
     else:
         return None
 
-@st.cache_data(ttl=1800, show_spinner=False)
+@st.cache_data(ttl=3600, show_spinner=False)
 def parse_links(links):
     parsed_links = []
     timestamp = []
@@ -120,16 +104,20 @@ def parse_links(links):
 
     return parsed_links, tweet_links, parsed_mimetype, timestamp
 
+@st.cache_data(ttl=3600, show_spinner=False)
 def attr(i):
     st.markdown('''
     {}. **Wayback Machine:** [link]({}) | **MIME Type:** {} | **From:** {} | **Tweet:** [link]({})
     '''.format(i+1, link, mimetype[i], datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S"), tweet_links[i]))
 
 st.title('''
-Wayback Tweets
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/releases)
+Wayback Tweets [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases)
 ''', anchor=False)
-st.write('Search archived tweets on Wayback Machine in an easy way')
+st.write('''
+Display multiple archived tweets on Wayback Machine and avoid opening each link manually
+
+*via Wayback CDX Server API*
+''')
 
 handle = st.text_input('username', placeholder='username', label_visibility='collapsed')
 query = st.button('Query', type='primary', use_container_width=True)
