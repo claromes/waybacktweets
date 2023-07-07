@@ -127,7 +127,7 @@ def attr(i):
 
 st.title('''
 Wayback Tweets
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/releases)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases)
 ''', anchor=False)
 st.write('Search archived tweets on Wayback Machine in an easy way')
 
