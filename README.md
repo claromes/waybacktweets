@@ -5,7 +5,7 @@
 Web tool that displays multiple archived tweets on Wayback Machine to avoid opening each link manually. Via [Wayback CDX Server API](https://github.com/internetarchive/wayback/tree/master/wayback-cdx-server).
 
 <p align="center">
-    <img src="assets/WaybackTweets.png" width="700">
+    <img src="assets/app.png" width="700">
 </p>
 <p align="center">
     <a href="https://waybacktweets.streamlit.app">waybacktweets.streamlit.app</a>
@@ -57,4 +57,4 @@ Streamlit will be served at http://localhost:8501
 - [ ] Hide Twitter header banner (iframe)
 - [ ] `parse_links` exception
 
-## [Changelog](/CHANGELOG)
+## [Changelog](/CHANGELOG.md)
