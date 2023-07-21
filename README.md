@@ -1,16 +1,26 @@
 # 🏛️ Wayback Tweets
 
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases)
+[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases)
 
-Archived tweets on Wayback Machine in an easy way
+Web tool that displays multiple archived tweets on Wayback Machine to avoid opening each link manually. Via [Wayback CDX Server API](https://github.com/internetarchive/wayback/tree/master/wayback-cdx-server).
 
-[waybacktweets.streamlit.app](https://waybacktweets.streamlit.app/)
+<p align="center">
+    <img src="assets/WaybackTweets.png" width="700">
+</p>
+<p align="center">
+    <a href="https://waybacktweets.streamlit.app">waybacktweets.streamlit.app</a>
+</p>
 
 *Thanks Tristan Lee for the idea.*
 
+## Features
+
+- 30 embedded tweets per page
+- Filtering by only deleted tweets
+
 ## Development
 
-### Requirements
+### Requirement
 
 - Python 3.8+
 
@@ -38,12 +48,13 @@ Streamlit will be served at http://localhost:8501
 - [x] Pagination
     - [x] Footer
     - [x] Disabled/ Empty
-- [ ] Feedbacks
+- [x] Feedbacks
 - [ ] Download dataset
-- [ ] Review data cache
-- [ ] Range size defined by user
+- [x] Review data cache
+- [x] Changelog
 - [ ] Prevent duplicate URLs
+- [ ] Range size defined by user
 - [ ] Hide Twitter header banner (iframe)
-- [ ] Contributing/ Docs
-- [ ] Changelog
 - [ ] `parse_links` exception
+
+## [Changelog](/CHANGELOG)
