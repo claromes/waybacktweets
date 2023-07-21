@@ -20,6 +20,9 @@ st.set_page_config(
 
         Tool that displays multiple archived tweets on Wayback Machine to avoid opening each link manually.
 
+        - 30 embedded tweets per page
+        - Filtering by only deleted tweets
+
         This tool is experimental, please feel free to send your [feedbacks](https://github.com/claromes/waybacktweets/issues).
 
         -------
@@ -130,7 +133,7 @@ def parse_links(links):
 def attr(i):
     st.markdown('''
     {}. **Wayback Machine:** [link]({}) | **MIME Type:** {} | **Created at:** {} | **Tweet:** [link]({})
-    '''.format(i + st.session_state.offset, link, mimetype[i], datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S"), tweet_links[i]))
+    '''.format(i+1 + st.session_state.offset, link, mimetype[i], datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S"), tweet_links[i]))
 
 # UI
 st.title('''
@@ -156,7 +159,7 @@ if query or handle:
 
     st.write('**{} URLs have been captured**'.format(count))
 
-    tweets_per_page = 25
+    tweets_per_page = 30
 
     only_deleted = st.checkbox('Only deleted tweets')
 
@@ -195,41 +198,49 @@ if query or handle:
                 start_index = st.session_state.offset
                 end_index = min(count, start_index + tweets_per_page)
 
-                for i in range(tweets_per_page): #fix range
-                    link = parsed_links[i]
-                    tweet = embed(tweet_links[i])
+                for i in range(tweets_per_page):
+                    try:
+                        link = parsed_links[i]
+                        tweet = embed(tweet_links[i])
 
-                    if not only_deleted:
-                        attr(i)
-
-                        if tweet == None:
-                            st.error('Tweet has been deleted.')
-                            components.iframe(src=link, width=700, height=1000, scrolling=True)
-                            st.divider()
-                        else:
-                            components.html(tweet, width=700, height=1000, scrolling=True)
-                            st.divider()
-
-                    if only_deleted:
-                        if tweet == None:
-                            return_none_count += 1
+                        if not only_deleted:
                             attr(i)
 
-                            st.error('Tweet has been deleted.')
-                            components.iframe(src=link, width=700, height=1000, scrolling=True)
-                            st.divider()
+                            if tweet == None:
+                                st.error('Tweet has been deleted.')
+                                components.iframe(src=link, width=700, height=1000, scrolling=True)
+                                st.divider()
+                            else:
+                                components.html(tweet, width=700, height=1000, scrolling=True)
+                                st.divider()
 
-                        progress.write('{} URLs have been captured in the range {}-{}'.format(return_none_count, start_index, end_index))
+                        if only_deleted:
+                            if tweet == None:
+                                return_none_count += 1
+                                attr(i)
 
-                    if start_index <= 0:
-                        st.session_state.prev_disabled = True
-                    else:
-                        st.session_state.prev_disabled = False
+                                st.error('Tweet has been deleted.')
+                                components.iframe(src=link, width=700, height=1000, scrolling=True)
+                                st.divider()
 
-                    if i + 1 == count:
+                            progress.write('{} URLs have been captured in the range {}-{}'.format(return_none_count, start_index, end_index))
+
+                        if start_index <= 0:
+                            st.session_state.prev_disabled = True
+                        else:
+                            st.session_state.prev_disabled = False
+
+                        if i + 1 == count:
+                            st.session_state.next_disabled = True
+                        else:
+                            st.session_state.next_disabled = False
+                    except IndexError:
+                        if start_index <= 0:
+                            st.session_state.prev_disabled = True
+                        else:
+                            st.session_state.prev_disabled = False
+
                         st.session_state.next_disabled = True
-                    else:
-                        st.session_state.next_disabled = False
 
                 prev, _ , next = st.columns([3, 4, 3])
 
