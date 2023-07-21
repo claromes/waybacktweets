@@ -28,6 +28,17 @@ st.set_page_config(
     }
 )
 
+# https://discuss.streamlit.io/t/remove-hide-running-man-animation-on-top-of-page/21773/3
+hide_streamlit_style = '''
+<style>
+    header[data-testid="stHeader"] {
+        opacity: 0.5;
+    }
+</style>
+'''
+
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
 if 'current_query' not in st.session_state:
     st.session_state.current_query = ''
 
@@ -118,7 +129,7 @@ def parse_links(links):
 
 def attr(i):
     st.markdown('''
-    {}. **Wayback Machine:** [link]({}) | **MIME Type:** {} | **From:** {} | **Tweet:** [link]({})
+    {}. **Wayback Machine:** [link]({}) | **MIME Type:** {} | **Created at:** {} | **Tweet:** [link]({})
     '''.format(i + st.session_state.offset, link, mimetype[i], datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S"), tweet_links[i]))
 
 # UI
@@ -142,9 +153,8 @@ if query or handle:
         st.session_state.offset = 0
 
     count = tweets_count(handle)
-    print(count)
 
-    st.write('**@{} has {} tweets captured**'.format(handle, count))
+    st.write('**{} URLs have been captured**'.format(count))
 
     tweets_per_page = 25
 
@@ -185,7 +195,7 @@ if query or handle:
                 start_index = st.session_state.offset
                 end_index = min(count, start_index + tweets_per_page)
 
-                for i in range(tweets_per_page):
+                for i in range(tweets_per_page): #fix range
                     link = parsed_links[i]
                     tweet = embed(tweet_links[i])
 
