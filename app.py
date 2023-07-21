@@ -3,7 +3,7 @@ import datetime
 import streamlit as st
 import streamlit.components.v1 as components
 
-__version__ = '0.1.4-beta'
+__version__ = '0.1.4'
 
 year = datetime.datetime.now().year
 
@@ -22,16 +22,11 @@ st.set_page_config(
 
         This tool is experimental, please feel free to send your [feedbacks](https://github.com/claromes/waybacktweets/issues).
 
-        Copyright © {}, [claromes.gitlab.io](https://claromes.gitlab.io).
-
         -------
         '''.format(year),
         'Report a bug': 'https://github.com/claromes/waybacktweets/issues'
     }
 )
-
-if 'current_index' not in st.session_state:
-    st.session_state.current_index = 0
 
 if 'current_query' not in st.session_state:
     st.session_state.current_query = ''
@@ -54,6 +49,9 @@ if 'prev_button' not in st.session_state:
 if 'update_component' not in st.session_state:
     st.session_state.update_component = 0
 
+if 'offset' not in st.session_state:
+    st.session_state.offset = 0
+
 def scroll_into_view():
     js = '''
     <script>
@@ -64,7 +62,7 @@ def scroll_into_view():
 
     components.html(js, width=0, height=0)
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=1800, show_spinner=False)
 def embed(tweet):
     api = 'https://publish.twitter.com/oembed?url={}'.format(tweet)
     response = requests.get(api)
@@ -74,20 +72,34 @@ def embed(tweet):
     else:
         return None
 
-@st.cache_data(ttl=3600, show_spinner=False)
-def query_api(handle):
+@st.cache_data(ttl=1800, show_spinner=False)
+def tweets_count(handle):
+    url = 'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{}/status/*&output=json'.format(handle)
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        if data and len(data) > 1:
+            total_tweets = len(data) - 1
+            return total_tweets
+        else:
+            return 0
+    else:
+        return None
+
+@st.cache_data(ttl=1800, show_spinner=False)
+def query_api(handle, limit, offset):
     if not handle:
         st.warning('username, please!')
         st.stop()
 
-    url = 'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{}/status/*&output=json'.format(handle)
+    url = 'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{}/status/*&output=json&limit={}&offset={}'.format(handle, limit, offset)
     response = requests.get(url)
     if response.status_code == 200:
         return response.json()
     else:
         return None
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=1800, show_spinner=False)
 def parse_links(links):
     parsed_links = []
     timestamp = []
@@ -104,12 +116,12 @@ def parse_links(links):
 
     return parsed_links, tweet_links, parsed_mimetype, timestamp
 
-@st.cache_data(ttl=3600, show_spinner=False)
 def attr(i):
     st.markdown('''
     {}. **Wayback Machine:** [link]({}) | **MIME Type:** {} | **From:** {} | **Tweet:** [link]({})
-    '''.format(i+1, link, mimetype[i], datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S"), tweet_links[i]))
+    '''.format(i + st.session_state.offset, link, mimetype[i], datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S"), tweet_links[i]))
 
+# UI
 st.title('''
 Wayback Tweets [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases)
 ''', anchor=False)
@@ -124,21 +136,29 @@ query = st.button('Query', type='primary', use_container_width=True)
 
 if query or handle:
     if handle != st.session_state.current_handle:
-        st.session_state.current_index = 0
+        st.session_state.offset = 0
 
     if query != st.session_state.current_query:
-        st.session_state.current_index = 0
+        st.session_state.offset = 0
+
+    count = tweets_count(handle)
+    print(count)
+
+    st.write('**@{} has {} tweets captured**'.format(handle, count))
+
+    tweets_per_page = 25
+
+    only_deleted = st.checkbox('Only deleted tweets')
 
     try:
         with st.spinner(''):
             progress = st.empty()
-            links = query_api(handle)
+            links = query_api(handle, tweets_per_page, st.session_state.offset)
             parsed_links = parse_links(links)[0]
             tweet_links = parse_links(links)[1]
             mimetype = parse_links(links)[2]
             timestamp = parse_links(links)[3]
 
-            only_deleted = st.checkbox('Only deleted tweets')
 
             if links:
                 st.divider()
@@ -147,26 +167,25 @@ if query or handle:
                 st.session_state.current_query = query
 
                 return_none_count = 0
-                tweets_per_page = 50
 
                 def prev_page():
-                    st.session_state.current_index -= tweets_per_page
+                    st.session_state.offset -= tweets_per_page
 
                     #scroll to top config
                     st.session_state.update_component += 1
                     scroll_into_view()
 
                 def next_page():
-                    st.session_state.current_index += tweets_per_page
+                    st.session_state.offset += tweets_per_page
 
                     #scroll to top config
                     st.session_state.update_component += 1
                     scroll_into_view()
 
-                start_index = st.session_state.current_index
-                end_index = min(len(parsed_links), start_index + tweets_per_page)
+                start_index = st.session_state.offset
+                end_index = min(count, start_index + tweets_per_page)
 
-                for i in range(start_index, end_index):
+                for i in range(tweets_per_page):
                     link = parsed_links[i]
                     tweet = embed(tweet_links[i])
 
@@ -181,12 +200,6 @@ if query or handle:
                             components.html(tweet, width=700, height=1000, scrolling=True)
                             st.divider()
 
-                        if i + 1 == end_index:
-                            progress.write('{} of {} URLs have been captured'.format(i + 1, len(parsed_links)))
-                        else:
-                            progress.write('{} to {} of {} URLs have been captured'.format(i + 1, end_index, len(parsed_links)))
-
-
                     if only_deleted:
                         if tweet == None:
                             return_none_count += 1
@@ -196,14 +209,14 @@ if query or handle:
                             components.iframe(src=link, width=700, height=1000, scrolling=True)
                             st.divider()
 
-                        progress.write('{} URLs have been captured in the range {}-{} of {}'.format(return_none_count, start_index, end_index, len(parsed_links)))
+                        progress.write('{} URLs have been captured in the range {}-{}'.format(return_none_count, start_index, end_index))
 
                     if start_index <= 0:
                         st.session_state.prev_disabled = True
                     else:
                         st.session_state.prev_disabled = False
 
-                    if i + 1 == len(parsed_links):
+                    if i + 1 == count:
                         st.session_state.next_disabled = True
                     else:
                         st.session_state.next_disabled = False
@@ -219,6 +232,6 @@ if query or handle:
         st.error('''
         {}. Refresh this page and try again.
 
-        If the problem persists [open an issue](https://github.com/claromes/waybacktweets/issues) or send me a [tweet](https://twitter.com/compose/tweet?text=@claromes).
+        If the problem persists [open an issue](https://github.com/claromes/waybacktweets/issues).
         '''.format(e))
-        st.session_state.current_index = 0
+        st.session_state.offset = 0

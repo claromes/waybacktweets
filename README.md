@@ -2,11 +2,18 @@
 
 [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases)
 
-Tool that displays multiple archived tweets on Wayback Machine to avoid opening each link manually.
+Tool that displays multiple archived tweets on Wayback Machine to avoid opening each link manually. Data via [Wayback CDX Server API](https://github.com/internetarchive/wayback/tree/master/wayback-cdx-server).
 
 [waybacktweets.streamlit.app](https://waybacktweets.streamlit.app/)
 
 *Thanks Tristan Lee for the idea.*
+
+## Features
+
+- 50 embed tweets per page
+- Filter by only deleted tweets
+- Wayback Machine link and original tweet link
+- Datetime information
 
 ## Development
 
