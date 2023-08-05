@@ -2,8 +2,10 @@ import requests
 import datetime
 import streamlit as st
 import streamlit.components.v1 as components
+import json
+import re
 
-__version__ = '0.1.4'
+__version__ = '0.2'
 
 year = datetime.datetime.now().year
 
@@ -20,7 +22,7 @@ st.set_page_config(
 
         Tool that displays multiple archived tweets on Wayback Machine to avoid opening each link manually.
 
-        - 30 embedded tweets per page
+        - 30 tweets per page
         - Filtering by only deleted tweets
 
         This tool is experimental, please feel free to send your [feedbacks](https://github.com/claromes/waybacktweets/issues).
@@ -76,29 +78,68 @@ def scroll_into_view():
 
     components.html(js, width=0, height=0)
 
-@st.cache_data(ttl=1800, show_spinner=False)
 def embed(tweet):
-    api = 'https://publish.twitter.com/oembed?url={}'.format(tweet)
-    response = requests.get(api)
+    try:
+        url = 'https://publish.twitter.com/oembed?url={}'.format(tweet)
+        response = requests.get(url, timeout=1)
 
-    if response.status_code == 200 or response.status_code == 304:
-        return response.json()['html']
-    else:
-        return None
+        regex = r'<blockquote class="twitter-tweet"><p[^>]*>(.*?)<\/p>.*?&mdash; (.*?)<\/a>'
+        regex_author = r'^(.*?)\s*\('
+
+        if response.status_code == 200 or response.status_code == 302:
+            status_code = response.status_code
+            html = response.json()['html']
+            author_name = response.json()['author_name']
+
+            matches_html = re.findall(regex, html, re.DOTALL)
+
+            tweet_content = []
+            user_info = []
+            is_RT = []
+
+            for match in matches_html:
+                tweet_content_match = re.sub(r'<a[^>]*>|<\/a>', '', match[0].strip())
+                user_info_match = re.sub(r'<a[^>]*>|<\/a>', '', match[1].strip())
+                user_info_match = user_info_match.replace(')', '), ')
+
+                match_author = re.search(regex_author, user_info_match)
+                author_tweet = match_author.group(1)
+
+                if tweet_content_match:
+                    tweet_content.append(tweet_content_match)
+                if user_info_match:
+                    user_info.append(user_info_match)
+
+                    is_RT_match = False
+                    if author_name != author_tweet:
+                        is_RT_match = True
+
+                    is_RT.append(is_RT_match)
+
+            return status_code, tweet_content, user_info, is_RT
+        else:
+            return False
+    except requests.exceptions.Timeout:
+        st.error('Connection to web.archive.org timed out.')
+
+
 
 @st.cache_data(ttl=1800, show_spinner=False)
 def tweets_count(handle):
     url = 'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{}/status/*&output=json'.format(handle)
-    response = requests.get(url)
-    if response.status_code == 200:
-        data = response.json()
-        if data and len(data) > 1:
-            total_tweets = len(data) - 1
-            return total_tweets
-        else:
-            return 0
-    else:
-        return None
+    try:
+        response = requests.get(url, timeout=5)
+
+        if response.status_code == 200:
+            data = response.json()
+            if data and len(data) > 1:
+                total_tweets = len(data) - 1
+                return total_tweets
+            else:
+                return 0
+    except requests.exceptions.Timeout:
+        st.error('Connection to web.archive.org timed out.')
+
 
 @st.cache_data(ttl=1800, show_spinner=False)
 def query_api(handle, limit, offset):
@@ -107,11 +148,13 @@ def query_api(handle, limit, offset):
         st.stop()
 
     url = 'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{}/status/*&output=json&limit={}&offset={}'.format(handle, limit, offset)
-    response = requests.get(url)
-    if response.status_code == 200:
-        return response.json()
-    else:
-        return None
+    try:
+        response = requests.get(url, timeout=1)
+
+        if response.status_code == 200 or response.status_code == 304:
+            return response.json()
+    except requests.exceptions.Timeout:
+        st.error('Connection to web.archive.org timed out.')
 
 @st.cache_data(ttl=1800, show_spinner=False)
 def parse_links(links):
@@ -206,22 +249,61 @@ if query or handle:
                         if not only_deleted:
                             attr(i)
 
-                            if tweet == None:
-                                st.error('Tweet has been deleted.')
-                                components.iframe(src=link, width=700, height=1000, scrolling=True)
-                                st.divider()
-                            else:
-                                components.html(tweet, width=700, height=1000, scrolling=True)
-                                st.divider()
+                            if tweet:
+                                status_code = tweet[0]
+                                tweet_content = tweet[1]
+                                user_info = tweet[2]
+                                is_RT = tweet[3]
+
+                                if mimetype[i] == 'application/json':
+                                    if is_RT[0] == True:
+                                        st.info('*Retweet*')
+                                    st.write(tweet_content[0])
+                                    st.write(user_info[0])
+
+                                    st.divider()
+                                if mimetype[i] == 'text/html':
+                                    if is_RT[0] == True:
+                                        st.info('*Retweet*')
+                                    st.write(tweet_content[0])
+                                    st.write(user_info[0])
+
+                                    st.divider()
+                            elif not tweet:
+                                if mimetype[i] == 'application/json':
+                                    st.error('Tweet has been deleted.')
+                                    response = requests.get(link, timeout=5)
+                                    json_data = response.json()
+
+                                    st.json(json_data, expanded=False)
+
+                                    st.divider()
+                                if mimetype[i] == 'text/html':
+                                    st.error('Tweet has been deleted.')
+                                    st.info('IFRAME')
+                                    st.write(link)
+
+                                    st.divider()
 
                         if only_deleted:
-                            if tweet == None:
+                            if not tweet:
                                 return_none_count += 1
                                 attr(i)
 
-                                st.error('Tweet has been deleted.')
-                                components.iframe(src=link, width=700, height=1000, scrolling=True)
-                                st.divider()
+                                if mimetype[i] == 'application/json':
+                                    st.error('Tweet has been deleted.')
+                                    response = requests.get(link, timeout=5)
+                                    json_data = response.json()
+
+                                    st.json(json_data, expanded=False)
+
+                                    st.divider()
+                                if mimetype[i] == 'text/html':
+                                    st.error('Tweet has been deleted.')
+                                    st.info('IFRAME')
+                                    st.write(link)
+
+                                    st.divider()
 
                             progress.write('{} URLs have been captured in the range {}-{}'.format(return_none_count, start_index, end_index))
 
