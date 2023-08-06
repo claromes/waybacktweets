@@ -42,6 +42,8 @@ Streamlit will be served at http://localhost:8501
 - [x] `only_deleted` checkbox selected for handles without deleted tweets
 - [x] Pagination: set session variable on first click
 - [x] Pagination: scroll to top
+- [ ] `IndexError`
+- [ ] Timeout error
 
 ## Roadmap
 
@@ -56,5 +58,7 @@ Streamlit will be served at http://localhost:8501
 - [ ] Range size defined by user
 - [ ] `parse_links` exception
 - [ ] Add current page to page title
+- [ ] Parse MIME type `warc/revisit`
+- [ ] Filter by period/datetime
 
 ## [Changelog](/CHANGELOG.md)

@@ -4,6 +4,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 import json
 import re
+from bs4 import BeautifulSoup
 
 __version__ = '0.2'
 
@@ -38,6 +39,16 @@ hide_streamlit_style = '''
 <style>
     header[data-testid="stHeader"] {
         opacity: 0.5;
+    }
+    div[data-testid="stDecoration"] {
+        visibility: hidden;
+        height: 0%;
+        position: fixed;
+    }
+    div[data-testid="stStatusWidget"] {
+        visibility: hidden;
+        height: 0%;
+        position: fixed;
     }
 </style>
 '''
@@ -99,6 +110,8 @@ def embed(tweet):
 
             for match in matches_html:
                 tweet_content_match = re.sub(r'<a[^>]*>|<\/a>', '', match[0].strip())
+                tweet_content_match = tweet_content_match.replace('<br>', '\n')
+
                 user_info_match = re.sub(r'<a[^>]*>|<\/a>', '', match[1].strip())
                 user_info_match = user_info_match.replace(')', '), ')
 
@@ -120,7 +133,7 @@ def embed(tweet):
         else:
             return False
     except requests.exceptions.Timeout:
-        st.error('Connection to web.archive.org timed out.')
+        st.error('Connection to publish.twitter.com timed out.')
 
 
 
@@ -128,7 +141,7 @@ def embed(tweet):
 def tweets_count(handle):
     url = 'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{}/status/*&output=json'.format(handle)
     try:
-        response = requests.get(url, timeout=5)
+        response = requests.get(url, timeout=10)
 
         if response.status_code == 200:
             data = response.json()
@@ -191,6 +204,8 @@ Display multiple archived tweets on Wayback Machine and avoid opening each link 
 handle = st.text_input('username', placeholder='username', label_visibility='collapsed')
 query = st.button('Query', type='primary', use_container_width=True)
 
+bar = st.progress(0)
+
 if query or handle:
     if handle != st.session_state.current_handle:
         st.session_state.offset = 0
@@ -207,130 +222,119 @@ if query or handle:
     only_deleted = st.checkbox('Only deleted tweets')
 
     try:
-        with st.spinner(''):
-            progress = st.empty()
-            links = query_api(handle, tweets_per_page, st.session_state.offset)
-            parsed_links = parse_links(links)[0]
-            tweet_links = parse_links(links)[1]
-            mimetype = parse_links(links)[2]
-            timestamp = parse_links(links)[3]
+        progress = st.empty()
+        links = query_api(handle, tweets_per_page, st.session_state.offset)
+        parsed_links = parse_links(links)[0]
+        tweet_links = parse_links(links)[1]
+        mimetype = parse_links(links)[2]
+        timestamp = parse_links(links)[3]
 
 
-            if links:
+        if links:
+            st.divider()
+
+            st.session_state.current_handle = handle
+            st.session_state.current_query = query
+
+            return_none_count = 0
+
+            def prev_page():
+                st.session_state.offset -= tweets_per_page
+
+                #scroll to top config
+                st.session_state.update_component += 1
+                scroll_into_view()
+
+            def next_page():
+                st.session_state.offset += tweets_per_page
+
+                #scroll to top config
+                st.session_state.update_component += 1
+                scroll_into_view()
+
+            def display_tweet():
+                if is_RT[0] == True:
+                    st.info('*Retweet*')
+                st.write(tweet_content[0])
+                st.write(user_info[0])
+
                 st.divider()
 
-                st.session_state.current_handle = handle
-                st.session_state.current_query = query
+            def display_not_tweet():
+                if mimetype[i] == 'application/json':
+                    st.error('Tweet has been deleted.')
+                    response = requests.get(link, timeout=5)
+                    json_data = response.json()
 
-                return_none_count = 0
+                    st.json(json_data, expanded=False)
 
-                def prev_page():
-                    st.session_state.offset -= tweets_per_page
+                    st.divider()
+                if mimetype[i] == 'text/html':
+                    st.error('Tweet has been deleted.')
+                    components.iframe(link, height=500)
 
-                    #scroll to top config
-                    st.session_state.update_component += 1
-                    scroll_into_view()
+                    st.divider()
 
-                def next_page():
-                    st.session_state.offset += tweets_per_page
+            start_index = st.session_state.offset
+            end_index = min(count, start_index + tweets_per_page)
 
-                    #scroll to top config
-                    st.session_state.update_component += 1
-                    scroll_into_view()
+            for i in range(tweets_per_page):
+                try:
+                    bar.progress((i*3) + 13)
 
-                start_index = st.session_state.offset
-                end_index = min(count, start_index + tweets_per_page)
+                    link = parsed_links[i]
+                    tweet = embed(tweet_links[i])
 
-                for i in range(tweets_per_page):
-                    try:
-                        link = parsed_links[i]
-                        tweet = embed(tweet_links[i])
+                    if not only_deleted:
+                        attr(i)
 
-                        if not only_deleted:
+                        if tweet:
+                            status_code = tweet[0]
+                            tweet_content = tweet[1]
+                            user_info = tweet[2]
+                            is_RT = tweet[3]
+
+                            if mimetype[i] == 'application/json':
+                                display_tweet()
+
+                            if mimetype[i] == 'text/html':
+                                display_tweet()
+                        elif not tweet:
+                            display_not_tweet()
+
+                    if only_deleted:
+                        if not tweet:
+                            return_none_count += 1
                             attr(i)
 
-                            if tweet:
-                                status_code = tweet[0]
-                                tweet_content = tweet[1]
-                                user_info = tweet[2]
-                                is_RT = tweet[3]
+                            display_not_tweet()
 
-                                if mimetype[i] == 'application/json':
-                                    if is_RT[0] == True:
-                                        st.info('*Retweet*')
-                                    st.write(tweet_content[0])
-                                    st.write(user_info[0])
+                        progress.write('{} URLs have been captured in the range {}-{}'.format(return_none_count, start_index, end_index))
 
-                                    st.divider()
-                                if mimetype[i] == 'text/html':
-                                    if is_RT[0] == True:
-                                        st.info('*Retweet*')
-                                    st.write(tweet_content[0])
-                                    st.write(user_info[0])
+                    if start_index <= 0:
+                        st.session_state.prev_disabled = True
+                    else:
+                        st.session_state.prev_disabled = False
 
-                                    st.divider()
-                            elif not tweet:
-                                if mimetype[i] == 'application/json':
-                                    st.error('Tweet has been deleted.')
-                                    response = requests.get(link, timeout=5)
-                                    json_data = response.json()
-
-                                    st.json(json_data, expanded=False)
-
-                                    st.divider()
-                                if mimetype[i] == 'text/html':
-                                    st.error('Tweet has been deleted.')
-                                    st.info('IFRAME')
-                                    st.write(link)
-
-                                    st.divider()
-
-                        if only_deleted:
-                            if not tweet:
-                                return_none_count += 1
-                                attr(i)
-
-                                if mimetype[i] == 'application/json':
-                                    st.error('Tweet has been deleted.')
-                                    response = requests.get(link, timeout=5)
-                                    json_data = response.json()
-
-                                    st.json(json_data, expanded=False)
-
-                                    st.divider()
-                                if mimetype[i] == 'text/html':
-                                    st.error('Tweet has been deleted.')
-                                    st.info('IFRAME')
-                                    st.write(link)
-
-                                    st.divider()
-
-                            progress.write('{} URLs have been captured in the range {}-{}'.format(return_none_count, start_index, end_index))
-
-                        if start_index <= 0:
-                            st.session_state.prev_disabled = True
-                        else:
-                            st.session_state.prev_disabled = False
-
-                        if i + 1 == count:
-                            st.session_state.next_disabled = True
-                        else:
-                            st.session_state.next_disabled = False
-                    except IndexError:
-                        if start_index <= 0:
-                            st.session_state.prev_disabled = True
-                        else:
-                            st.session_state.prev_disabled = False
-
+                    if i + 1 == count:
                         st.session_state.next_disabled = True
+                    else:
+                        st.session_state.next_disabled = False
+                except IndexError:
+                    if start_index <= 0:
+                        st.session_state.prev_disabled = True
+                    else:
+                        st.session_state.prev_disabled = False
 
-                prev, _ , next = st.columns([3, 4, 3])
+                    st.session_state.next_disabled = True
 
-                prev.button('Previous', disabled=st.session_state.prev_disabled, key='prev_button_key', on_click=prev_page, type='primary', use_container_width=True)
-                next.button('Next', disabled=st.session_state.next_disabled, key='next_button_key', on_click=next_page, type='primary', use_container_width=True)
+            prev, _ , next = st.columns([3, 4, 3])
 
-            if not links:
-                st.error('Unable to query the Wayback Machine API.')
+            prev.button('Previous', disabled=st.session_state.prev_disabled, key='prev_button_key', on_click=prev_page, type='primary', use_container_width=True)
+            next.button('Next', disabled=st.session_state.next_disabled, key='next_button_key', on_click=next_page, type='primary', use_container_width=True)
+
+        if not links:
+            st.error('Unable to query the Wayback Machine API.')
     except TypeError as e:
         st.error('''
         {}. Refresh this page and try again.
