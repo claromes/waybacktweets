@@ -60,5 +60,7 @@ Streamlit will be served at http://localhost:8501
 - [ ] Add current page to page title
 - [ ] Parse MIME type `warc/revisit`
 - [ ] Filter by period/datetime
+- [ ] Apply filters by API endpoints
+- [ ] Add contributing guidelines
 
 ## [Changelog](/CHANGELOG.md)

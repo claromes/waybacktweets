@@ -4,7 +4,8 @@ import streamlit as st
 import streamlit.components.v1 as components
 import json
 import re
-from bs4 import BeautifulSoup
+import os
+from selenium import webdriver
 
 __version__ = '0.2'
 
@@ -92,7 +93,7 @@ def scroll_into_view():
 def embed(tweet):
     try:
         url = 'https://publish.twitter.com/oembed?url={}'.format(tweet)
-        response = requests.get(url, timeout=1)
+        response = requests.get(url)
 
         regex = r'<blockquote class="twitter-tweet"><p[^>]*>(.*?)<\/p>.*?&mdash; (.*?)<\/a>'
         regex_author = r'^(.*?)\s*\('
@@ -141,7 +142,7 @@ def embed(tweet):
 def tweets_count(handle):
     url = 'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{}/status/*&output=json'.format(handle)
     try:
-        response = requests.get(url, timeout=10)
+        response = requests.get(url)
 
         if response.status_code == 200:
             data = response.json()
@@ -162,7 +163,7 @@ def query_api(handle, limit, offset):
 
     url = 'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{}/status/*&output=json&limit={}&offset={}'.format(handle, limit, offset)
     try:
-        response = requests.get(url, timeout=1)
+        response = requests.get(url)
 
         if response.status_code == 200 or response.status_code == 304:
             return response.json()
@@ -204,7 +205,7 @@ Display multiple archived tweets on Wayback Machine and avoid opening each link 
 handle = st.text_input('username', placeholder='username', label_visibility='collapsed')
 query = st.button('Query', type='primary', use_container_width=True)
 
-bar = st.progress(0)
+bar = st.empty()
 
 if query or handle:
     if handle != st.session_state.current_handle:
@@ -222,6 +223,7 @@ if query or handle:
     only_deleted = st.checkbox('Only deleted tweets')
 
     try:
+        bar.progress(0)
         progress = st.empty()
         links = query_api(handle, tweets_per_page, st.session_state.offset)
         parsed_links = parse_links(links)[0]
@@ -263,15 +265,38 @@ if query or handle:
             def display_not_tweet():
                 if mimetype[i] == 'application/json':
                     st.error('Tweet has been deleted.')
-                    response = requests.get(link, timeout=5)
+                    response = requests.get(link)
                     json_data = response.json()
+                    json_text = response.json()['text']
 
+                    st.code(json_text)
                     st.json(json_data, expanded=False)
 
                     st.divider()
                 if mimetype[i] == 'text/html':
                     st.error('Tweet has been deleted.')
-                    components.iframe(link, height=500)
+
+                    re_link = re.search(r'[^/]+$', link)
+                    re_link = re_link.group()
+                    screenshot_filename = 'img_{}.jpg'.format(re_link)
+
+                    if not os.path.exists(screenshot_filename):
+                        options = webdriver.ChromeOptions()
+                        options.add_argument('--headless')
+
+                        driver = webdriver.Chrome(options=options)
+                        driver.get(link)
+                        driver.set_window_size(700, 700)
+
+                        current_directory = os.getcwd()
+                        screenshot_path = os.path.join(current_directory, screenshot_filename)
+
+                        driver.save_screenshot(screenshot_path)
+                        driver.quit()
+
+                    st.image(screenshot_filename)
+                    # components.iframe(link, height=500, width=700)
+                    # st.markdown('<iframe src="{}" loading="lazy" height=500 width=auto></iframe>'.format(link), unsafe_allow_html=True)
 
                     st.divider()
 
