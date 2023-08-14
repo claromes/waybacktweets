@@ -4,8 +4,6 @@ import streamlit as st
 import streamlit.components.v1 as components
 import json
 import re
-import os
-from selenium import webdriver
 
 __version__ = '0.2'
 
@@ -276,27 +274,8 @@ if query or handle:
                 if mimetype[i] == 'text/html':
                     st.error('Tweet has been deleted.')
 
-                    re_link = re.search(r'[^/]+$', link)
-                    re_link = re_link.group()
-                    screenshot_filename = 'img_{}.jpg'.format(re_link)
-
-                    if not os.path.exists(screenshot_filename):
-                        options = webdriver.ChromeOptions()
-                        options.add_argument('--headless')
-
-                        driver = webdriver.Chrome(options=options)
-                        driver.get(link)
-                        driver.set_window_size(700, 700)
-
-                        current_directory = os.getcwd()
-                        screenshot_path = os.path.join(current_directory, screenshot_filename)
-
-                        driver.save_screenshot(screenshot_path)
-                        driver.quit()
-
-                    st.image(screenshot_filename)
                     # components.iframe(link, height=500, width=700)
-                    # st.markdown('<iframe src="{}" loading="lazy" height=500 width=auto></iframe>'.format(link), unsafe_allow_html=True)
+                    st.markdown('<iframe src="{}" loading="lazy" height=500 width=auto></iframe>'.format(link), unsafe_allow_html=True)
 
                     st.divider()
 
