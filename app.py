@@ -49,6 +49,10 @@ hide_streamlit_style = '''
         height: 0%;
         position: fixed;
     }
+    iframe {
+        background-color: #dddddd;
+        border-radius: 0.5rem;
+    }
 </style>
 '''
 
@@ -275,7 +279,7 @@ if query or handle:
                     st.error('Tweet has been deleted.')
 
                     # components.iframe(link, height=500, width=700)
-                    st.markdown('<iframe src="{}" loading="lazy" height=500 width=auto></iframe>'.format(link), unsafe_allow_html=True)
+                    st.markdown('<iframe srcdoc="Loading..." onload="this.removeAttribute(\'srcdoc\')" src="{}" loading="lazy" height=500 width="100%"></iframe>'.format(link), unsafe_allow_html=True)
 
                     st.divider()
 
