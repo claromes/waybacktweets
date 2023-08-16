@@ -4,13 +4,13 @@
 
 - Displays tweets as text
 - Displays RTs info
-- Displays `json` MIME type as `json` (if tweet was deleted)
+- Displays JSON MIME type as JSON (if tweet was deleted)
 - Adds progress bar
 - Adds warning to `warc/revisit` MIME type
-- Improves the code quality
-- Screenshot tests as a alternative of `iframe`
+- Improves code quality
+- Screenshot tests as an alternative to `iframe`
   - Keeps `iframe`
-  - Each screenshot of website takes too long
+  - Each website screenshot takes too long
 
 ## [v0.1.4](https://github.com/claromes/waybacktweets/releases/tag/v0.1.4) - 2023-07-21
 - Add Pagination via CDX Server API
