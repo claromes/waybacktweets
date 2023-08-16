@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.2](https://github.com/claromes/waybacktweets/releases/tag/v0.2) - 2023-08-16
+
+- Displays tweets as text
+- Displays RTs info
+- Displays `json` MIME type as `json`
+- Adds progress bar
+- Adds warning to `warc/revisit` MIME type
+- Improves the code quality
+- Screenshot tests as a alternative of `iframe`
+  - Keeps `iframe`
+  - Each screenshot of website takes too long
+
 ## [v0.1.4](https://github.com/claromes/waybacktweets/releases/tag/v0.1.4) - 2023-07-21
 - Add Pagination via CDX Server API
 - Update theme/ style

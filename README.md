@@ -1,14 +1,11 @@
 # 🏛️ Wayback Tweets
 
-[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_red.svg)](https://waybacktweets.streamlit.app) [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![License](https://img.shields.io/github/license/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/blob/main/LICENSE.md)
 
 Tool that displays multiple archived tweets on Wayback Machine to avoid opening each link manually. Via [Wayback CDX Server API](https://github.com/internetarchive/wayback/tree/master/wayback-cdx-server).
 
 <p align="center">
-    <img src="assets/app.png" width="700">
-</p>
-<p align="center">
-    <a href="https://waybacktweets.streamlit.app">waybacktweets.streamlit.app</a>
+    <img src="assets/wbt-0.2.gif" width="500">
 </p>
 
 *Thanks Tristan Lee for the idea.*
@@ -42,7 +39,7 @@ Streamlit will be served at http://localhost:8501
 - [x] `only_deleted` checkbox selected for handles without deleted tweets
 - [x] Pagination: set session variable on first click
 - [x] Pagination: scroll to top
-- [ ] `IndexError`
+- [x] `IndexError`
 - [ ] Timeout error
 
 ## Roadmap
