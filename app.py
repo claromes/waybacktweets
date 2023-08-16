@@ -5,8 +5,6 @@ import streamlit.components.v1 as components
 import json
 import re
 
-__version__ = '0.2'
-
 year = datetime.datetime.now().year
 
 st.set_page_config(
@@ -228,11 +226,12 @@ if query or handle:
         bar.progress(0)
         progress = st.empty()
         links = query_api(handle, tweets_per_page, st.session_state.offset)
-        parsed_links = parse_links(links)[0]
-        tweet_links = parse_links(links)[1]
-        mimetype = parse_links(links)[2]
-        timestamp = parse_links(links)[3]
 
+        parse = parse_links(links)
+        parsed_links = parse[0]
+        tweet_links = parse[1]
+        mimetype = parse[2]
+        timestamp = parse[3]
 
         if links:
             st.divider()
@@ -277,9 +276,12 @@ if query or handle:
                     st.divider()
                 if mimetype[i] == 'text/html':
                     st.error('Tweet has been deleted.')
+                    components.iframe(link, height=500, scrolling=True)
 
-                    # components.iframe(link, height=500, width=700)
-                    st.markdown('<iframe src="{}" loading="lazy" height=500 width="100%"></iframe>'.format(link), unsafe_allow_html=True)
+                    st.divider()
+
+                if mimetype[i] == 'warc/revisit':
+                    st.warning('''MIME Type was not parsed.''')
 
                     st.divider()
 
@@ -328,6 +330,7 @@ if query or handle:
                         st.session_state.next_disabled = True
                     else:
                         st.session_state.next_disabled = False
+                # TODO
                 except IndexError:
                     if start_index <= 0:
                         st.session_state.prev_disabled = True
