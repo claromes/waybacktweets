@@ -15,7 +15,7 @@ Tool that displays multiple archived tweets on Wayback Machine to avoid opening 
 
 ## Features
 
-- 30 embedded tweets per page
+- 30 tweets per page
 - Filtering by only deleted tweets
 
 ## Development
@@ -42,6 +42,8 @@ Streamlit will be served at http://localhost:8501
 - [x] `only_deleted` checkbox selected for handles without deleted tweets
 - [x] Pagination: set session variable on first click
 - [x] Pagination: scroll to top
+- [ ] `IndexError`
+- [ ] Timeout error
 
 ## Roadmap
 
@@ -54,7 +56,11 @@ Streamlit will be served at http://localhost:8501
 - [x] Changelog
 - [ ] Prevent duplicate URLs
 - [ ] Range size defined by user
-- [ ] Hide Twitter header banner (iframe)
 - [ ] `parse_links` exception
+- [ ] Add current page to page title
+- [ ] Parse MIME type `warc/revisit`
+- [ ] Filter by period/datetime
+- [ ] Apply filters by API endpoints
+- [ ] Add contributing guidelines
 
 ## [Changelog](/CHANGELOG.md)
