@@ -1,11 +1,14 @@
+> [!IMPORTANT]
+> If the application is down, please check the [Streamlit Cloud Status](https://www.streamlitstatus.com/).
+
+<br>
+
 # 🏛️ Wayback Tweets
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_red.svg)](https://waybacktweets.streamlit.app) [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![License](https://img.shields.io/github/license/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/blob/main/LICENSE.md)
 
-Tool that displays multiple archived tweets on Wayback Machine to avoid opening each link manually. Via [Wayback CDX Server API](https://github.com/internetarchive/wayback/tree/master/wayback-cdx-server).
 
-> [!WARNING]  
-> If the application is down, please check the [Streamlit Cloud Status](https://www.streamlitstatus.com/).
+Tool that displays multiple archived tweets on Wayback Machine to avoid opening each link manually. Via [Wayback CDX Server API](https://github.com/internetarchive/wayback/tree/master/wayback-cdx-server).
 
 <p align="center">
     <img src="assets/wbt-0.2.gif" width="500">
