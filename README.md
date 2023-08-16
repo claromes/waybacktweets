@@ -4,6 +4,9 @@
 
 Tool that displays multiple archived tweets on Wayback Machine to avoid opening each link manually. Via [Wayback CDX Server API](https://github.com/internetarchive/wayback/tree/master/wayback-cdx-server).
 
+> [!WARNING]  
+> If the application is down, please check the [Streamlit Cloud Status](https://www.streamlitstatus.com/).
+
 <p align="center">
     <img src="assets/wbt-0.2.gif" width="500">
 </p>
