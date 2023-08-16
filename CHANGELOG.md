@@ -4,7 +4,7 @@
 
 - Displays tweets as text
 - Displays RTs info
-- Displays `json` MIME type as `json`
+- Displays `json` MIME type as `json` (if tweet was deleted)
 - Adds progress bar
 - Adds warning to `warc/revisit` MIME type
 - Improves the code quality
