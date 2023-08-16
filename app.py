@@ -37,16 +37,6 @@ hide_streamlit_style = '''
     header[data-testid="stHeader"] {
         opacity: 0.5;
     }
-    div[data-testid="stDecoration"] {
-        visibility: hidden;
-        height: 0%;
-        position: fixed;
-    }
-    div[data-testid="stStatusWidget"] {
-        visibility: hidden;
-        height: 0%;
-        position: fixed;
-    }
     iframe {
         background-color: #dddddd;
         border-radius: 0.5rem;
@@ -95,7 +85,7 @@ def embed(tweet):
         url = 'https://publish.twitter.com/oembed?url={}'.format(tweet)
         response = requests.get(url)
 
-        regex = r'<blockquote class="twitter-tweet"><p[^>]*>(.*?)<\/p>.*?&mdash; (.*?)<\/a>'
+        regex = r'<blockquote class="twitter-tweet"(?: [^>]+)?><p[^>]*>(.*?)<\/p>.*?&mdash; (.*?)<\/a>'
         regex_author = r'^(.*?)\s*\('
 
         if response.status_code == 200 or response.status_code == 302:
