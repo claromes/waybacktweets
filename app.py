@@ -256,9 +256,9 @@ if query or handle:
             def display_not_tweet():
                 if mimetype[i] == 'application/json':
                     st.error('Tweet has been deleted.')
-                    response = requests.get(link)
-                    json_data = response.json()
-                    json_text = response.json()['text']
+                    response_json = requests.get(link)
+                    json_data = response_json.json()
+                    json_text = response_json.json()['text']
 
                     st.code(json_text)
                     st.json(json_data, expanded=False)
@@ -266,7 +266,11 @@ if query or handle:
                     st.divider()
                 if mimetype[i] == 'text/html':
                     st.error('Tweet has been deleted.')
-                    components.iframe(link, height=500, scrolling=True)
+
+                    response_html = requests.get(link)
+                    content = response_html.text
+
+                    components.html(content, height=500, scrolling=True)
 
                     st.divider()
 
