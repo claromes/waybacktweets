@@ -62,6 +62,7 @@ Streamlit will be served at http://localhost:8501
 - [ ] `parse_links` exception
 - [ ] Add current page to page title
 - [ ] Parse MIME type `warc/revisit`
+- [ ] Parse MIME type `text/plain`
 - [ ] Filter by period/datetime
 - [ ] Apply filters by API endpoints
 - [ ] Add contributing guidelines

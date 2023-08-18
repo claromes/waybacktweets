@@ -267,14 +267,14 @@ if query or handle:
                 if mimetype[i] == 'text/html':
                     st.error('Tweet has been deleted.')
 
-                    response_html = requests.get(link)
-                    content = response_html.text
-
-                    components.html(content, height=500, scrolling=True)
+                    components.iframe(link, height=500, scrolling=True)
 
                     st.divider()
-
                 if mimetype[i] == 'warc/revisit':
+                    st.warning('''MIME Type was not parsed.''')
+
+                    st.divider()
+                if mimetype[i] == 'text/plain':
                     st.warning('''MIME Type was not parsed.''')
 
                     st.divider()
