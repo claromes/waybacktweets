@@ -158,10 +158,13 @@ def query_api(handle, limit, offset, date_created):
     url = f'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{handle}/status/*&output=json&limit={limit}&offset={offset}&from={date_created[0]}&to={date_created[1]}'
     try:
         response = requests.get(url)
+        response.raise_for_status()
 
         if response.status_code == 200 or response.status_code == 304:
             return response.json()
     except requests.exceptions.Timeout:
+        st.error('Connection to web.archive.org timed out.')
+    except requests.exceptions.ConnectionError:
         st.error('Connection to web.archive.org timed out.')
 
 @st.cache_data(ttl=1800, show_spinner=False)
@@ -182,7 +185,7 @@ def parse_links(links):
     return parsed_links, tweet_links, parsed_mimetype, timestamp
 
 def attr(i):
-    st.markdown(f'{i+1 + st.session_state.offset}. **Wayback Machine:** [link]({link}) · **MIME Type:** {mimetype[i]} · **Created at:** {datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S")} · **Tweet:** [link]({tweet_links[i]})')
+    st.markdown(f'{i+1 + st.session_state.offset}. **Wayback Machine:** [link]({link}) · **MIME Type:** {mimetype[i]} · **Saved at:** {datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S")} · **Tweet:** [link]({tweet_links[i]})')
 
 # UI
 st.title('Wayback Tweets [![Star](https://img.shields.io/github/stars/claromes/waybacktweets?style=social)](https://github.com/claromes/waybacktweets)', anchor=False)
@@ -190,7 +193,7 @@ st.write('Display multiple archived tweets on Wayback Machine and avoid opening 
 
 handle = st.text_input('Username', placeholder='jack')
 
-st.session_state.date_created = st.slider('Tweets created between', 2006, year, (2006, year))
+st.session_state.date_created = st.slider('Tweets saved between', 2006, year, (2006, year))
 
 tweets_per_page = st.slider('Tweets per page', 25, 1000, 25, 25)
 
