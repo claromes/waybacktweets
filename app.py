@@ -70,6 +70,9 @@ if 'update_component' not in st.session_state:
 if 'offset' not in st.session_state:
     st.session_state.offset = 0
 
+if 'date_created' not in st.session_state:
+    st.session_state.date_created = (2006, year)
+
 def scroll_into_view():
     js = '''
     <script>
@@ -126,11 +129,9 @@ def embed(tweet):
     except requests.exceptions.Timeout:
         st.error('Connection to publish.twitter.com timed out.')
 
-
-
 @st.cache_data(ttl=1800, show_spinner=False)
-def tweets_count(handle):
-    url = 'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{}/status/*&output=json'.format(handle)
+def tweets_count(handle, date_created):
+    url = 'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{}/status/*&output=json&from={}&to={}'.format(handle,  date_created[0], date_created[1])
     try:
         response = requests.get(url)
 
@@ -144,14 +145,13 @@ def tweets_count(handle):
     except requests.exceptions.Timeout:
         st.error('Connection to web.archive.org timed out.')
 
-
 @st.cache_data(ttl=1800, show_spinner=False)
-def query_api(handle, limit, offset):
+def query_api(handle, limit, offset, date_created):
     if not handle:
         st.warning('username, please!')
         st.stop()
 
-    url = 'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{}/status/*&output=json&limit={}&offset={}'.format(handle, limit, offset)
+    url = 'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{}/status/*&output=json&limit={}&offset={}&from={}&to={}'.format(handle, limit, offset, date_created[0], date_created[1])
     try:
         response = requests.get(url)
 
@@ -183,39 +183,39 @@ def attr(i):
     '''.format(i+1 + st.session_state.offset, link, mimetype[i], datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S"), tweet_links[i]))
 
 # UI
-st.title('''
-Wayback Tweets [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases)
-''', anchor=False)
-st.write('''
-Display multiple archived tweets on Wayback Machine and avoid opening each link manually
+st.title('Wayback Tweets [![Star](https://img.shields.io/github/stars/claromes/waybacktweets?style=social)](https://github.com/claromes/waybacktweets)', anchor=False)
+st.write('Display multiple archived tweets on Wayback Machine via Wayback CDX Server API')
 
-*via Wayback CDX Server API*
-''')
+handle = st.text_input('Username', placeholder='jack')
 
-handle = st.text_input('username', placeholder='username', label_visibility='collapsed')
+st.session_state.date_created = st.slider('Tweets created between', 2006, year, (2006, year))
+
+tweets_per_page = st.slider('Tweets per page', 25, 1000, 25, 25)
+
+only_deleted = st.checkbox('Only deleted tweets')
+
 query = st.button('Query', type='primary', use_container_width=True)
 
 bar = st.empty()
 
-if query or handle:
+if query or handle :
     if handle != st.session_state.current_handle:
         st.session_state.offset = 0
 
     if query != st.session_state.current_query:
         st.session_state.offset = 0
 
-    count = tweets_count(handle)
+    count = tweets_count(handle, st.session_state.date_created)
 
     st.write('**{} URLs have been captured**'.format(count))
 
-    tweets_per_page = 30
-
-    only_deleted = st.checkbox('Only deleted tweets')
+    if tweets_per_page > count:
+        tweets_per_page = count
 
     try:
         bar.progress(0)
         progress = st.empty()
-        links = query_api(handle, tweets_per_page, st.session_state.offset)
+        links = query_api(handle, tweets_per_page, st.session_state.offset, st.session_state.date_created)
 
         parse = parse_links(links)
         parsed_links = parse[0]
@@ -249,7 +249,7 @@ if query or handle:
                 if is_RT[0] == True:
                     st.info('*Retweet*')
                 st.write(tweet_content[0])
-                st.write(user_info[0])
+                st.write(f'**{user_info[0]}**')
 
                 st.divider()
 
@@ -257,11 +257,14 @@ if query or handle:
                 if mimetype[i] == 'application/json':
                     st.error('Tweet has been deleted.')
                     response_json = requests.get(link)
-                    json_data = response_json.json()
-                    json_text = response_json.json()['text']
+                    if response_json.status_code == 200:
+                        json_data = response_json.json()
+                        json_text = response_json.json()['text']
 
-                    st.code(json_text)
-                    st.json(json_data, expanded=False)
+                        st.code(json_text)
+                        st.json(json_data, expanded=False)
+                    else:
+                        st.error(response_json.status_code)
 
                     st.divider()
                 if mimetype[i] == 'text/html':
