@@ -5,7 +5,7 @@
 
 # 🏛️ Wayback Tweets
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_red.svg)](https://waybacktweets.streamlit.app) [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![License](https://img.shields.io/github/license/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/blob/main/LICENSE.md)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://waybacktweets.streamlit.app) [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![License](https://img.shields.io/github/license/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/blob/main/LICENSE.md)
 
 
 Tool that displays multiple archived tweets on Wayback Machine to avoid opening each link manually. Via [Wayback CDX Server API](https://github.com/internetarchive/wayback/tree/master/wayback-cdx-server).
@@ -18,8 +18,9 @@ Tool that displays multiple archived tweets on Wayback Machine to avoid opening 
 
 ## Features
 
-- 30 tweets per page
-- Filtering by only deleted tweets
+- Tweets per page defined by user
+- Filtering by saved date
+- Filtering by deleted tweets
 
 ## Development
 
@@ -48,23 +49,7 @@ Streamlit will be served at http://localhost:8501
 - [x] `IndexError`
 - [ ] Timeout error
 
-## Roadmap
+## Docs
 
-- [x] Pagination
-    - [x] Footer
-    - [x] Disabled/ Empty
-- [x] Feedbacks
-- [ ] Download dataset
-- [x] Review data cache
-- [x] Changelog
-- [ ] Prevent duplicate URLs
-- [x] Range size defined by user
-- [ ] `parse_links` exception
-- [ ] Add current page to page title
-- [ ] Parse MIME type `warc/revisit`
-- [ ] Parse MIME type `text/plain`
-- [x] Filter by period/datetime
-- [ ] Apply filters by API endpoints
-- [ ] Add contributing guidelines
-
-## [Changelog](/CHANGELOG.md)
+- [Roadmap](docs/ROADMAP.md)
+- [Changelog](docs/CHANGELOG.md)

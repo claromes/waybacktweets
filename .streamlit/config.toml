@@ -1,7 +1,9 @@
 [theme]
 base="light"
 primaryColor="#ab2e33"
+textColor="#000000"
 backgroundColor="#e7e7e7"
+font="serif"
 
 [client]
 displayEnabled=true

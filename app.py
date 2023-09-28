@@ -18,10 +18,11 @@ st.set_page_config(
 
         [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![License](https://img.shields.io/github/license/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/blob/main/LICENSE.md)
 
-        Tool that displays multiple archived tweets on Wayback Machine to avoid opening each link manually.
+        Tool that displays multiple archived tweets on Wayback Machine to avoid opening each link manually. Via Wayback CDX Server API.
 
-        - 30 tweets per page
-        - Filtering by only deleted tweets
+        - Tweets per page defined by user
+        - Filtering by saved date
+        - Filtering by deleted tweets
 
         This tool is experimental, please feel free to send your [feedbacks](https://github.com/claromes/waybacktweets/issues).
 
@@ -72,6 +73,9 @@ if 'offset' not in st.session_state:
 
 if 'date_created' not in st.session_state:
     st.session_state.date_created = (2006, year)
+
+if 'count' not in st.session_state:
+    st.session_state.count = False
 
 def scroll_into_view():
     js = f'''
@@ -182,7 +186,7 @@ def attr(i):
 
 # UI
 st.title('Wayback Tweets [![Star](https://img.shields.io/github/stars/claromes/waybacktweets?style=social)](https://github.com/claromes/waybacktweets)', anchor=False)
-st.write('Display multiple archived tweets on Wayback Machine via Wayback CDX Server API')
+st.write('Display multiple archived tweets on Wayback Machine and avoid opening each link manually')
 
 handle = st.text_input('Username', placeholder='jack')
 
@@ -196,19 +200,19 @@ query = st.button('Query', type='primary', use_container_width=True)
 
 bar = st.empty()
 
-if query or handle :
+if query or st.session_state.count:
     if handle != st.session_state.current_handle:
         st.session_state.offset = 0
 
     if query != st.session_state.current_query:
         st.session_state.offset = 0
 
-    count = tweets_count(handle, st.session_state.date_created)
+    st.session_state.count = tweets_count(handle, st.session_state.date_created)
 
-    st.write(f'**{count} URLs have been captured**')
+    st.write(f'**{st.session_state.count} URLs have been captured**')
 
-    if tweets_per_page > count:
-        tweets_per_page = count
+    if tweets_per_page > st.session_state.count:
+        tweets_per_page = st.session_state.count
 
     try:
         bar.progress(0)
@@ -281,7 +285,7 @@ if query or handle :
                     st.divider()
 
             start_index = st.session_state.offset
-            end_index = min(count, start_index + tweets_per_page)
+            end_index = min(st.session_state.count, start_index + tweets_per_page)
 
             for i in range(tweets_per_page):
                 try:
@@ -321,7 +325,7 @@ if query or handle :
                     else:
                         st.session_state.prev_disabled = False
 
-                    if i + 1 == count:
+                    if i + 1 == st.session_state.count:
                         st.session_state.next_disabled = True
                     else:
                         st.session_state.next_disabled = False
