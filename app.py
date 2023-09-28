@@ -26,7 +26,7 @@ st.set_page_config(
         This tool is experimental, please feel free to send your [feedbacks](https://github.com/claromes/waybacktweets/issues).
 
         -------
-        '''.format(year),
+        ''',
         'Report a bug': 'https://github.com/claromes/waybacktweets/issues'
     }
 )
@@ -74,18 +74,18 @@ if 'date_created' not in st.session_state:
     st.session_state.date_created = (2006, year)
 
 def scroll_into_view():
-    js = '''
+    js = f'''
     <script>
         window.parent.document.querySelector('section.main').scrollTo(0, 0);
-        let update_component = {} // Force component update to generate scroll
+        let update_component = {st.session_state.update_component} // Force component update to generate scroll
     </script>
-    '''.format(st.session_state.update_component)
+    '''
 
     components.html(js, width=0, height=0)
 
 def embed(tweet):
     try:
-        url = 'https://publish.twitter.com/oembed?url={}'.format(tweet)
+        url = f'https://publish.twitter.com/oembed?url={tweet}'
         response = requests.get(url)
 
         regex = r'<blockquote class="twitter-tweet"(?: [^>]+)?><p[^>]*>(.*?)<\/p>.*?&mdash; (.*?)<\/a>'
@@ -131,7 +131,7 @@ def embed(tweet):
 
 @st.cache_data(ttl=1800, show_spinner=False)
 def tweets_count(handle, date_created):
-    url = 'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{}/status/*&output=json&from={}&to={}'.format(handle,  date_created[0], date_created[1])
+    url = f'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{handle}/status/*&output=json&from={date_created[0]}&to={date_created[1]}'
     try:
         response = requests.get(url)
 
@@ -151,7 +151,7 @@ def query_api(handle, limit, offset, date_created):
         st.warning('username, please!')
         st.stop()
 
-    url = 'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{}/status/*&output=json&limit={}&offset={}&from={}&to={}'.format(handle, limit, offset, date_created[0], date_created[1])
+    url = f'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{handle}/status/*&output=json&limit={limit}&offset={offset}&from={date_created[0]}&to={date_created[1]}'
     try:
         response = requests.get(url)
 
@@ -168,7 +168,7 @@ def parse_links(links):
     parsed_mimetype = []
 
     for link in links[1:]:
-        url = 'https://web.archive.org/web/{}/{}'.format(link[1], link[2])
+        url = f'https://web.archive.org/web/{link[1]}/{link[2]}'
 
         parsed_links.append(url)
         timestamp.append(link[1])
@@ -178,9 +178,7 @@ def parse_links(links):
     return parsed_links, tweet_links, parsed_mimetype, timestamp
 
 def attr(i):
-    st.markdown('''
-    {}. **Wayback Machine:** [link]({}) | **MIME Type:** {} | **Created at:** {} | **Tweet:** [link]({})
-    '''.format(i+1 + st.session_state.offset, link, mimetype[i], datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S"), tweet_links[i]))
+    st.markdown(f'{i+1 + st.session_state.offset}. **Wayback Machine:** [link]({link}) · **MIME Type:** {mimetype[i]} · **Created at:** {datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S")} · **Tweet:** [link]({tweet_links[i]})')
 
 # UI
 st.title('Wayback Tweets [![Star](https://img.shields.io/github/stars/claromes/waybacktweets?style=social)](https://github.com/claromes/waybacktweets)', anchor=False)
@@ -207,7 +205,7 @@ if query or handle :
 
     count = tweets_count(handle, st.session_state.date_created)
 
-    st.write('**{} URLs have been captured**'.format(count))
+    st.write(f'**{count} URLs have been captured**')
 
     if tweets_per_page > count:
         tweets_per_page = count
@@ -316,7 +314,7 @@ if query or handle :
 
                             display_not_tweet()
 
-                        progress.write('{} URLs have been captured in the range {}-{}'.format(return_none_count, start_index, end_index))
+                        progress.write(f'{return_none_count} URLs have been captured in the range {start_index}-{end_index}')
 
                     if start_index <= 0:
                         st.session_state.prev_disabled = True
@@ -344,9 +342,9 @@ if query or handle :
         if not links:
             st.error('Unable to query the Wayback Machine API.')
     except TypeError as e:
-        st.error('''
-        {}. Refresh this page and try again.
+        st.error(f'''
+        {f}. Refresh this page and try again.
 
         If the problem persists [open an issue](https://github.com/claromes/waybacktweets/issues).
-        '''.format(e))
+        ''')
         st.session_state.offset = 0
