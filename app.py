@@ -50,9 +50,6 @@ hide_streamlit_style = '''
 
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-if 'current_query' not in st.session_state:
-    st.session_state.current_query = ''
-
 if 'current_handle' not in st.session_state:
     st.session_state.current_handle = ''
 
@@ -229,12 +226,10 @@ only_deleted = st.checkbox('Only deleted tweets')
 
 query = st.button('Query', type='primary', use_container_width=True)
 
-if query or st.session_state.count:
-    if handle != st.session_state.current_handle:
-        st.session_state.offset = 0
+if handle != st.session_state.current_handle:
+    st.session_state.offset = 0
 
-    if query != st.session_state.current_query:
-        st.session_state.offset = 0
+if query or st.session_state.count:
 
     st.session_state.count = tweets_count(handle, st.session_state.saved_at)
 
@@ -258,7 +253,6 @@ if query or st.session_state.count:
             st.divider()
 
             st.session_state.current_handle = handle
-            st.session_state.current_query = query
 
             return_none_count = 0
 
@@ -275,30 +269,31 @@ if query or st.session_state.count:
                     st.error('Tweet has been deleted.')
                     try:
                         response_json = requests.get(link)
+
+                        if response_json.status_code == 200:
+                            json_data = response_json.json()
+
+                            if 'data' in json_data:
+                                if 'text' in json_data['data']:
+                                    json_text = json_data['data']['text']
+                                else:
+                                    json_text = json_data['data']
+                            else:
+                                if 'text' in json_data:
+                                    json_text = json_data['text']
+                                else:
+                                    json_text = json_data
+
+                            st.code(json_text)
+                            st.json(json_data, expanded=False)
+                        else:
+                            st.error(response_json.status_code)
                     except requests.exceptions.Timeout:
                         st.error('Connection to web.archive.org timed out.')
                     except requests.exceptions.ConnectionError:
                         st.error('Failed to establish a new connection with web.archive.org.')
                     except UnboundLocalError:
                         st.empty()
-                    if response_json.status_code == 200:
-                        json_data = response_json.json()
-
-                        if 'data' in json_data:
-                            if 'text' in json_data['data']:
-                                json_text = json_data['data']['text']
-                            else:
-                                json_text = json_data['data']
-                        else:
-                            if 'text' in json_data:
-                                json_text = json_data['text']
-                            else:
-                                json_text = json_data
-
-                        st.code(json_text)
-                        st.json(json_data, expanded=False)
-                    else:
-                        st.error(response_json.status_code)
 
                     st.divider()
                 if mimetype[i] == 'text/html':

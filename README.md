@@ -5,13 +5,11 @@
 
 Tool that displays, via [Wayback CDX Server API](https://github.com/internetarchive/wayback/tree/master/wayback-cdx-server), multiple archived tweets on Wayback Machine to avoid opening each link manually. The app is a prototype written in Python with Streamlit and hosted at Streamlit Cloud.
 
-*Thanks Tristan Lee for the idea.*
-
-## Features
-
 - Tweets per page defined by user
 - Filter by years
 - Filter by only deleted tweets
+
+*Thanks Tristan Lee for the idea.*
 
 ## Development
 
@@ -34,9 +32,9 @@ Streamlit will be served at http://localhost:8501
 ## Bugs
 
 - [ ] "web.archive.org took too long to respond."
-- [ ] Pagination: set session variable on first click
 - [ ] Timeout error
 - [x] `only_deleted` checkbox selected for handles without deleted tweets
+- [x] Pagination: set session variable on first click
 - [x] Pagination: scroll to top
 - [x] `IndexError`
 
@@ -58,7 +56,6 @@ Streamlit will be served at http://localhost:8501
 >"Untuk mempermudah penelusuran arsip, gunakan Wayback Tweets." — [GIJN Indonesia](https://twitter.com/gijnIndonesia/status/1685912219408805888)
 
 >"A tool to quickly view tweets saved on archive.org." — [Irina_Tech_Tips Newsletter #3](https://irinatechtips.substack.com/p/irina_tech_tips-newsletter-3-2023#%C2%A7wayback-tweets)
-
 
 ## Contributing
 
