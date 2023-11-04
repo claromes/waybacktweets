@@ -29,15 +29,6 @@ $ `streamlit run app.py`
 
 Streamlit will be served at http://localhost:8501
 
-## Bugs
-
-- [ ] "web.archive.org took too long to respond."
-- [ ] Timeout error
-- [x] `only_deleted` checkbox selected for handles without deleted tweets
-- [x] Pagination: set session variable on first click
-- [x] Pagination: scroll to top
-- [x] `IndexError`
-
 ## Docs
 
 - [Roadmap](docs/ROADMAP.md)
@@ -59,7 +50,7 @@ Streamlit will be served at http://localhost:8501
 
 ## Contributing
 
-PRs are welcome. Please, check the bug topic above, the [roadmap](docs/ROADMAP.md) or add a new feature.
+PRs are welcome. Please, check the [roadmap](docs/ROADMAP.md) or add a new feature.
 
 > [!NOTE]
 > If the application is down, please check the [Streamlit Cloud Status](https://www.streamlitstatus.com/).
