@@ -266,7 +266,17 @@ if query or st.session_state.count:
                     response_json = requests.get(link)
                     if response_json.status_code == 200:
                         json_data = response_json.json()
-                        json_text = response_json.json()['text']
+
+                        if 'data' in json_data:
+                            if 'text' in json_data['data']:
+                                json_text = json_data['data']['text']
+                            else:
+                                json_text = json_data['data']
+                        else:
+                            if 'text' in json_data:
+                                json_text = json_data['text']
+                            else:
+                                json_text = json_data
 
                         st.code(json_text)
                         st.json(json_data, expanded=False)
