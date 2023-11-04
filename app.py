@@ -134,7 +134,11 @@ def embed(tweet):
         else:
             return False
     except requests.exceptions.Timeout:
-        st.error('Connection to publish.twitter.com timed out.')
+        st.error('Connection to web.archive.org timed out.')
+    except requests.exceptions.ConnectionError:
+        st.error('Failed to establish a new connection with web.archive.org.')
+    except UnboundLocalError:
+        st.empty()
 
 @st.cache_data(ttl=1800, show_spinner=False)
 def tweets_count(handle, saved_at):
@@ -152,6 +156,10 @@ def tweets_count(handle, saved_at):
     except requests.exceptions.Timeout:
         st.error('Connection to web.archive.org timed out.')
         st.stop()
+    except requests.exceptions.ConnectionError:
+        st.error('Failed to establish a new connection with web.archive.org.')
+    except UnboundLocalError:
+        st.empty()
 
 @st.cache_data(ttl=1800, show_spinner=False)
 def query_api(handle, limit, offset, saved_at):
@@ -169,7 +177,9 @@ def query_api(handle, limit, offset, saved_at):
     except requests.exceptions.Timeout:
         st.error('Connection to web.archive.org timed out.')
     except requests.exceptions.ConnectionError:
-        st.error('Connection to web.archive.org timed out.')
+        st.error('Failed to establish a new connection with web.archive.org.')
+    except UnboundLocalError:
+        st.empty()
 
 @st.cache_data(ttl=1800, show_spinner=False)
 def parse_links(links):
@@ -190,6 +200,20 @@ def parse_links(links):
 
 def attr(i):
     st.markdown(f'{i+1 + st.session_state.offset}. [**web.archive.org**]({link}) · **MIME Type:** {mimetype[i]} · **Saved at:** {datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S")} · [**tweet**]({tweet_links[i]})')
+
+def prev_page():
+    st.session_state.offset -= tweets_per_page
+
+    #scroll to top config
+    st.session_state.update_component += 1
+    scroll_into_view()
+
+def next_page():
+    st.session_state.offset += tweets_per_page
+
+    #scroll to top config
+    st.session_state.update_component += 1
+    scroll_into_view()
 
 # UI
 st.title('Wayback Tweets [![Star](https://img.shields.io/github/stars/claromes/waybacktweets?style=social)](https://github.com/claromes/waybacktweets)', anchor=False)
@@ -238,20 +262,6 @@ if query or st.session_state.count:
 
             return_none_count = 0
 
-            def prev_page():
-                st.session_state.offset -= tweets_per_page
-
-                #scroll to top config
-                st.session_state.update_component += 1
-                scroll_into_view()
-
-            def next_page():
-                st.session_state.offset += tweets_per_page
-
-                #scroll to top config
-                st.session_state.update_component += 1
-                scroll_into_view()
-
             def display_tweet():
                 if is_RT[0] == True:
                     st.info('*Retweet*')
@@ -263,7 +273,14 @@ if query or st.session_state.count:
             def display_not_tweet():
                 if mimetype[i] == 'application/json':
                     st.error('Tweet has been deleted.')
-                    response_json = requests.get(link)
+                    try:
+                        response_json = requests.get(link)
+                    except requests.exceptions.Timeout:
+                        st.error('Connection to web.archive.org timed out.')
+                    except requests.exceptions.ConnectionError:
+                        st.error('Failed to establish a new connection with web.archive.org.')
+                    except UnboundLocalError:
+                        st.empty()
                     if response_json.status_code == 200:
                         json_data = response_json.json()
 
