@@ -18,11 +18,7 @@ st.set_page_config(
 
         [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![License](https://img.shields.io/github/license/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/blob/main/LICENSE.md)
 
-        Tool that displays, via Wayback CDX Server API, multiple archived tweets on Wayback Machine to avoid opening each link manually.
-
-        - Tweets per page defined by user
-        - Filter by years
-        - Filter by only deleted tweets
+        Tool that displays, via Wayback CDX Server API, multiple archived tweets on Wayback Machine to avoid opening each link manually. Users can define the number of tweets displayed per page and apply filters based on specific years. There is also an option to filter and view only deleted tweets.
 
         This tool is a prototype, please feel free to send your [feedbacks](https://github.com/claromes/waybacktweets/issues). Created and maintained by [@claromes](https://github.com/claromes).
 
@@ -212,6 +208,60 @@ def next_page():
     st.session_state.update_component += 1
     scroll_into_view()
 
+def display_tweet():
+    if is_RT[0] == True:
+        st.info('*Retweet*')
+    st.write(tweet_content[0])
+    st.write(f'**{user_info[0]}**')
+
+    st.divider()
+
+def display_not_tweet():
+    if mimetype[i] == 'application/json':
+        st.error('Tweet has been deleted.')
+        try:
+            response_json = requests.get(link)
+
+            if response_json.status_code == 200:
+                json_data = response_json.json()
+
+                if 'data' in json_data:
+                    if 'text' in json_data['data']:
+                        json_text = json_data['data']['text']
+                    else:
+                        json_text = json_data['data']
+                else:
+                    if 'text' in json_data:
+                        json_text = json_data['text']
+                    else:
+                        json_text = json_data
+
+                st.code(json_text)
+                st.json(json_data, expanded=False)
+            else:
+                st.error(response_json.status_code)
+        except requests.exceptions.Timeout:
+            st.error('Connection to web.archive.org timed out.')
+        except requests.exceptions.ConnectionError:
+            st.error('Failed to establish a new connection with web.archive.org.')
+        except UnboundLocalError:
+            st.empty()
+
+    if mimetype[i] == 'text/html':
+        st.error('Tweet has been deleted.')
+
+        components.iframe(link, height=500, scrolling=True)
+
+        st.divider()
+    if mimetype[i] == 'warc/revisit':
+        st.warning('''MIME Type was not parsed.''')
+
+        st.divider()
+    if mimetype[i] == 'text/plain':
+        st.warning('''MIME Type was not parsed.''')
+
+        st.divider()
+
 # UI
 st.title('Wayback Tweets [![Star](https://img.shields.io/github/stars/claromes/waybacktweets?style=social)](https://github.com/claromes/waybacktweets)', anchor=False)
 st.write('Display multiple archived tweets on Wayback Machine and avoid opening each link manually')
@@ -227,6 +277,7 @@ only_deleted = st.checkbox('Only deleted tweets')
 query = st.button('Query', type='primary', use_container_width=True)
 
 if handle != st.session_state.current_handle:
+    st.session_state.current_handle = handle
     st.session_state.offset = 0
 
 if query or st.session_state.count:
@@ -255,62 +306,7 @@ if query or st.session_state.count:
             st.session_state.current_handle = handle
 
             return_none_count = 0
-
-            def display_tweet():
-                if is_RT[0] == True:
-                    st.info('*Retweet*')
-                st.write(tweet_content[0])
-                st.write(f'**{user_info[0]}**')
-
-                st.divider()
-
-            def display_not_tweet():
-                if mimetype[i] == 'application/json':
-                    st.error('Tweet has been deleted.')
-                    try:
-                        response_json = requests.get(link)
-
-                        if response_json.status_code == 200:
-                            json_data = response_json.json()
-
-                            if 'data' in json_data:
-                                if 'text' in json_data['data']:
-                                    json_text = json_data['data']['text']
-                                else:
-                                    json_text = json_data['data']
-                            else:
-                                if 'text' in json_data:
-                                    json_text = json_data['text']
-                                else:
-                                    json_text = json_data
-
-                            st.code(json_text)
-                            st.json(json_data, expanded=False)
-                        else:
-                            st.error(response_json.status_code)
-                    except requests.exceptions.Timeout:
-                        st.error('Connection to web.archive.org timed out.')
-                    except requests.exceptions.ConnectionError:
-                        st.error('Failed to establish a new connection with web.archive.org.')
-                    except UnboundLocalError:
-                        st.empty()
-
-                    st.divider()
-                if mimetype[i] == 'text/html':
-                    st.error('Tweet has been deleted.')
-
-                    components.iframe(link, height=500, scrolling=True)
-
-                    st.divider()
-                if mimetype[i] == 'warc/revisit':
-                    st.warning('''MIME Type was not parsed.''')
-
-                    st.divider()
-                if mimetype[i] == 'text/plain':
-                    st.warning('''MIME Type was not parsed.''')
-
-                    st.divider()
-
+                
             start_index = st.session_state.offset
             end_index = min(st.session_state.count, start_index + tweets_per_page)
 
@@ -334,6 +330,13 @@ if query or st.session_state.count:
 
                                 if mimetype[i] == 'text/html':
                                     display_tweet()
+
+                                if mimetype[i] == 'warc/revisit':
+                                    st.warning('''MIME Type was not parsed.''')
+
+                                    st.divider()
+                                if mimetype[i] == 'text/plain':
+                                    st.warning('''MIME Type was not parsed.''')
                             elif not tweet:
                                 display_not_tweet()
 
