@@ -12,6 +12,7 @@
 - [ ] `parse_links` exception
 - [ ] Parse MIME type `warc/revisit`
 - [ ] Parse MIME type `text/plain`
+- [ ] Parse MIME type `application/http`
 - [x] Filter by period/datetime
 - [ ] Apply filters by API endpoints
 - [x] Add contributing guidelines

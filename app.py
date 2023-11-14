@@ -209,12 +209,16 @@ def next_page():
     scroll_into_view()
 
 def display_tweet():
-    if is_RT[0] == True:
-        st.info('*Retweet*')
-    st.write(tweet_content[0])
-    st.write(f'**{user_info[0]}**')
-
-    st.divider()
+    if mimetype[i] == 'application/json' or mimetype[i] == 'text/html':
+        if is_RT[0] == True:
+            st.info('*Retweet*')
+        st.write(tweet_content[0])
+        st.write(f'**{user_info[0]}**')
+        st.divider()
+    else:
+        print('tweet')
+        st.warning('MIME Type was not parsed.')
+        st.divider()
 
 def display_not_tweet():
     if mimetype[i] == 'application/json':
@@ -238,28 +242,26 @@ def display_not_tweet():
 
                 st.code(json_text)
                 st.json(json_data, expanded=False)
+                st.divider()
             else:
                 st.error(response_json.status_code)
+                st.divider()
         except requests.exceptions.Timeout:
             st.error('Connection to web.archive.org timed out.')
+            st.divider()
         except requests.exceptions.ConnectionError:
             st.error('Failed to establish a new connection with web.archive.org.')
+            st.divider()
         except UnboundLocalError:
             st.empty()
-
-    if mimetype[i] == 'text/html':
+    elif mimetype[i] == 'text/html':
         st.error('Tweet has been deleted.')
 
         components.iframe(link, height=500, scrolling=True)
-
         st.divider()
-    if mimetype[i] == 'warc/revisit':
-        st.warning('''MIME Type was not parsed.''')
-
-        st.divider()
-    if mimetype[i] == 'text/plain':
-        st.warning('''MIME Type was not parsed.''')
-
+    else:
+        print('display_not_tweet')
+        st.warning('MIME Type was not parsed.')
         st.divider()
 
 # UI
@@ -325,18 +327,7 @@ if query or st.session_state.count:
                                 user_info = tweet[2]
                                 is_RT = tweet[3]
 
-                                if mimetype[i] == 'application/json':
-                                    display_tweet()
-
-                                if mimetype[i] == 'text/html':
-                                    display_tweet()
-
-                                if mimetype[i] == 'warc/revisit':
-                                    st.warning('''MIME Type was not parsed.''')
-
-                                    st.divider()
-                                if mimetype[i] == 'text/plain':
-                                    st.warning('''MIME Type was not parsed.''')
+                                display_tweet()
                             elif not tweet:
                                 display_not_tweet()
 
