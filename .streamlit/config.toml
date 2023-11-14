@@ -1,7 +1,10 @@
 [theme]
 base="light"
 primaryColor="#ab2e33"
-backgroundColor="#e7e7e7"
+secondaryBackgroundColor="#efefef"
+textColor="#000000"
+backgroundColor="#f9f9f9"
+font="serif"
 
 [client]
 displayEnabled=true
