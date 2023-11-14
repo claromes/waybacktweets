@@ -1,5 +1,24 @@
 # Changelog
 
+## [v0.3](https://github.com/claromes/waybacktweets/releases/tag/v0.3) - 2023-11-13
+- Add:
+  - Add filter by year
+  - Add filter by range size 
+  - Add spinner to load data
+  - Add f-string to code
+
+- Update:
+  - Streamlit version to 1.27.0
+  - Style (font, BG color)
+  - README
+  - Fix MIME type display logic
+  - Fix pagination
+  - Fix error messages
+  - Fix JSON response
+
+- Delete:
+  Progress bar
+
 ## [v0.2](https://github.com/claromes/waybacktweets/releases/tag/v0.2) - 2023-08-16
 
 - Displays tweets as text
