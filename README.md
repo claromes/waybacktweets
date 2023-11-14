@@ -9,7 +9,7 @@ Users can define the number of tweets displayed per page and apply filters based
 
 *Thanks Tristan Lee for the idea.*
 
-## Testimonials
+## Community
 
 >"Original way to find deleted tweets." — [Henk Van Ess](https://twitter.com/henkvaness/status/1693298101765701676)
 
