@@ -173,6 +173,13 @@ def query_api(handle, limit, offset, saved_at):
         st.error('Failed to establish a new connection with web.archive.org.')
     except UnboundLocalError:
         st.empty()
+    except requests.exceptions.HTTPError:
+        st.error('''
+        **Temporarily Offline**
+        
+        Internet Archive services are temporarily offline. Please check Internet Archive [Twitter feed](https://twitter.com/internetarchive/) for the latest information.
+        ''')
+        st.stop()
 
 @st.cache_data(ttl=1800, show_spinner=False)
 def parse_links(links):
