@@ -4,6 +4,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 import json
 import re
+from urllib.parse import unquote
 
 year = datetime.datetime.now().year
 
@@ -181,6 +182,12 @@ def query_api(handle, limit, offset, saved_at):
         ''')
         st.stop()
 
+def remove_chars(url):
+    decoded = unquote(url)
+    cleaned = re.sub(r'[^a-zA-Z0-9:/._-]', '', decoded)
+
+    return cleaned
+
 @st.cache_data(ttl=1800, show_spinner=False)
 def parse_links(links):
     parsed_links = []
@@ -189,11 +196,13 @@ def parse_links(links):
     parsed_mimetype = []
 
     for link in links[1:]:
-        url = f'https://web.archive.org/web/{link[1]}/{link[2]}'
+        cleaned_tweet = remove_chars(link[2])
+
+        url = f'https://web.archive.org/web/{link[1]}/{cleaned_tweet}'
 
         parsed_links.append(url)
         timestamp.append(link[1])
-        tweet_links.append(link[2])
+        tweet_links.append(cleaned_tweet)
         parsed_mimetype.append(link[3])
 
     return parsed_links, tweet_links, parsed_mimetype, timestamp
