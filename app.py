@@ -35,10 +35,6 @@ hide_streamlit_style = '''
     header[data-testid="stHeader"] {
         opacity: 0.5;
     }
-    iframe {
-        background-color: #dddddd;
-        border-radius: 0.5rem;
-    }
     div[data-testid="InputInstructions"] {
         visibility: hidden;
     }
@@ -182,11 +178,23 @@ def query_api(handle, limit, offset, saved_at):
         ''')
         st.stop()
 
-def remove_chars(url):
-    decoded = unquote(url)
-    cleaned = re.sub(r'[^a-zA-Z0-9:/._-]', '', decoded)
+def pattern_tweet(url):
+    # Reply: /status//
+    # Link:  /status///
+    # Twimg: /status/https://pbs
 
-    return cleaned
+    pattern = re.compile(r'/status/"([^"]+)"')
+
+    match = pattern.search(url)
+    if match:
+        return match.group(1).lstrip('/')
+    else:
+        return url
+
+def check_double_status(url_wb, url_tweet):
+    if url_wb.count('/status/') == 2 and not 'twitter.com' in url_tweet:
+        return True
+    return False
 
 @st.cache_data(ttl=1800, show_spinner=False)
 def parse_links(links):
@@ -196,9 +204,12 @@ def parse_links(links):
     parsed_mimetype = []
 
     for link in links[1:]:
-        cleaned_tweet = remove_chars(link[2])
+        tweet_remove_char = unquote(link[2]).replace('’', '')
+        cleaned_tweet = pattern_tweet(tweet_remove_char).strip('"')
 
-        url = f'https://web.archive.org/web/{link[1]}/{cleaned_tweet}'
+        print(cleaned_tweet)
+
+        url = f'https://web.archive.org/web/{link[1]}/{tweet_remove_char}'
 
         parsed_links.append(url)
         timestamp.append(link[1])
@@ -208,7 +219,16 @@ def parse_links(links):
     return parsed_links, tweet_links, parsed_mimetype, timestamp
 
 def attr(i):
-    st.markdown(f'{i+1 + st.session_state.offset}. [**web.archive.org**]({link}) · **MIME Type:** {mimetype[i]} · **Saved at:** {datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S")} · [**tweet**]({tweet_links[i]})')
+    original_link = tweet_links[i]
+
+    if status:
+        original_link = f'https://twitter.com/{tweet_links[i]}'
+    elif not '://' in tweet_links[i]:
+        original_link = f'https://{tweet_links[i]}'
+
+    print(original_link)
+
+    st.markdown(f'{i+1 + st.session_state.offset}. [**web.archive.org**]({link}) · **MIME Type:** {mimetype[i]} · **Saved at:** {datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S")} · [**original url**]({original_link}) ')
 
 def prev_page():
     st.session_state.offset -= tweets_per_page
@@ -230,14 +250,41 @@ def display_tweet():
             st.info('*Retweet*')
         st.write(tweet_content[0])
         st.write(f'**{user_info[0]}**')
+
         st.divider()
     else:
-        print('tweet')
         st.warning('MIME Type was not parsed.')
+
         st.divider()
 
 def display_not_tweet():
-    if mimetype[i] == 'application/json':
+    original_link = tweet_links[i]
+
+    if status:
+        original_link = f'https://twitter.com/{tweet_links[i]}'
+    elif not '://' in tweet_links[i]:
+        original_link = f'https://{tweet_links[i]}'
+
+    response_html = requests.get(original_link)
+
+    if response_html.status_code != 200:
+        st.error('Access to original URL was denied.')
+
+    if mimetype[i] == 'text/html':
+        if ('.jpg' in tweet_links[i] or '.png' in tweet_links[i]) and response_html.status_code == 200:
+            components.iframe(tweet_links[i], height=500, scrolling=True)
+        elif status:
+            st.info(f'Replying to {st.session_state.current_handle}')
+        else:
+            if response_html.status_code == 200:
+                components.iframe(link, height=500, scrolling=True)
+
+        st.divider()
+    elif mimetype[i] == 'warc/revisit' and ('.jpg' in tweet_links[i] or '.png' in tweet_links[i]) and response_html.status_code == 200:
+        components.iframe(tweet_links[i], height=500, scrolling=True)
+
+        st.divider()
+    elif mimetype[i] == 'application/json':
         st.error('Tweet has been deleted.')
         try:
             response_json = requests.get(link)
@@ -258,9 +305,11 @@ def display_not_tweet():
 
                 st.code(json_text)
                 st.json(json_data, expanded=False)
+
                 st.divider()
             else:
                 st.error(response_json.status_code)
+
                 st.divider()
         except requests.exceptions.Timeout:
             st.error('Connection to web.archive.org timed out.')
@@ -270,13 +319,7 @@ def display_not_tweet():
             st.divider()
         except UnboundLocalError:
             st.empty()
-    elif mimetype[i] == 'text/html':
-        st.error('Tweet has been deleted.')
-
-        components.iframe(link, height=500, scrolling=True)
-        st.divider()
     else:
-        print('display_not_tweet')
         st.warning('MIME Type was not parsed.')
         st.divider()
 
@@ -331,40 +374,43 @@ if query or st.session_state.count:
             with st.spinner('Fetching...'):
                 for i in range(tweets_per_page):
                     try:
-                        link = parsed_links[i]
-                        tweet = embed(tweet_links[i])
+                        if tweet_links[i]:
+                            link = parsed_links[i]
+                            tweet = embed(tweet_links[i])
 
-                        if not only_deleted:
-                            attr(i)
-
-                            if tweet:
-                                status_code = tweet[0]
-                                tweet_content = tweet[1]
-                                user_info = tweet[2]
-                                is_RT = tweet[3]
-
-                                display_tweet()
-                            elif not tweet:
-                                display_not_tweet()
-
-                        if only_deleted:
-                            if not tweet:
-                                return_none_count += 1
+                            status = check_double_status(link, tweet_links[i])
+                            
+                            if not only_deleted:
                                 attr(i)
 
-                                display_not_tweet()
+                                if tweet:
+                                    status_code = tweet[0]
+                                    tweet_content = tweet[1]
+                                    user_info = tweet[2]
+                                    is_RT = tweet[3]
 
-                            progress.write(f'{return_none_count} URLs have been captured in the range {start_index}-{end_index}')
+                                    display_tweet()
+                                elif not tweet:
+                                    display_not_tweet()
 
-                        if start_index <= 0:
-                            st.session_state.prev_disabled = True
-                        else:
-                            st.session_state.prev_disabled = False
+                            if only_deleted:
+                                if not tweet:
+                                    return_none_count += 1
+                                    attr(i)
 
-                        if i + 1 == st.session_state.count:
-                            st.session_state.next_disabled = True
-                        else:
-                            st.session_state.next_disabled = False
+                                    display_not_tweet()
+
+                                progress.write(f'{return_none_count} URLs have been captured in the range {start_index}-{end_index}')
+
+                            if start_index <= 0:
+                                st.session_state.prev_disabled = True
+                            else:
+                                st.session_state.prev_disabled = False
+
+                            if i + 1 == st.session_state.count:
+                                st.session_state.next_disabled = True
+                            else:
+                                st.session_state.next_disabled = False
                     except IndexError:
                         if start_index <= 0:
                             st.session_state.prev_disabled = True
