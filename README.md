@@ -5,11 +5,13 @@
 
 Tool that displays, via [Wayback CDX Server API](https://github.com/internetarchive/wayback/tree/master/wayback-cdx-server), multiple archived tweets on Wayback Machine to avoid opening each link manually. The app is a prototype written in Python with Streamlit and hosted at Streamlit Cloud.
 
-Users can define the number of tweets displayed per page and apply filters based on specific years. There is also an option to filter and view only deleted tweets.
+Users can define the number of tweets displayed per page and apply filters based on specific years. There is also an option to filter and view tweets that do not have the original URL available.
 
 *Thanks Tristan Lee for the idea.*
 
 ## Community
+
+>"We're always delighted when we see our community members create tools for open source research." — [Bellingcat](https://twitter.com/bellingcat/status/1728085974138122604)
 
 >"Original way to find deleted tweets." — [Henk Van Ess](https://twitter.com/henkvaness/status/1693298101765701676)
 
