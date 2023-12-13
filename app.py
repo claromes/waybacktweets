@@ -86,13 +86,14 @@ def scroll_into_view():
 
 def clean_tweet(tweet):
     handle = st.session_state.current_handle.lower()
-    tweet = tweet.lower()
+    tweet_lower = tweet.lower()
 
     pattern = re.compile(r'/status/(\d+)')
-    match = pattern.search(tweet)
+    match_lower_case = pattern.search(tweet_lower)
+    match_original_case = pattern.search(tweet)
 
-    if match and handle in tweet:
-        return f'https://twitter.com/{st.session_state.current_handle}/status/{match.group(1)}'
+    if match_lower_case and handle in tweet_lower:
+        return f'https://twitter.com/{st.session_state.current_handle}/status/{match_original_case.group(1)}'
     else:
         return tweet
 
@@ -269,7 +270,7 @@ def display_tweet():
         st.divider()
 
 def display_not_tweet():
-    original_link = tweet_links[i]
+    original_link = clean_tweet(tweet_links[i])
 
     if status:
         original_link = f'https://twitter.com/{tweet_links[i]}'
@@ -277,9 +278,6 @@ def display_not_tweet():
         original_link = f'https://{tweet_links[i]}'
 
     response_html = requests.get(original_link)
-
-    if response_html.status_code != 200:
-        st.error('HTTP ERROR 404')
 
     if mimetype[i] == 'text/html' or mimetype[i] == 'warc/revisit' or mimetype[i] == 'unk':
         if ('.jpg' in tweet_links[i] or '.png' in tweet_links[i]) and response_html.status_code == 200:
@@ -353,7 +351,7 @@ st.session_state.saved_at = st.slider('Tweets saved between', 2006, year, (2006,
 
 tweets_per_page = st.slider('Tweets per page', 25, 250, 25, 25)
 
-not_available = st.checkbox('Original URLs not available')
+not_available = st.checkbox('Original URLs not available', help='Due to changes in X, it is possible to find available tweets if you are logged into X')
 
 query = st.button('Query', type='primary', use_container_width=True)
 
