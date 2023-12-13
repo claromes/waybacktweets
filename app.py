@@ -109,18 +109,33 @@ def clean_link(link):
     else:
         return link
 
-def pattern_tweet(url):
+def pattern_tweet(tweet):
     # Reply: /status//
     # Link:  /status///
     # Twimg: /status/https://pbs
 
     pattern = re.compile(r'/status/"([^"]+)"')
 
-    match = pattern.search(url)
+    match = pattern.search(tweet)
     if match:
         return match.group(1).lstrip('/')
     else:
-        return url
+        return tweet
+
+def pattern_tweet_id(tweet):
+    # Delete sub-endpoint (/photos, /likes, /retweet...)
+    pattern_username = re.compile(r'https://twitter\.com/([^/]+)/status/\d+')
+    match_username = pattern_username.match(tweet)
+
+    pattern_id = r'https://twitter.com/\w+/status/(\d+)'
+    match_id = re.search(pattern_id, tweet)
+
+    if match_id and match_username:
+        tweet_id = match_id.group(1)
+        username = match_username.group(1)
+        return f'https://twitter.com/{username}/status/{tweet_id}'
+    else:
+        return tweet
 
 def check_double_status(url_wb, url_tweet):
     if url_wb.count('/status/') == 2 and not 'twitter.com' in url_tweet:
@@ -247,14 +262,14 @@ def parse_links(links):
     return parsed_links, tweet_links, parsed_mimetype, timestamp
 
 def attr(i):
-    original_tweet = clean_tweet(tweet_links[i])
+    original_tweet = pattern_tweet_id(clean_tweet(tweet_links[i]))
 
     if status:
-        original_tweet = f'https://twitter.com/{tweet_links[i]}'
+        original_tweet = pattern_tweet_id(f'https://twitter.com/{tweet_links[i]}')
     elif not '://' in tweet_links[i]:
-        original_tweet = f'https://{tweet_links[i]}'
+        original_tweet = pattern_tweet_id(f'https://{tweet_links[i]}')
 
-    st.markdown(f'{i+1 + st.session_state.offset}. [**archive.org**]({link}) · [**original url**]({original_tweet}) · **MIME Type:** {mimetype[i]} · **Saved at:** {datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S")}')
+    st.markdown(f'{i+1 + st.session_state.offset}. [**archived url**]({link}) · [**original url**]({original_tweet}) · **MIME Type:** {mimetype[i]} · **Saved at:** {datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S")}')
 
 def display_tweet():
     if mimetype[i] == 'application/json' or mimetype[i] == 'text/html' or mimetype[i] == 'unk' or mimetype[i] == 'warc/revisit':
@@ -270,22 +285,22 @@ def display_tweet():
         st.divider()
 
 def display_not_tweet():
-    original_link = clean_tweet(tweet_links[i])
+    original_link = pattern_tweet_id(clean_tweet(tweet_links[i]))
 
     if status:
-        original_link = f'https://twitter.com/{tweet_links[i]}'
+        original_link = pattern_tweet_id(f'https://twitter.com/{tweet_links[i]}')
     elif not '://' in tweet_links[i]:
-        original_link = f'https://{tweet_links[i]}'
+        original_link = pattern_tweet_id(f'https://{tweet_links[i]}')
 
     response_html = requests.get(original_link)
 
     if mimetype[i] == 'text/html' or mimetype[i] == 'warc/revisit' or mimetype[i] == 'unk':
         if ('.jpg' in tweet_links[i] or '.png' in tweet_links[i]) and response_html.status_code == 200:
             components.iframe(tweet_links[i], height=500, scrolling=True)
-        elif status:
+        elif '/status/' not in original_link or response_html.status_code != 200:
+            st.info("This isn't a status or is not available")
+        elif status or f'{st.session_state.current_handle}' not in original_link:
             st.info(f'Replying to {st.session_state.current_handle}')
-        elif '/status/' not in original_link:
-            st.info('Original link is not a tweet')
         else:
             components.iframe(clean_link(link), height=500, scrolling=True)
 

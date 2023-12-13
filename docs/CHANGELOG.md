@@ -1,6 +1,11 @@
 # Changelog
 
-## [v0.4.1](https://github.com/claromes/waybacktweets/releases/tag/v0.4) - 2023-12-13
+## [v0.4.2](https://github.com/claromes/waybacktweets/releases/tag/v0.4.2) - 2023-12-13
+- Add:
+  - Parse tweet URLs to delete `/photos`, `/likes`, `/retweets` and other sub-endpoints
+    - Only for "original url"
+
+## [v0.4.1](https://github.com/claromes/waybacktweets/releases/tag/v0.4.1) - 2023-12-13
 - Add:
   - Warning message for non 200/300 status code
 - Update:
