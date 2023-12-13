@@ -345,7 +345,7 @@ def next_page():
     scroll_into_view()
     
 # UI
-st.title('Wayback Tweets [![Star](https://img.shields.io/github/stars/claromes/waybacktweets?style=social)](https://github.com/claromes/waybacktweets)', anchor=False)
+st.title('Wayback Tweets [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![Star](https://img.shields.io/github/stars/claromes/waybacktweets?style=social)](https://github.com/claromes/waybacktweets)', anchor=False)
 st.write('Display multiple archived tweets on Wayback Machine and avoid opening each link manually')
 
 handle = st.text_input('Username', placeholder='jack')

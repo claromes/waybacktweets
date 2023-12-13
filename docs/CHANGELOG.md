@@ -1,5 +1,22 @@
 # Changelog
 
+## [v0.4.1](https://github.com/claromes/waybacktweets/releases/tag/v0.4) - 2023-12-13
+- Add:
+  - Warning message for non 200/300 status code
+- Update:
+  - Set a fixed tweets per page (25) due the API rate limit
+
+## [v0.4](https://github.com/claromes/waybacktweets/releases/tag/v0.4) - 2023-12-13
+- Add:
+  - Parse old tweets URLs
+      - Picture: `twimg.com`
+      - Reply `username/status/"/user_reply/status/user_reply_msg_ID"`
+  - Allows MIME type `warc/revisit` and `unk` (**to be reviewed**)
+
+- Update:
+  - Change filter text "Only deleted tweets" to "Original URLs not available" with a help info
+  - Change "tweet" text to "original link" on each header
+
 ## [v0.3](https://github.com/claromes/waybacktweets/releases/tag/v0.3) - 2023-11-13
 - Add:
   - Add filter by year
@@ -20,7 +37,6 @@
   Progress bar
 
 ## [v0.2](https://github.com/claromes/waybacktweets/releases/tag/v0.2) - 2023-08-16
-
 - Displays tweets as text
 - Displays RTs info
 - Displays JSON MIME type as JSON (if tweet was deleted)
