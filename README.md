@@ -8,7 +8,7 @@
 
 Tool that displays, via [Wayback CDX Server API](https://github.com/internetarchive/wayback/tree/master/wayback-cdx-server), multiple archived tweets on Wayback Machine to avoid opening each link manually. The app is a prototype written in Python with Streamlit and hosted at Streamlit Cloud with an extra 7 GiB provided free of charge by the Streamlit team (special thanks to Jessica Smith).
 
-Users can define the number of tweets displayed per page and apply filters based on specific years. Additionally, users can filter and view tweets that lack the original URL.
+Users can apply filters based on specific years and view tweets that lack the original URL.
 
 *Thanks Tristan Lee for the idea.*
 
