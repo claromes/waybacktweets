@@ -19,7 +19,7 @@ st.set_page_config(
 
         [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![License](https://img.shields.io/github/license/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/blob/main/LICENSE.md)
 
-        Tool that displays, via Wayback CDX Server API, multiple archived tweets on Wayback Machine to avoid opening each link manually. Users can define the number of tweets displayed per page and apply filters based on specific years. There is also an option to filter and view tweets that do not have the original URL available.
+        Tool that displays, via Wayback CDX Server API, multiple archived tweets on Wayback Machine to avoid opening each link manually. Users can apply filters based on specific years and view tweets that do not have the original URL available.
 
         This tool is a prototype, please feel free to send your [feedbacks](https://github.com/claromes/waybacktweets/issues). Created and maintained by [@claromes](https://github.com/claromes).
 
@@ -279,6 +279,9 @@ def display_not_tweet():
 
     response_html = requests.get(original_link)
 
+    if response_html.status_code not in range(200, 399):
+        st.warning('HTTP ERROR')
+
     if mimetype[i] == 'text/html' or mimetype[i] == 'warc/revisit' or mimetype[i] == 'unk':
         if ('.jpg' in tweet_links[i] or '.png' in tweet_links[i]) and response_html.status_code == 200:
             components.iframe(tweet_links[i], height=500, scrolling=True)
@@ -349,8 +352,6 @@ handle = st.text_input('Username', placeholder='jack')
 
 st.session_state.saved_at = st.slider('Tweets saved between', 2006, year, (2006, year))
 
-tweets_per_page = st.slider('Tweets per page', 25, 250, 25, 25)
-
 not_available = st.checkbox('Original URLs not available', help='Due to changes in X, it is possible to find available tweets if you are logged into X')
 
 query = st.button('Query', type='primary', use_container_width=True)
@@ -360,6 +361,7 @@ if handle != st.session_state.current_handle:
     st.session_state.offset = 0
 
 if query or st.session_state.count:
+    tweets_per_page = 25
 
     st.session_state.count = tweets_count(handle, st.session_state.saved_at)
 
