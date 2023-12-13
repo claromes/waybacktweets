@@ -1,15 +1,20 @@
+> [!IMPORTANTE]
+> For 2Q 2024, Wayback Tweets will  transition to a web app with an improved user experience, rewritten in React.
+
 # 🏛️ Wayback Tweets
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://waybacktweets.streamlit.app) [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![License](https://img.shields.io/github/license/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/blob/main/LICENSE.md)
 
 
-Tool that displays, via [Wayback CDX Server API](https://github.com/internetarchive/wayback/tree/master/wayback-cdx-server), multiple archived tweets on Wayback Machine to avoid opening each link manually. The app is a prototype written in Python with Streamlit and hosted at Streamlit Cloud.
+Tool that displays, via [Wayback CDX Server API](https://github.com/internetarchive/wayback/tree/master/wayback-cdx-server), multiple archived tweets on Wayback Machine to avoid opening each link manually. The app is a prototype written in Python with Streamlit and hosted at Streamlit Cloud with an extra 7 GiB provided free of charge by the Streamlit team (special thanks to Jessica Smith).
 
-Users can define the number of tweets displayed per page and apply filters based on specific years. There is also an option to filter and view only deleted tweets.
+Users can define the number of tweets displayed per page and apply filters based on specific years. Additionally, users can filter and view tweets that lack the original URL.
 
 *Thanks Tristan Lee for the idea.*
 
 ## Community
+
+>"We're always delighted when we see our community members create tools for open source research." — [Bellingcat](https://twitter.com/bellingcat/status/1728085974138122604)
 
 >"Original way to find deleted tweets." — [Henk Van Ess](https://twitter.com/henkvaness/status/1693298101765701676)
 
