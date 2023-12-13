@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.4.3](https://github.com/claromes/waybacktweets/releases/tag/v0.4.3) - 2023-12-13
+- Add:
+  - 8-digit collapsing strategy (one capture per day)
+  - Messages about collapsing strategy and number of tweets displayed
+
 ## [v0.4.2](https://github.com/claromes/waybacktweets/releases/tag/v0.4.2) - 2023-12-13
 - Add:
   - Parse tweet URLs to delete `/photos`, `/likes`, `/retweets` and other sub-endpoints
