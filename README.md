@@ -1,4 +1,4 @@
-> [!IMPORTANTE]
+> [!IMPORTANT]
 > For 2Q 2024, Wayback Tweets will  transition to a web app with an improved user experience, rewritten in React.
 
 # 🏛️ Wayback Tweets
