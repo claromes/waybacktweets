@@ -220,7 +220,7 @@ def query_api(handle, limit, offset, saved_at):
         st.warning('username, please!')
         st.stop()
 
-    url = f'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{handle}/status/*&output=json&limit={limit}&offset={offset}&from={saved_at[0]}&to={saved_at[1]}'
+    url = f'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{handle}/status/*&collapse=timestamp:8&output=json&limit={limit}&offset={offset}&from={saved_at[0]}&to={saved_at[1]}'
     try:
         response = requests.get(url)
         response.raise_for_status()
@@ -378,6 +378,7 @@ if query or st.session_state.count:
 
     st.session_state.count = tweets_count(handle, st.session_state.saved_at)
 
+    st.caption('The search optimization uses an 8-digit [collapsing strategy](https://github.com/internetarchive/wayback/blob/master/wayback-cdx-server/README.md?ref=hackernoon.com#collapsing), refining the captures to one per day. The number of tweets per page is set to 25, and this is a fixed value due to the API rate limit.')
     st.write(f'**{st.session_state.count} URLs have been captured**')
 
     if st.session_state.count:
