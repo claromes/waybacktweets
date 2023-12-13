@@ -279,17 +279,15 @@ def display_not_tweet():
 
     response_html = requests.get(original_link)
 
-    if response_html.status_code not in range(200, 399):
-        st.warning('HTTP ERROR')
-
     if mimetype[i] == 'text/html' or mimetype[i] == 'warc/revisit' or mimetype[i] == 'unk':
         if ('.jpg' in tweet_links[i] or '.png' in tweet_links[i]) and response_html.status_code == 200:
             components.iframe(tweet_links[i], height=500, scrolling=True)
         elif status:
             st.info(f'Replying to {st.session_state.current_handle}')
+        elif '/status/' not in original_link:
+            st.info('Original link is not a tweet')
         else:
-            if response_html.status_code == 200:
-                components.iframe(clean_link(link), height=500, scrolling=True)
+            components.iframe(clean_link(link), height=500, scrolling=True)
 
         st.divider()
     elif mimetype[i] == 'application/json':
