@@ -4,7 +4,7 @@
     - [x] Footer
     - [x] Disabled/ Empty
 - [x] Feedbacks
-- [ ] Download dataset
+- [] Download dataset
 - [x] Review data cache
 - [x] Changelog
 - [ ] Prevent duplicate URLs
@@ -14,5 +14,5 @@
 - [ ] Parse MIME type `text/plain`
 - [ ] Parse MIME type `application/http`
 - [x] Filter by period/datetime
-- [ ] Apply filters by API endpoints
+- [x] Apply filters by API endpoints
 - [x] Add contributing guidelines
