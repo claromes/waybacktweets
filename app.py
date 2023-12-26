@@ -195,7 +195,7 @@ def embed(tweet):
 
 @st.cache_data(ttl=1800, show_spinner=False)
 def tweets_count(handle, saved_at):
-    url = f'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{handle}/status/*&output=json&from={saved_at[0]}&to={saved_at[1]}'
+    url = f'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{handle}/status/*&collapse=timestamp:8&output=json&from={saved_at[0]}&to={saved_at[1]}'
     try:
         response = requests.get(url)
 
