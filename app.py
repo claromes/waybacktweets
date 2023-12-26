@@ -297,7 +297,7 @@ def display_not_tweet():
     if mimetype[i] == 'text/html' or mimetype[i] == 'warc/revisit' or mimetype[i] == 'unk':
         if ('.jpg' in tweet_links[i] or '.png' in tweet_links[i]) and response_html.status_code == 200:
             components.iframe(tweet_links[i], height=500, scrolling=True)
-        elif '/status/' not in original_link or response_html.status_code != 200:
+        elif '/status/' not in original_link:
             st.info("This isn't a status or is not available")
         elif status or f'{st.session_state.current_handle}' not in original_link:
             st.info(f'Replying to {st.session_state.current_handle}')
