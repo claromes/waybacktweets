@@ -8,13 +8,12 @@ from urllib.parse import unquote
 
 year = datetime.datetime.now().year
 
-st.set_page_config(
-    page_title='Wayback Tweets',
-    page_icon='🏛️',
-    layout='centered',
-    menu_items={
-
-        'About': '''
+st.set_page_config(page_title='Wayback Tweets',
+                   page_icon='🏛️',
+                   layout='centered',
+                   menu_items={
+                       'About':
+                       '''
         ## 🏛️ Wayback Tweets
 
         [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![License](https://img.shields.io/github/license/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/blob/main/LICENSE.md)
@@ -25,9 +24,9 @@ st.set_page_config(
 
         -------
         ''',
-        'Report a bug': 'https://github.com/claromes/waybacktweets/issues'
-    }
-)
+                       'Report a bug':
+                       'https://github.com/claromes/waybacktweets/issues'
+                   })
 
 # https://discuss.streamlit.io/t/remove-hide-running-man-animation-on-top-of-page/21773/3
 hide_streamlit_style = '''
@@ -74,6 +73,7 @@ if 'saved_at' not in st.session_state:
 if 'count' not in st.session_state:
     st.session_state.count = False
 
+
 def scroll_into_view():
     js = f'''
     <script>
@@ -83,6 +83,7 @@ def scroll_into_view():
     '''
 
     components.html(js, width=0, height=0)
+
 
 def clean_tweet(tweet):
     handle = st.session_state.current_handle.lower()
@@ -97,6 +98,7 @@ def clean_tweet(tweet):
     else:
         return tweet
 
+
 def clean_link(link):
     handle = st.session_state.current_handle.lower()
     link = link.lower()
@@ -108,6 +110,7 @@ def clean_link(link):
         return f'https://web.archive.org/web/{timestamp[i]}/https://twitter.com/{st.session_state.current_handle}/status/{match.group(1)}'
     else:
         return link
+
 
 def pattern_tweet(tweet):
     # Reply: /status//
@@ -121,6 +124,7 @@ def pattern_tweet(tweet):
         return match.group(1).lstrip('/')
     else:
         return tweet
+
 
 def pattern_tweet_id(tweet):
     # Delete sub-endpoint (/photos, /likes, /retweet...)
@@ -137,11 +141,13 @@ def pattern_tweet_id(tweet):
     else:
         return tweet
 
+
 def check_double_status(url_wb, url_tweet):
     if url_wb.count('/status/') == 2 and not 'twitter.com' in url_tweet:
         return True
 
     return False
+
 
 def embed(tweet):
     try:
@@ -163,10 +169,12 @@ def embed(tweet):
             is_RT = []
 
             for match in matches_html:
-                tweet_content_match = re.sub(r'<a[^>]*>|<\/a>', '', match[0].strip())
+                tweet_content_match = re.sub(r'<a[^>]*>|<\/a>', '',
+                                             match[0].strip())
                 tweet_content_match = tweet_content_match.replace('<br>', '\n')
 
-                user_info_match = re.sub(r'<a[^>]*>|<\/a>', '', match[1].strip())
+                user_info_match = re.sub(r'<a[^>]*>|<\/a>', '',
+                                         match[1].strip())
                 user_info_match = user_info_match.replace(')', '), ')
 
                 match_author = re.search(regex_author, user_info_match)
@@ -193,6 +201,7 @@ def embed(tweet):
     except UnboundLocalError:
         st.empty()
 
+
 @st.cache_data(ttl=1800, show_spinner=False)
 def tweets_count(handle, saved_at):
     url = f'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{handle}/status/*&collapse=timestamp:8&output=json&from={saved_at[0]}&to={saved_at[1]}'
@@ -213,6 +222,7 @@ def tweets_count(handle, saved_at):
         st.error('Failed to establish a new connection with web.archive.org.')
     except UnboundLocalError:
         st.empty()
+
 
 @st.cache_data(ttl=1800, show_spinner=False)
 def query_api(handle, limit, offset, saved_at):
@@ -236,10 +246,11 @@ def query_api(handle, limit, offset, saved_at):
     except requests.exceptions.HTTPError:
         st.error('''
         **Temporarily Offline**
-        
+
         Internet Archive services are temporarily offline. Please check Internet Archive [Twitter feed](https://twitter.com/internetarchive/) for the latest information.
         ''')
         st.stop()
+
 
 @st.cache_data(ttl=1800, show_spinner=False)
 def parse_links(links):
@@ -261,18 +272,25 @@ def parse_links(links):
 
     return parsed_links, tweet_links, parsed_mimetype, timestamp
 
+
 def attr(i):
     original_tweet = pattern_tweet_id(clean_tweet(tweet_links[i]))
 
     if status:
-        original_tweet = pattern_tweet_id(f'https://twitter.com/{tweet_links[i]}')
+        original_tweet = pattern_tweet_id(
+            f'https://twitter.com/{tweet_links[i]}')
     elif not '://' in tweet_links[i]:
         original_tweet = pattern_tweet_id(f'https://{tweet_links[i]}')
 
-    st.markdown(f'{i+1 + st.session_state.offset}. [**archived url**]({link}) · [**original url**]({original_tweet}) · **MIME Type:** {mimetype[i]} · **Saved at:** {datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S")}')
+    st.markdown(
+        f'{i+1 + st.session_state.offset}. [**archived url**]({link}) · [**original url**]({original_tweet}) · **MIME Type:** {mimetype[i]} · **Saved at:** {datetime.datetime.strptime(timestamp[i], "%Y%m%d%H%M%S")}'
+    )
+
 
 def display_tweet():
-    if mimetype[i] == 'application/json' or mimetype[i] == 'text/html' or mimetype[i] == 'unk' or mimetype[i] == 'warc/revisit':
+    if mimetype[i] == 'application/json' or mimetype[
+            i] == 'text/html' or mimetype[i] == 'unk' or mimetype[
+                i] == 'warc/revisit':
         if is_RT[0] == True:
             st.info('*Retweet*')
         st.write(tweet_content[0])
@@ -284,18 +302,22 @@ def display_tweet():
 
         st.divider()
 
+
 def display_not_tweet():
     original_link = pattern_tweet_id(clean_tweet(tweet_links[i]))
 
     if status:
-        original_link = pattern_tweet_id(f'https://twitter.com/{tweet_links[i]}')
+        original_link = pattern_tweet_id(
+            f'https://twitter.com/{tweet_links[i]}')
     elif not '://' in tweet_links[i]:
         original_link = pattern_tweet_id(f'https://{tweet_links[i]}')
 
     response_html = requests.get(original_link)
 
-    if mimetype[i] == 'text/html' or mimetype[i] == 'warc/revisit' or mimetype[i] == 'unk':
-        if ('.jpg' in tweet_links[i] or '.png' in tweet_links[i]) and response_html.status_code == 200:
+    if mimetype[i] == 'text/html' or mimetype[i] == 'warc/revisit' or mimetype[
+            i] == 'unk':
+        if ('.jpg' in tweet_links[i] or '.png'
+                in tweet_links[i]) and response_html.status_code == 200:
             components.iframe(tweet_links[i], height=500, scrolling=True)
         elif '/status/' not in original_link:
             st.info("This isn't a status or is not available")
@@ -335,13 +357,15 @@ def display_not_tweet():
             st.error('Connection to web.archive.org timed out.')
             st.divider()
         except requests.exceptions.ConnectionError:
-            st.error('Failed to establish a new connection with web.archive.org.')
+            st.error(
+                'Failed to establish a new connection with web.archive.org.')
             st.divider()
         except UnboundLocalError:
             st.empty()
     else:
         st.warning('MIME Type was not parsed.')
         st.divider()
+
 
 def prev_page():
     st.session_state.offset -= tweets_per_page
@@ -350,22 +374,33 @@ def prev_page():
     st.session_state.update_component += 1
     scroll_into_view()
 
+
 def next_page():
     st.session_state.offset += tweets_per_page
 
     #scroll to top config
     st.session_state.update_component += 1
     scroll_into_view()
-    
+
+
 # UI
-st.title('Wayback Tweets [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![Star](https://img.shields.io/github/stars/claromes/waybacktweets?style=social)](https://github.com/claromes/waybacktweets)', anchor=False)
-st.write('Display multiple archived tweets on Wayback Machine and avoid opening each link manually')
+st.title(
+    'Wayback Tweets [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![Star](https://img.shields.io/github/stars/claromes/waybacktweets?style=social)](https://github.com/claromes/waybacktweets)',
+    anchor=False)
+st.write(
+    'Display multiple archived tweets on Wayback Machine and avoid opening each link manually'
+)
 
 handle = st.text_input('Username', placeholder='jack')
 
-st.session_state.saved_at = st.slider('Tweets saved between', 2006, year, (2006, year))
+st.session_state.saved_at = st.slider('Tweets saved between', 2006, year,
+                                      (2006, year))
 
-not_available = st.checkbox('Original URLs not available', help='Due to changes in X, it is possible to find available tweets if you are logged into X')
+not_available = st.checkbox(
+    'Original URLs not available',
+    help=
+    'Due to changes in X, it is possible to find available tweets if you are logged into X'
+)
 
 query = st.button('Query', type='primary', use_container_width=True)
 
@@ -378,7 +413,9 @@ if query or st.session_state.count:
 
     st.session_state.count = tweets_count(handle, st.session_state.saved_at)
 
-    st.caption('The search optimization uses an 8-digit [collapsing strategy](https://github.com/internetarchive/wayback/blob/master/wayback-cdx-server/README.md?ref=hackernoon.com#collapsing), refining the captures to one per day. The number of tweets per page is set to 25, and this is a fixed value due to the API rate limit.')
+    st.caption(
+        'The search optimization uses an 8-digit [collapsing strategy](https://github.com/internetarchive/wayback/blob/master/wayback-cdx-server/README.md?ref=hackernoon.com#collapsing), refining the captures to one per day. The number of tweets per page is set to 25, and this is a fixed value due to the API rate limit.'
+    )
     st.write(f'**{st.session_state.count} URLs have been captured**')
 
     if st.session_state.count:
@@ -387,7 +424,8 @@ if query or st.session_state.count:
 
     try:
         progress = st.empty()
-        links = query_api(handle, tweets_per_page, st.session_state.offset, st.session_state.saved_at)
+        links = query_api(handle, tweets_per_page, st.session_state.offset,
+                          st.session_state.saved_at)
 
         parse = parse_links(links)
         parsed_links = parse[0]
@@ -401,9 +439,10 @@ if query or st.session_state.count:
             st.session_state.current_handle = handle
 
             return_none_count = 0
-                
+
             start_index = st.session_state.offset
-            end_index = min(st.session_state.count, start_index + tweets_per_page)
+            end_index = min(st.session_state.count,
+                            start_index + tweets_per_page)
 
             with st.spinner('Fetching...'):
                 for i in range(tweets_per_page):
@@ -413,7 +452,7 @@ if query or st.session_state.count:
                             tweet = embed(tweet_links[i])
 
                             status = check_double_status(link, tweet_links[i])
-                            
+
                             if not not_available:
                                 attr(i)
 
@@ -434,7 +473,9 @@ if query or st.session_state.count:
 
                                     display_not_tweet()
 
-                                progress.write(f'{return_none_count} URLs have been captured in the range {start_index}-{end_index}')
+                                progress.write(
+                                    f'{return_none_count} URLs have been captured in the range {start_index}-{end_index}'
+                                )
 
                             if start_index <= 0:
                                 st.session_state.prev_disabled = True
@@ -453,10 +494,20 @@ if query or st.session_state.count:
 
                         st.session_state.next_disabled = True
 
-            prev, _ , next = st.columns([3, 4, 3])
+            prev, _, next = st.columns([3, 4, 3])
 
-            prev.button('Previous', disabled=st.session_state.prev_disabled, key='prev_button_key', on_click=prev_page, type='primary', use_container_width=True)
-            next.button('Next', disabled=st.session_state.next_disabled, key='next_button_key', on_click=next_page, type='primary', use_container_width=True)
+            prev.button('Previous',
+                        disabled=st.session_state.prev_disabled,
+                        key='prev_button_key',
+                        on_click=prev_page,
+                        type='primary',
+                        use_container_width=True)
+            next.button('Next',
+                        disabled=st.session_state.next_disabled,
+                        key='next_button_key',
+                        on_click=next_page,
+                        type='primary',
+                        use_container_width=True)
 
         if not links:
             st.error('Unable to query the Wayback Machine API.')
