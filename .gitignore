@@ -1,1 +1,5 @@
 .venv/
+*.csv
+*.json
+waybacktweets/__pycache__
+waybacktweets/notes.md
