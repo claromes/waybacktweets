@@ -50,12 +50,35 @@ def embed(tweet):
         return None
 
 
+def parse_json_mimetype(tweet):
+    response_json = requests.get(tweet)
+
+    if not (400 <= response_json.status_code <= 511):
+        json_data = response_json.json()
+
+        if 'data' in json_data:
+            if 'text' in json_data['data']:
+                json_text = json_data['data']['text']
+                return json_text
+            else:
+                json_text = json_data['data']
+                return json_text
+        else:
+            if 'text' in json_data:
+                json_text = json_data['text']
+                return json_text
+            else:
+                json_text = json_data
+                return json_text
+
+
 def parse_archived_tweets(archived_tweets_response, username):
     archived_urlkey = []
     archived_timestamp = []
     tweet = []
     archived_tweet = []
     parsed_tweet = []
+    parsed_tweet_mimetype_json = []
     available_tweet_content = []
     available_tweet_is_RT = []
     available_tweet_username = []
@@ -99,6 +122,10 @@ def parse_archived_tweets(archived_tweets_response, username):
             available_tweet_is_RT.append(content[1][0])
             available_tweet_username.append(content[2][0])
 
+        if response[3] == 'application/json':
+            json_mimetype = parse_json_mimetype(encoded_archived_tweet)
+            parsed_tweet_mimetype_json.append(json_mimetype)
+
         archived_urlkey.append(response[0])
         archived_timestamp.append(response[1])
         tweet.append(encoded_tweet)
@@ -110,7 +137,7 @@ def parse_archived_tweets(archived_tweets_response, username):
         archived_digest.append(response[5])
         archived_length.append(response[6])
 
-    return archived_urlkey, archived_timestamp, tweet, archived_tweet, parsed_tweet, parsed_archived_tweet, archived_mimetype, archived_statuscode, archived_digest, archived_length, available_tweet_content, available_tweet_is_RT, available_tweet_username
+    return archived_urlkey, archived_timestamp, tweet, archived_tweet, parsed_tweet, parsed_tweet_mimetype_json, parsed_archived_tweet, archived_mimetype, archived_statuscode, archived_digest, archived_length, available_tweet_content, available_tweet_is_RT, available_tweet_username
 
 
 # if tweet_links[i]:

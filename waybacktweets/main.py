@@ -2,7 +2,7 @@ from request_tweets import *
 from tweet_parse import *
 from export_tweets import *
 
-username = 'cnn'
+username = 'claromes'
 unique = False
 datetime_from = ''
 datetime_to = ''

@@ -35,6 +35,7 @@ def response_tweets_csv(data, username):
                       columns=[
                           'archived_urlkey', 'archived_timestamp', 'tweet',
                           'archived_tweet', 'parsed_tweet',
+                          'parsed_tweet_mimetype_json',
                           'parsed_archived_tweet', 'archived_mimetype',
                           'archived_statuscode', 'archived_digest',
                           'archived_length', 'available_tweet_content',
