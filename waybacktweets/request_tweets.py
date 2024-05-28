@@ -14,7 +14,7 @@ def get_archived_tweets(username,
     if timestamp_to:
         timestamp_to = f'&to={timestamp_to}'
 
-    url = f'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{username}/status/*&output=json{unique}{timestamp_from}{timestamp_to}&limit=10'
+    url = f'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{username}/status/*&output=json{unique}{timestamp_from}{timestamp_to}&limit=100'
     print(f'Getting and parsing archived tweets from {url}')
 
     try:

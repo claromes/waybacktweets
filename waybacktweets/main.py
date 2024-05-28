@@ -1,5 +1,5 @@
 from request_tweets import *
-from tweet_parse import *
+from parse_tweets import *
 from export_tweets import *
 
 username = 'claromes'
@@ -15,7 +15,7 @@ def main():
         if archived_tweets:
             data = parse_archived_tweets(archived_tweets, username)
 
-            response_tweets_csv(data, username)
+            response_tweets(data, username)
 
         print(
             f'\nNeed help? Open an issue: https://github.com/claromes/waybacktweets/issues.'

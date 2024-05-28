@@ -2,6 +2,8 @@ import pandas as pd
 import re
 import datetime
 
+from viz_tweets import *
+
 
 def datetime_now():
     now = datetime.datetime.now()
@@ -25,7 +27,7 @@ def transpose_matrix(data, fill_value=None):
     return data_transposed
 
 
-def response_tweets_csv(data, username):
+def response_tweets(data, username):
     data_transposed = transpose_matrix(data)
 
     formatted_datetime = datetime_now()
@@ -48,4 +50,12 @@ def response_tweets_csv(data, username):
     json_file_path = f'{filename}.json'
     df.to_json(json_file_path, orient='records', lines=False)
 
-    print(f'Done. Check the files {filename}.csv and {filename}.json')
+    html_file_path = f'{filename}.html'
+
+    json_content = read_json(json_file_path)
+    html_content = generate_html(json_content, username)
+    save_html(html_file_path, html_content)
+
+    print(
+        f'Done. Check the files {filename}.csv, {filename}.json and {filename}.html'
+    )

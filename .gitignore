@@ -1,5 +1,6 @@
 .venv/
 *.csv
 *.json
+*.html
 waybacktweets/__pycache__
 waybacktweets/notes.md
