@@ -2,7 +2,7 @@ from request_tweets import *
 from tweet_parse import *
 from export_tweets import *
 
-username = 'dfrlab'
+username = 'cnn'
 unique = False
 datetime_from = ''
 datetime_to = ''
@@ -16,6 +16,10 @@ def main():
             data = parse_archived_tweets(archived_tweets, username)
 
             response_tweets_csv(data, username)
+
+        print(
+            f'\nNeed help? Open an issue: https://github.com/claromes/waybacktweets/issues.'
+        )
     except TypeError as e:
         print(e)
 

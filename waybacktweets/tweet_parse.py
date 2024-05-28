@@ -1,5 +1,53 @@
+import requests
+import re
 from urllib.parse import unquote
 from utils import *
+
+
+def embed(tweet):
+    try:
+        url = f'https://publish.twitter.com/oembed?url={tweet}'
+        response = requests.get(url)
+
+        regex = r'<blockquote class="twitter-tweet"(?: [^>]+)?><p[^>]*>(.*?)<\/p>.*?&mdash; (.*?)<\/a>'
+        regex_author = r'^(.*?)\s*\('
+
+        if not (400 <= response.status_code <= 511):
+            html = response.json()['html']
+            author_name = response.json()['author_name']
+
+            matches_html = re.findall(regex, html, re.DOTALL)
+
+            tweet_content = []
+            user_info = []
+            is_RT = []
+
+            for match in matches_html:
+                tweet_content_match = re.sub(r'<a[^>]*>|<\/a>', '',
+                                             match[0].strip())
+                tweet_content_match = tweet_content_match.replace('<br>', '\n')
+
+                user_info_match = re.sub(r'<a[^>]*>|<\/a>', '',
+                                         match[1].strip())
+                user_info_match = user_info_match.replace(')', '), ')
+
+                match_author = re.search(regex_author, user_info_match)
+                author_tweet = match_author.group(1)
+
+                if tweet_content_match:
+                    tweet_content.append(tweet_content_match)
+                if user_info_match:
+                    user_info.append(user_info_match)
+
+                    is_RT_match = False
+                    if author_name != author_tweet:
+                        is_RT_match = True
+
+                    is_RT.append(is_RT_match)
+
+            return tweet_content, is_RT, user_info
+    except:
+        return None
 
 
 def parse_archived_tweets(archived_tweets_response, username):
@@ -8,6 +56,9 @@ def parse_archived_tweets(archived_tweets_response, username):
     tweet = []
     archived_tweet = []
     parsed_tweet = []
+    available_tweet_content = []
+    available_tweet_is_RT = []
+    available_tweet_username = []
     parsed_archived_tweet = []
     archived_mimetype = []
     archived_statuscode = []
@@ -42,6 +93,12 @@ def parse_archived_tweets(archived_tweets_response, username):
         encoded_parsed_archived_tweet = semicolon_parse(
             parsed_wayback_machine_url)
 
+        content = embed(encoded_tweet)
+        if content:
+            available_tweet_content.append(content[0][0])
+            available_tweet_is_RT.append(content[1][0])
+            available_tweet_username.append(content[2][0])
+
         archived_urlkey.append(response[0])
         archived_timestamp.append(response[1])
         tweet.append(encoded_tweet)
@@ -53,77 +110,18 @@ def parse_archived_tweets(archived_tweets_response, username):
         archived_digest.append(response[5])
         archived_length.append(response[6])
 
-    return archived_urlkey, archived_timestamp, tweet, archived_tweet, parsed_tweet, parsed_archived_tweet, archived_mimetype, archived_statuscode, archived_digest, archived_length
+    return archived_urlkey, archived_timestamp, tweet, archived_tweet, parsed_tweet, parsed_archived_tweet, archived_mimetype, archived_statuscode, archived_digest, archived_length, available_tweet_content, available_tweet_is_RT, available_tweet_username
 
 
-# def embed(tweet):
-#     try:
-#         url = f'https://publish.twitter.com/oembed?url={clean_tweet(tweet)}'
-#         response = requests.get(url)
+# if tweet_links[i]:
+#     link = parsed_links[i]
+#     tweet = embed(tweet_links[i])
 
-#         regex = r'<blockquote class="twitter-tweet"(?: [^>]+)?><p[^>]*>(.*?)<\/p>.*?&mdash; (.*?)<\/a>'
-#         regex_author = r'^(.*?)\s*\('
-
-#         if response.status_code == 200 or response.status_code == 302:
-#             status_code = response.status_code
-#             html = response.json()['html']
-#             author_name = response.json()['author_name']
-
-#             matches_html = re.findall(regex, html, re.DOTALL)
-
-#             tweet_content = []
-#             user_info = []
-#             is_RT = []
-
-#             for match in matches_html:
-#                 tweet_content_match = re.sub(r'<a[^>]*>|<\/a>', '',
-#                                              match[0].strip())
-#                 tweet_content_match = tweet_content_match.replace('<br>', '\n')
-
-#                 user_info_match = re.sub(r'<a[^>]*>|<\/a>', '',
-#                                          match[1].strip())
-#                 user_info_match = user_info_match.replace(')', '), ')
-
-#                 match_author = re.search(regex_author, user_info_match)
-#                 author_tweet = match_author.group(1)
-
-#                 if tweet_content_match:
-#                     tweet_content.append(tweet_content_match)
-#                 if user_info_match:
-#                     user_info.append(user_info_match)
-
-#                     is_RT_match = False
-#                     if author_name != author_tweet:
-#                         is_RT_match = True
-
-#                     is_RT.append(is_RT_match)
-
-#             return status_code, tweet_content, user_info, is_RT
-#         else:
-#             return False
-#     except requests.exceptions.Timeout as e:
-#         print(f'{e}.\nConnection to web.archive.org timed out.')
-#     except requests.exceptions.ConnectionError as e:
-#         print(
-#             f'{e}.\nFailed to establish a new connection with web.archive.org.'
-#         )
-#     except UnboundLocalError as e:
-#         print(e)
-
-# def display_tweet():
-#     if mimetype[i] == 'application/json' or mimetype[
-#             i] == 'text/html' or mimetype[i] == 'unk' or mimetype[
-#                 i] == 'warc/revisit':
-#         if is_RT[0] == True:
-#             st.info('*Retweet*')
-#         st.write(tweet_content[0])
-#         st.write(f'**{user_info[0]}**')
-
-#         st.divider()
-#     else:
-#         st.warning('MIME Type was not parsed.')
-
-#         st.divider()
+# parse = parse_links(links)
+# parsed_links = parse[0]
+# tweet_links = parse[1]
+# mimetype = parse[2]
+# timestamp = parse[3]
 
 # def display_not_tweet():
 #     original_link = delete_tweet_pathnames(clean_tweet(tweet_links[i]))
@@ -186,48 +184,3 @@ def parse_archived_tweets(archived_tweets_response, username):
 #     else:
 #         st.warning('MIME Type was not parsed.')
 #         st.divider()
-
-# try:
-#     links = query_api(handle, saved_at)
-
-#     parse = parse_links(links)
-#     parsed_links = parse[0]
-#     tweet_links = parse[1]
-#     mimetype = parse[2]
-#     timestamp = parse[3]
-
-#     if links:
-#         for i in range(tweets_per_page):
-
-#             if tweet_links[i]:
-#                 link = parsed_links[i]
-#                 tweet = embed(tweet_links[i])
-
-#                 status = check_double_status(link, tweet_links[i])
-
-#                 if not not_available:
-#                     attr(i)
-
-#                     if tweet:
-#                         status_code = tweet[0]
-#                         tweet_content = tweet[1]
-#                         user_info = tweet[2]
-#                         is_RT = tweet[3]
-
-#                         display_tweet()
-#                     elif not tweet:
-#                         display_not_tweet()
-
-#                 if not_available:
-#                     if not tweet:
-#                         return_none_count += 1
-#                         attr(i)
-
-#                         display_not_tweet()
-
-#     if not links:
-#         print('Unable to query the Wayback Machine API.')
-# except TypeError as e:
-#     print(
-#         f'{e}.\nRefresh this page and try again. If the problem persists [open an issue](https://github.com/claromes/waybacktweets/issues).'
-#     )
