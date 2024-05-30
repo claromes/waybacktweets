@@ -1,12 +1,18 @@
+"""
+Generates an HTML file to visualize the parsed data.
+"""
+
 import json
 
 
 def read_json(json_file_path):
+    """Reads and loads JSON data from a specified file path."""
     with open(json_file_path, 'r', encoding='utf-8') as f:
         return json.load(f)
 
 
 def generate_html(json_content, username):
+    """Generates an HTML file."""
     html = f'<html>\n<head>\n<title>@{username} archived tweets</title>\n'
     html += '<style>\n'
     html += 'body { font-family: monospace; background-color: #f5f8fa; color: #1c1e21; margin: 0; padding: 20px; }\n'
@@ -46,5 +52,6 @@ def generate_html(json_content, username):
 
 
 def save_html(html_file_path, html_content):
+    """Saves the generated HTML."""
     with open(html_file_path, 'w', encoding='utf-8') as f:
         f.write(html_content)

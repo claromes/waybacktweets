@@ -1,3 +1,7 @@
+"""
+Parses the returned data from the Wayback CDX Server API.
+"""
+
 import requests
 import re
 from urllib.parse import unquote
@@ -5,6 +9,8 @@ from utils import *
 
 
 def embed(tweet):
+    """Parses the archived tweets when the tweets are still available using the Twitter Publish service from X.
+    Returns the text of the tweet, if it's a retweet, and the username of the account."""
     try:
         url = f'https://publish.twitter.com/oembed?url={tweet}'
         response = requests.get(url)
@@ -51,6 +57,7 @@ def embed(tweet):
 
 
 def parse_json_mimetype(tweet):
+    """Parses the archived tweets when the mimetype is application/json and returns the text of the tweet."""
     response_json = requests.get(tweet)
 
     if not (400 <= response_json.status_code <= 511):
@@ -73,6 +80,7 @@ def parse_json_mimetype(tweet):
 
 
 def parse_archived_tweets(archived_tweets_response, username):
+    """Parses the archived tweets metadata and structures it in a more readable format."""
     archived_urlkey = []
     archived_timestamp = []
     tweet = []
@@ -95,7 +103,7 @@ def parse_archived_tweets(archived_tweets_response, username):
         wayback_machine_url = f'https://web.archive.org/web/{response[1]}/{tweet_remove_char}'
 
         original_tweet = delete_tweet_pathnames(
-            clean_tweet(cleaned_tweet, username))
+            clean_tweet_url(cleaned_tweet, username))
 
         parsed_wayback_machine_url = f'https://web.archive.org/web/{response[1]}/{original_tweet}'
 
@@ -138,37 +146,3 @@ def parse_archived_tweets(archived_tweets_response, username):
         archived_length.append(response[6])
 
     return archived_urlkey, archived_timestamp, tweet, archived_tweet, parsed_tweet, parsed_tweet_mimetype_json, parsed_archived_tweet, archived_mimetype, archived_statuscode, archived_digest, archived_length, available_tweet_content, available_tweet_is_RT, available_tweet_username
-
-
-# if tweet_links[i]:
-#     link = parsed_links[i]
-#     tweet = embed(tweet_links[i])
-
-# parse = parse_links(links)
-# parsed_links = parse[0]
-# tweet_links = parse[1]
-# mimetype = parse[2]
-# timestamp = parse[3]
-
-# def display_not_tweet():
-#     original_link = delete_tweet_pathnames(clean_tweet(tweet_links[i]))
-
-#     if status:
-#         original_link = delete_tweet_pathnames(
-#             f'https://twitter.com/{tweet_links[i]}')
-#     elif not '://' in tweet_links[i]:
-#         original_link = delete_tweet_pathnames(f'https://{tweet_links[i]}')
-
-#     response_html = requests.get(original_link)
-
-#     if mimetype[i] == 'text/html' or mimetype[i] == 'warc/revisit' or mimetype[
-#             i] == 'unk':
-#         if ('.jpg' in tweet_links[i] or '.png'
-#                 in tweet_links[i]) and response_html.status_code == 200:
-#             components.iframe(tweet_links[i], height=500, scrolling=True)
-#         elif '/status/' not in original_link:
-#             st.info("This isn't a status or is not available")
-#         elif status or f'{st.session_state.current_handle}' not in original_link:
-#             st.info(f'Replying to {st.session_state.current_handle}')
-#         else:
-#             components.iframe(clean_link(link), height=500, scrolling=True)

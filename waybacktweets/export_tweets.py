@@ -1,3 +1,7 @@
+"""
+Exports the parsed archived tweets.
+"""
+
 import pandas as pd
 import re
 import datetime
@@ -6,6 +10,7 @@ from viz_tweets import *
 
 
 def datetime_now():
+    """Formats datetime."""
     now = datetime.datetime.now()
 
     formatted_now = now.strftime("%Y%m%d%H%M%S")
@@ -16,6 +21,7 @@ def datetime_now():
 
 
 def transpose_matrix(data, fill_value=None):
+    """Transposes a matrix, filling in missing values with a specified fill value if needed."""
     max_length = max(len(sublist) for sublist in data)
     filled_data = [
         sublist + [fill_value] * (max_length - len(sublist))
@@ -27,7 +33,8 @@ def transpose_matrix(data, fill_value=None):
     return data_transposed
 
 
-def response_tweets(data, username):
+def save_tweets(data, username):
+    """Saves parsed archived tweets in CSV, JSON, and HTML formats."""
     data_transposed = transpose_matrix(data)
 
     formatted_datetime = datetime_now()
@@ -51,7 +58,6 @@ def response_tweets(data, username):
     df.to_json(json_file_path, orient='records', lines=False)
 
     html_file_path = f'{filename}.html'
-
     json_content = read_json(json_file_path)
     html_content = generate_html(json_content, username)
     save_html(html_file_path, html_content)

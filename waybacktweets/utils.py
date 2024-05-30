@@ -1,7 +1,13 @@
+"""
+Helper functions.
+"""
+
 import re
 
 
-def clean_tweet(tweet, username):
+def clean_tweet_url(tweet, username):
+    """Converts the tweet to lowercase, checks if it contains a tweet URL associated with the username.
+    Returns the original tweet URL with correct casing; or returns the original tweet."""
     tweet_lower = tweet.lower()
 
     pattern = re.compile(r'/status/(\d+)')
@@ -16,6 +22,8 @@ def clean_tweet(tweet, username):
 
 def clean_wayback_machine_url(wayback_machine_url, archived_timestamp,
                               username):
+    """Converts the Wayback Machine URL to lowercase, checks if it contains a tweet URL associated with the username.
+    Returns the original tweet URL with correct casing and archived timestamp; otherwise, it returns the original Wayback Machine URL."""
     wayback_machine_url = wayback_machine_url.lower()
 
     pattern = re.compile(r'/status/(\d+)')
@@ -28,10 +36,11 @@ def clean_wayback_machine_url(wayback_machine_url, archived_timestamp,
 
 
 def pattern_tweet(tweet):
-    # Reply: /status//
-    # Link:  /status///
-    # Twimg: /status/https://pbs
+    """Extracts tweet IDs from various types of tweet URLs or tweet-related patterns.
 
+    Reply pattern: /status//
+    Link pattern:  /status///
+    Twimg pattern: /status/https://pbs"""
     pattern = re.compile(r'/status/"([^"]+)"')
 
     match = pattern.search(tweet)
@@ -42,8 +51,7 @@ def pattern_tweet(tweet):
 
 
 def delete_tweet_pathnames(tweet):
-    # Delete pathnames (/photos, /likes, /retweet...)
-
+    """Removes any pathnames (/photos, /likes, /retweet...) from the tweet URL."""
     pattern_username = re.compile(r'https://twitter\.com/([^/]+)/status/\d+')
     match_username = pattern_username.match(tweet)
 
@@ -59,6 +67,8 @@ def delete_tweet_pathnames(tweet):
 
 
 def check_double_status(wayback_machine_url, original_tweet):
+    """Checks if a Wayback Machine URL contains two occurrences of "/status/" and if the original tweet does not contain "twitter.com".
+    Returns a boolean."""
     if wayback_machine_url.count(
             '/status/') == 2 and not 'twitter.com' in original_tweet:
         return True
@@ -67,4 +77,5 @@ def check_double_status(wayback_machine_url, original_tweet):
 
 
 def semicolon_parse(string):
+    """Replaces semicolons in a string with %3B."""
     return ''.join('%3B' if c == ';' else c for c in string)

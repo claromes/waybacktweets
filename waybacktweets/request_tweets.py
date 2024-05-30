@@ -1,3 +1,7 @@
+"""
+Requests data from the Wayback Machine API.
+"""
+
 import requests
 
 
@@ -5,7 +9,7 @@ def get_archived_tweets(username,
                         unique=False,
                         timestamp_from='',
                         timestamp_to=''):
-
+    """Requests data from the Wayback CDX Server API and returns it in JSON format."""
     unique = f'&collapse=urlkey' if unique else ''
 
     if timestamp_from:
