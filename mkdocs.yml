@@ -1,0 +1,50 @@
+site_name: Wayback Tweets
+repo_url: https://github.com/claromes/waybacktweets/
+repo_name: claromes/waybacktweets
+edit_uri: tree/main/docs
+site_author: Claromes
+copyright: Copyright &copy; 2023 - 2024 Claromes · Icons by TheDoodleLibrary
+
+theme:
+  name: material
+  logo: assets/parthenon.svg
+  favicon: assets/parthenon.svg
+  icon:
+    repo: thedoodlelibrary/octopus
+    search: thedoodlelibrary/magnifyingglass
+  language: en
+  palette:
+    - scheme: slate
+      primary: red
+      accent: lime
+  custom_dir: overrides
+
+extra:
+  social:
+    - icon: thedoodlelibrary/mammoth
+      link: https://ruby.social/@claromes
+      name: Claromes on Mastodon
+    - icon: thedoodlelibrary/butterfly
+      link: https://bsky.app/profile/claromes.com
+      name: Claromes on Bluesky
+    - icon: thedoodlelibrary/email
+      link: mailto:support@claromes.com
+      name: Support
+
+nav:
+  - Home: index.md
+  - Getting started:
+      - License: license.md
+      - Changelog: https://github.com/claromes/waybacktweets/releases/" target="_blank
+
+markdown_extensions:
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      options:
+        custom_icons:
+          - overrides/.icons
+
+extra_css:
+  - stylesheets/extra.css
