@@ -46,7 +46,6 @@ class TweetsExporter:
         data_transposed = self.transpose_matrix(self.data)
 
         df = pd.DataFrame(data_transposed, columns=self.metadata_options)
-
         df = df.sort_values(by="archived_timestamp", ascending=self.ascending)
 
         return df
