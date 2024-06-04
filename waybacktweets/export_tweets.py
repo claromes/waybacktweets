@@ -35,7 +35,9 @@ class TweetsExporter:
             for key, value in data.items()
         }
 
-        return filled_data
+        data_transposed = [list(row) for row in zip(*filled_data.values())]
+
+        return data_transposed
 
     @staticmethod
     def create_dataframe(self):

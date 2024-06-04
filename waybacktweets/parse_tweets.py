@@ -62,17 +62,21 @@ class TwitterEmbed:
 class JsonParser:
     """Handles parsing of tweets when the mimetype is application/json."""
 
-    def __init__(self, tweet_url):
-        self.tweet_url = tweet_url
+    def __init__(self, archived_tweet_url):
+        self.archived_tweet_url = archived_tweet_url
 
     def parse(self):
         """Parses the archived tweets in JSON format."""
         try:
-            response = requests.get(self.tweet_url)
+            response = requests.get(self.archived_tweet_url)
             if not (400 <= response.status_code <= 511):
                 json_data = response.json()
+
                 if 'data' in json_data:
                     return json_data['data'].get('text', json_data['data'])
+                elif 'retweeted_status' in json_data:
+                    return json_data['retweeted_status'].get(
+                        'text', json_data['retweeted_status'])
                 else:
                     return json_data.get('text', json_data)
         except Exception as e:
@@ -124,15 +128,22 @@ class TweetsParser:
 
             embed_parser = TwitterEmbed(encoded_tweet)
             content = embed_parser.embed()
+
             if content:
-                self.add_metadata('available_tweet_content', content[0][0])
+                self.add_metadata('available_tweet_content',
+                                  semicolon_parse(content[0][0]))
                 self.add_metadata('available_tweet_is_RT', content[1][0])
-                self.add_metadata('available_tweet_username', content[2][0])
+                self.add_metadata('available_tweet_username',
+                                  semicolon_parse(content[2][0]))
 
             if response[3] == 'application/json':
                 json_parser = JsonParser(encoded_archived_tweet)
-                json_mimetype = json_parser.parse()
-                self.add_metadata('parsed_tweet_mimetype_json', json_mimetype)
+                text_json = json_parser.parse()
+                parsed_text_json = semicolon_parse(text_json)
+            else:
+                parsed_text_json = None
+
+            self.add_metadata('parsed_tweet_mimetype_json', parsed_text_json)
 
             self.add_metadata('archived_urlkey', response[0])
             self.add_metadata('archived_timestamp', response[1])

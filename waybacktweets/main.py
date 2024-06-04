@@ -34,8 +34,8 @@ def main():
             exporter = TweetsExporter(parsed_tweets, username,
                                       metadata_options)
             exporter.save_to_csv()
-            exporter.save_to_json()
-            exporter.save_to_html()
+            # exporter.save_to_json()
+            # exporter.save_to_html()
 
             print(
                 f'\nNeed help? Open an issue: https://github.com/claromes/waybacktweets/issues.'
