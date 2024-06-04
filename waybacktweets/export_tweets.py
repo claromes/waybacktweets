@@ -1,67 +1,78 @@
-"""
-Exports the parsed archived tweets.
-"""
-
 import pandas as pd
 import re
 import datetime
-
-from viz_tweets import *
-
-
-def datetime_now():
-    """Formats datetime."""
-    now = datetime.datetime.now()
-
-    formatted_now = now.strftime("%Y%m%d%H%M%S")
-
-    formatted_now = re.sub(r'\W+', '', formatted_now)
-
-    return formatted_now
+import os
+from viz_tweets import HTMLTweetsVisualizer
 
 
-def transpose_matrix(data, fill_value=None):
-    """Transposes a matrix, filling in missing values with a specified fill value if needed."""
-    max_length = max(len(sublist) for sublist in data)
-    filled_data = [
-        sublist + [fill_value] * (max_length - len(sublist))
-        for sublist in data
-    ]
+class TweetsExporter:
+    """Handles the exporting of parsed archived tweets."""
 
-    data_transposed = [list(row) for row in zip(*filled_data)]
+    def __init__(self, data, username, metadata_options):
+        self.data = data
+        self.username = username
+        self.metadata_options = metadata_options
+        self.formatted_datetime = self.datetime_now()
+        self.filename = f'{self.username}_tweets_{self.formatted_datetime}'
+        self.dataframe = self.create_dataframe(self)
 
-    return data_transposed
+    @staticmethod
+    def datetime_now():
+        """Formats datetime."""
+        now = datetime.datetime.now()
+        formatted_now = now.strftime("%Y%m%d%H%M%S")
+        formatted_now = re.sub(r'\W+', '', formatted_now)
 
+        return formatted_now
 
-def save_tweets(data, username):
-    """Saves parsed archived tweets in CSV, JSON, and HTML formats."""
-    data_transposed = transpose_matrix(data)
+    @staticmethod
+    def transpose_matrix(data, fill_value=None):
+        """Transposes a matrix, filling in missing values with a specified fill value if needed."""
+        max_length = max(len(sublist) for sublist in data.values())
 
-    formatted_datetime = datetime_now()
-    filename = f'{username}_tweets_{formatted_datetime}'
+        filled_data = {
+            key: value + [fill_value] * (max_length - len(value))
+            for key, value in data.items()
+        }
 
-    df = pd.DataFrame(data_transposed,
-                      columns=[
-                          'archived_urlkey', 'archived_timestamp', 'tweet',
-                          'archived_tweet', 'parsed_tweet',
-                          'parsed_tweet_mimetype_json',
-                          'parsed_archived_tweet', 'archived_mimetype',
-                          'archived_statuscode', 'archived_digest',
-                          'archived_length', 'available_tweet_content',
-                          'available_tweet_is_RT', 'available_tweet_username'
-                      ])
+        return filled_data
 
-    csv_file_path = f'{filename}.csv'
-    df.to_csv(csv_file_path, index=False)
+    @staticmethod
+    def create_dataframe(self):
+        """Creates a DataFrame from the transposed data."""
+        data_transposed = self.transpose_matrix(self.data)
 
-    json_file_path = f'{filename}.json'
-    df.to_json(json_file_path, orient='records', lines=False)
+        df = pd.DataFrame(data_transposed, columns=self.metadata_options)
 
-    html_file_path = f'{filename}.html'
-    json_content = read_json(json_file_path)
-    html_content = generate_html(json_content, username)
-    save_html(html_file_path, html_content)
+        return df
 
-    print(
-        f'Done. Check the files {filename}.csv, {filename}.json and {filename}.html'
-    )
+    def save_to_csv(self):
+        """Saves the DataFrame to a CSV file."""
+        csv_file_path = f'{self.filename}.csv'
+        self.dataframe.to_csv(csv_file_path, index=False)
+
+        print(f'Saved to {csv_file_path}')
+
+    def save_to_json(self):
+        """Saves the DataFrame to a JSON file."""
+        json_file_path = f'{self.filename}.json'
+        self.dataframe.to_json(json_file_path, orient='records', lines=False)
+
+        print(f'Saved to {json_file_path}')
+
+    def save_to_html(self):
+        """Saves the DataFrame to an HTML file."""
+        json_file_path = f'{self.filename}.json'
+
+        if not os.path.exists(json_file_path):
+            self.save_to_json()
+
+        html_file_path = f'{self.filename}.html'
+
+        html = HTMLTweetsVisualizer(json_file_path, html_file_path,
+                                    self.username)
+
+        html_content = html.generate()
+        html.save(html_content)
+
+        print(f'Saved to {html_file_path}')
