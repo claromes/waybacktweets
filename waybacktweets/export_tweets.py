@@ -8,10 +8,11 @@ from viz_tweets import HTMLTweetsVisualizer
 class TweetsExporter:
     """Handles the exporting of parsed archived tweets."""
 
-    def __init__(self, data, username, metadata_options):
+    def __init__(self, data, username, metadata_options, ascending):
         self.data = data
         self.username = username
         self.metadata_options = metadata_options
+        self.ascending = ascending
         self.formatted_datetime = self.datetime_now()
         self.filename = f'{self.username}_tweets_{self.formatted_datetime}'
         self.dataframe = self.create_dataframe(self)
@@ -45,6 +46,8 @@ class TweetsExporter:
         data_transposed = self.transpose_matrix(self.data)
 
         df = pd.DataFrame(data_transposed, columns=self.metadata_options)
+
+        df = df.sort_values(by="archived_timestamp", ascending=self.ascending)
 
         return df
 

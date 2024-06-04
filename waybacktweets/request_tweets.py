@@ -21,7 +21,7 @@ class WaybackTweets:
 
         url = (
             f'https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{self.username}/status/*'
-            f'&output=json{unique_param}{timestamp_from_param}{timestamp_to_param}&limit=5'
+            f'&output=json{unique_param}{timestamp_from_param}{timestamp_to_param}&limit=20'
         )
         print(f'Getting and parsing archived tweets from {url}')
 

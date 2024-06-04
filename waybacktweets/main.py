@@ -10,6 +10,7 @@ username = 'claromes'
 unique = False
 datetime_from = ''
 datetime_to = ''
+ascending = False
 
 
 def main():
@@ -32,7 +33,7 @@ def main():
             parsed_tweets = parser.parse()
 
             exporter = TweetsExporter(parsed_tweets, username,
-                                      metadata_options)
+                                      metadata_options, ascending)
             exporter.save_to_csv()
             # exporter.save_to_json()
             # exporter.save_to_html()
