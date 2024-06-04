@@ -20,12 +20,12 @@ def main():
 
         if archived_tweets:
             metadata_options = [
-                'archived_urlkey', 'archived_timestamp', 'tweet',
-                'archived_tweet', 'parsed_tweet', 'parsed_tweet_mimetype_json',
-                'available_tweet_content', 'available_tweet_is_RT',
-                'available_tweet_username', 'parsed_archived_tweet',
-                'archived_mimetype', 'archived_statuscode', 'archived_digest',
-                'archived_length'
+                'archived_urlkey', 'archived_timestamp', 'original_tweet_url',
+                'archived_tweet_url', 'parsed_tweet_url',
+                'parsed_archived_tweet_url', 'parsed_tweet_text_mimetype_json',
+                'available_tweet_text', 'available_tweet_is_RT',
+                'available_tweet_username', 'archived_mimetype',
+                'archived_statuscode', 'archived_digest', 'archived_length'
             ]
 
             parser = TweetsParser(archived_tweets, username, metadata_options)

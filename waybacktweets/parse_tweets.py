@@ -130,7 +130,7 @@ class TweetsParser:
             content = embed_parser.embed()
 
             if content:
-                self.add_metadata('available_tweet_content',
+                self.add_metadata('available_tweet_text',
                                   semicolon_parse(content[0][0]))
                 self.add_metadata('available_tweet_is_RT', content[1][0])
                 self.add_metadata('available_tweet_username',
@@ -143,14 +143,15 @@ class TweetsParser:
             else:
                 parsed_text_json = None
 
-            self.add_metadata('parsed_tweet_mimetype_json', parsed_text_json)
+            self.add_metadata('parsed_tweet_text_mimetype_json',
+                              parsed_text_json)
 
             self.add_metadata('archived_urlkey', response[0])
             self.add_metadata('archived_timestamp', response[1])
-            self.add_metadata('tweet', encoded_tweet)
-            self.add_metadata('archived_tweet', encoded_archived_tweet)
-            self.add_metadata('parsed_tweet', encoded_parsed_tweet)
-            self.add_metadata('parsed_archived_tweet',
+            self.add_metadata('original_tweet_url', encoded_tweet)
+            self.add_metadata('archived_tweet_url', encoded_archived_tweet)
+            self.add_metadata('parsed_tweet_url', encoded_parsed_tweet)
+            self.add_metadata('parsed_archived_tweet_url',
                               encoded_parsed_archived_tweet)
             self.add_metadata('archived_mimetype', response[3])
             self.add_metadata('archived_statuscode', response[4])
