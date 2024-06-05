@@ -2,6 +2,7 @@ import requests
 import re
 from urllib.parse import unquote
 from utils import *
+from rich.progress import track
 
 
 class TwitterEmbed:
@@ -101,7 +102,9 @@ class TweetsParser:
 
     def parse(self):
         """Parses the archived tweets metadata and structures it."""
-        for response in self.archived_tweets_response[1:]:
+        for response in track(
+                self.archived_tweets_response[1:],
+                description=f'Wayback @{self.username} tweets\n'):
             tweet_remove_char = unquote(response[2]).replace('’', '')
             cleaned_tweet = pattern_tweet(tweet_remove_char).strip('"')
 

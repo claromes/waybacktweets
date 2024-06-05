@@ -36,7 +36,8 @@ class HTMLTweetsVisualizer:
         for tweet in self.json_content:
             html += '<div class="tweet">\n'
 
-            if tweet["archived_mimetype"] != 'application/json':
+            if tweet["archived_mimetype"] != 'application/json' and not tweet[
+                    "available_tweet_text"]:
                 html += f'<iframe src="{tweet["parsed_archived_tweet_url"]}" frameborder="0" scrolling="auto"></iframe>\n'
 
             html += f'<p><a href="{tweet["original_tweet_url"]}" target="_blank"><strong>Original Tweet↗</strong></a> · \n'
@@ -45,6 +46,7 @@ class HTMLTweetsVisualizer:
             html += f'<a href="{tweet["parsed_archived_tweet_url"]}" target="_blank"><strong>Parsed Archived Tweet↗</strong></a></p>\n'
 
             if tweet["available_tweet_text"]:
+                html += f'<br>\n'
                 html += f'<p><strong class="content">Available Tweet Content:</strong> {tweet["available_tweet_text"]}</p>\n'
                 html += f'<p><strong class="content">Available Tweet Is Retweet:</strong> {tweet["available_tweet_is_RT"]}</p>\n'
                 html += f'<p><strong class="content">Available Tweet Username:</strong> {tweet["available_tweet_username"]}</p>\n'

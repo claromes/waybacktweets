@@ -1,22 +1,23 @@
 """
 Main function for retrieving archived tweets.
 """
+from rich import print as rprint
 
 from request_tweets import WaybackTweets
 from parse_tweets import TweetsParser
 from export_tweets import TweetsExporter
 
-username = 'claromes'
+username = 'dfrlab'
 unique = False
-datetime_from = ''
-datetime_to = ''
+datetime_from = '2020-01-01'
+datetime_to = '2024-05-31'
 ascending = False
 
 
 def main():
     """Invokes the classes to retrieve archived tweets, perform necessary parsing, and save the data."""
     try:
-        api = WaybackTweets(username)
+        api = WaybackTweets(username, unique, datetime_from, datetime_to)
         archived_tweets = api.get()
 
         if archived_tweets:
@@ -34,15 +35,18 @@ def main():
 
             exporter = TweetsExporter(parsed_tweets, username,
                                       metadata_options, ascending)
-            # exporter.save_to_csv()
-            # exporter.save_to_json()
+            exporter.save_to_csv()
+            exporter.save_to_json()
             exporter.save_to_html()
+        else:
+            print('Nothing here.')
 
-            print(
-                f'\nNeed help? Open an issue: https://github.com/claromes/waybacktweets/issues.'
-            )
     except TypeError as e:
         print(e)
+    finally:
+        rprint(
+            f'[yellow]\nNeed help? Open an issue: https://github.com/claromes/waybacktweets/issues'
+        )
 
 
 if __name__ == '__main__':
