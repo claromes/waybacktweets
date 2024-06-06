@@ -1,5 +1,0 @@
-requests==2.30.0
-streamlit==1.27.0
-mkdocs==1.6.0
-mkdocs-material==9.5.25
-rich==13.6.0

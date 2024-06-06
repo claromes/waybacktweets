@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "waybacktweets"
+version = "1.0"
+description = ""
+authors = ["Claromes <support@claromes.com>"]
+license = "GPL-3.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.9.7 || >3.9.7,<4.0"
+requests = "^2.30.0"
+streamlit = "1.27.0"
+rich = "^13.6.0"
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.6.0"
+mkdocs-material = "^9.5.25"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.2"
+flake8 = "^7.0.0"
+isort = "^5.13.2"
+pre-commit = "^3.7.1"
+flake8-pyproject = "^1.2.3"
+
+[tool.isort]
+profile = "black"
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "E701"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
