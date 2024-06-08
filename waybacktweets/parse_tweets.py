@@ -1,8 +1,10 @@
 import re
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from urllib.parse import unquote
 
-import requests
-from rich.progress import track
+import httpx
+from rich import print as rprint
+from rich.progress import Progress
 from utils import (
     check_double_status,
     check_pattern_tweet,
@@ -22,15 +24,19 @@ class TwitterEmbed:
         """Parses the archived tweets when they are still available."""
         try:
             url = f"https://publish.twitter.com/oembed?url={self.tweet_url}"
-            response = requests.get(url)
+            response = httpx.get(url)
             if not (400 <= response.status_code <= 511):
-                html = response.json()["html"]
-                author_name = response.json()["author_name"]
+                json_response = response.json()
+                html = json_response["html"]
+                author_name = json_response["author_name"]
 
-                regex = r'<blockquote class="twitter-tweet"(?: [^>]+)?><p[^>]*>(.*?)<\/p>.*?&mdash; (.*?)<\/a>'  # noqa: E501
-                regex_author = r"^(.*?)\s*\("
+                regex = re.compile(
+                    r'<blockquote class="twitter-tweet"(?: [^>]+)?><p[^>]*>(.*?)<\/p>.*?&mdash; (.*?)<\/a>',  # noqa
+                    re.DOTALL,
+                )
+                regex_author = re.compile(r"^(.*?)\s*\(")
 
-                matches_html = re.findall(regex, html, re.DOTALL)
+                matches_html = regex.findall(html)
 
                 tweet_content = []
                 user_info = []
@@ -39,29 +45,22 @@ class TwitterEmbed:
                 for match in matches_html:
                     tweet_content_match = re.sub(
                         r"<a[^>]*>|<\/a>", "", match[0].strip()
-                    )
-                    tweet_content_match = tweet_content_match.replace("<br>", "\n")
-
-                    user_info_match = re.sub(r"<a[^>]*>|<\/a>", "", match[1].strip())
-                    user_info_match = user_info_match.replace(")", "), ")
-
-                    match_author = re.search(regex_author, user_info_match)
+                    ).replace("<br>", "\n")
+                    user_info_match = re.sub(
+                        r"<a[^>]*>|<\/a>", "", match[1].strip()
+                    ).replace(")", "), ")
+                    match_author = regex_author.search(user_info_match)
                     author_tweet = match_author.group(1) if match_author else ""
 
                     if tweet_content_match:
                         tweet_content.append(tweet_content_match)
                     if user_info_match:
                         user_info.append(user_info_match)
-
-                        is_RT_match = False
-                        if author_name != author_tweet:
-                            is_RT_match = True
-
-                        is_RT.append(is_RT_match)
+                        is_RT.append(author_name != author_tweet)
 
                 return tweet_content, is_RT, user_info
-        except Exception as e:
-            print(f"Error parsing tweet: {e}")
+        except Exception:
+            rprint("[yellow]Error parsing the tweet, but the metadata was saved.")
             return None
 
 
@@ -74,21 +73,26 @@ class JsonParser:
     def parse(self):
         """Parses the archived tweets in JSON format."""
         try:
-            response = requests.get(self.archived_tweet_url)
-            if not (400 <= response.status_code <= 511):
+            response = httpx.get(self.archived_tweet_url)
+
+            if response and not (400 <= response.status_code <= 511):
                 json_data = response.json()
 
                 if "data" in json_data:
                     return json_data["data"].get("text", json_data["data"])
-                elif "retweeted_status" in json_data:
+
+                if "retweeted_status" in json_data:
                     return json_data["retweeted_status"].get(
                         "text", json_data["retweeted_status"]
                     )
-                else:
-                    return json_data.get("text", json_data)
-        except Exception as e:
-            print(f"Error parsing JSON mimetype tweet: {e}")
-            return None
+
+                return json_data.get("text", json_data)
+        except Exception:
+            rprint(
+                f"[yellow]Connection error with {self.archived_tweet_url}. Error parsing the JSON, but the metadata was saved."  # noqa: E501
+            )
+
+            return ""
 
 
 class TweetsParser:
@@ -108,71 +112,87 @@ class TweetsParser:
         if key in self.parsed_tweets:
             self.parsed_tweets[key].append(value)
 
-    def parse(self):
-        """Parses the archived tweets metadata and structures it."""
-        for response in track(
-            self.archived_tweets_response[1:],
-            description=f"Wayback @{self.username} tweets\n",
-        ):
-            tweet_remove_char = unquote(response[2]).replace("’", "")
-            cleaned_tweet = check_pattern_tweet(tweet_remove_char).strip('"')
+    def process_response(self, response):
+        """Process the archived tweet's response and add the relevant metadata."""
+        tweet_remove_char = unquote(response[2]).replace("’", "")
+        cleaned_tweet = check_pattern_tweet(tweet_remove_char).strip('"')
 
-            wayback_machine_url = (
-                f"https://web.archive.org/web/{response[1]}/{tweet_remove_char}"
-            )
+        wayback_machine_url = (
+            f"https://web.archive.org/web/{response[1]}/{tweet_remove_char}"
+        )
+        original_tweet = delete_tweet_pathnames(
+            clean_tweet_url(cleaned_tweet, self.username)
+        )
+        parsed_wayback_machine_url = (
+            f"https://web.archive.org/web/{response[1]}/{original_tweet}"
+        )
+
+        double_status = check_double_status(wayback_machine_url, original_tweet)
+
+        if double_status:
             original_tweet = delete_tweet_pathnames(
-                clean_tweet_url(cleaned_tweet, self.username)
+                f"https://twitter.com/{original_tweet}"
             )
-            parsed_wayback_machine_url = (
-                f"https://web.archive.org/web/{response[1]}/{original_tweet}"
+        elif "://" not in original_tweet:
+            original_tweet = delete_tweet_pathnames(f"https://{original_tweet}")
+
+        encoded_tweet = semicolon_parser(response[2])
+        encoded_archived_tweet = semicolon_parser(wayback_machine_url)
+        encoded_parsed_tweet = semicolon_parser(original_tweet)
+        encoded_parsed_archived_tweet = semicolon_parser(parsed_wayback_machine_url)
+
+        embed_parser = TwitterEmbed(encoded_tweet)
+        content = embed_parser.embed()
+
+        if content:
+            self.add_metadata("available_tweet_text", semicolon_parser(content[0][0]))
+            self.add_metadata("available_tweet_is_RT", content[1][0])
+            self.add_metadata(
+                "available_tweet_username", semicolon_parser(content[2][0])
             )
 
-            double_status = check_double_status(wayback_machine_url, original_tweet)
+        parsed_text_json = ""
 
-            if double_status:
-                original_tweet = delete_tweet_pathnames(
-                    f"https://twitter.com/{original_tweet}"
-                )
-            elif "://" not in original_tweet:
-                original_tweet = delete_tweet_pathnames(f"https://{original_tweet}")
-
-            encoded_tweet = semicolon_parser(response[2])
-            encoded_archived_tweet = semicolon_parser(wayback_machine_url)
-            encoded_parsed_tweet = semicolon_parser(original_tweet)
-            encoded_parsed_archived_tweet = semicolon_parser(parsed_wayback_machine_url)
-
-            embed_parser = TwitterEmbed(encoded_tweet)
-            content = embed_parser.embed()
-
-            if content:
-                self.add_metadata(
-                    "available_tweet_text", semicolon_parser(content[0][0])
-                )
-                self.add_metadata("available_tweet_is_RT", content[1][0])
-                self.add_metadata(
-                    "available_tweet_username", semicolon_parser(content[2][0])
-                )
-
-            if response[3] == "application/json":
-                json_parser = JsonParser(encoded_archived_tweet)
+        if response[3] == "application/json":
+            json_parser = JsonParser(encoded_archived_tweet)
+            if json_parser:
                 text_json = json_parser.parse()
                 parsed_text_json = semicolon_parser(text_json)
-            else:
-                parsed_text_json = None
 
-            self.add_metadata("parsed_tweet_text_mimetype_json", parsed_text_json)
+        self.add_metadata("parsed_tweet_text_mimetype_json", parsed_text_json)
+        self.add_metadata("archived_urlkey", response[0])
+        self.add_metadata("archived_timestamp", response[1])
+        self.add_metadata("original_tweet_url", encoded_tweet)
+        self.add_metadata("archived_tweet_url", encoded_archived_tweet)
+        self.add_metadata("parsed_tweet_url", encoded_parsed_tweet)
+        self.add_metadata("parsed_archived_tweet_url", encoded_parsed_archived_tweet)
+        self.add_metadata("archived_mimetype", response[3])
+        self.add_metadata("archived_statuscode", response[4])
+        self.add_metadata("archived_digest", response[5])
+        self.add_metadata("archived_length", response[6])
 
-            self.add_metadata("archived_urlkey", response[0])
-            self.add_metadata("archived_timestamp", response[1])
-            self.add_metadata("original_tweet_url", encoded_tweet)
-            self.add_metadata("archived_tweet_url", encoded_archived_tweet)
-            self.add_metadata("parsed_tweet_url", encoded_parsed_tweet)
-            self.add_metadata(
-                "parsed_archived_tweet_url", encoded_parsed_archived_tweet
-            )
-            self.add_metadata("archived_mimetype", response[3])
-            self.add_metadata("archived_statuscode", response[4])
-            self.add_metadata("archived_digest", response[5])
-            self.add_metadata("archived_length", response[6])
+    def parse(self):
+        """Parses the archived tweets metadata and structures it."""
+        with ThreadPoolExecutor(max_workers=10) as executor:
 
-        return self.parsed_tweets
+            futures = {
+                executor.submit(self.process_response, response): response
+                for response in self.archived_tweets_response[1:]
+            }
+            with Progress() as progress:
+                task = progress.add_task(
+                    f"Waybacking @{self.username} tweets\n", total=len(futures)
+                )
+
+                for future in as_completed(futures):
+                    try:
+                        with httpx.Client(timeout=60.0):
+                            future.result()
+                    except httpx.RequestError as e:
+                        rprint(f"[red]{e}")
+                    except Exception as e:
+                        rprint(f"[red]{e}")
+
+                    progress.update(task, advance=1)
+
+            return self.parsed_tweets

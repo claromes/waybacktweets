@@ -2,26 +2,27 @@
 Main function for retrieving archived tweets.
 """
 
+import trio
 from export_tweets import TweetsExporter
 from parse_tweets import TweetsParser
 from request_tweets import WaybackTweets
 from rich import print as rprint
 
 username = "claromes"
-unique = False
-datetime_from = "2020-01-01"
-datetime_to = "2024-05-31"
+unique = True
+datetime_from = None
+datetime_to = None
 ascending = False
 
 
-def main():
+async def main():
     """
     Invokes the classes to retrieve archived tweets, perform necessary parsing,
     and save the data.
     """
     try:
         api = WaybackTweets(username, unique, datetime_from, datetime_to)
-        archived_tweets = api.get()
+        archived_tweets = await api.get()
 
         if archived_tweets:
             metadata_options = [
@@ -50,8 +51,6 @@ def main():
             exporter.save_to_csv()
             exporter.save_to_json()
             exporter.save_to_html()
-        else:
-            print("Nothing here.")
 
     except TypeError as e:
         print(e)
@@ -62,4 +61,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    trio.run(main)

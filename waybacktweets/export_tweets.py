@@ -3,6 +3,7 @@ import os
 import re
 
 import pandas as pd
+from rich import print as rprint
 from viz_tweets import HTMLTweetsVisualizer
 
 
@@ -59,14 +60,14 @@ class TweetsExporter:
         csv_file_path = f"{self.filename}.csv"
         self.dataframe.to_csv(csv_file_path, index=False)
 
-        print(f"Saved to {csv_file_path}")
+        rprint(f"[blue]Saved to {csv_file_path}")
 
     def save_to_json(self):
         """Saves the DataFrame to a JSON file."""
         json_file_path = f"{self.filename}.json"
         self.dataframe.to_json(json_file_path, orient="records", lines=False)
 
-        print(f"Saved to {json_file_path}")
+        rprint(f"[blue]Saved to {json_file_path}")
 
     def save_to_html(self):
         """Saves the DataFrame to an HTML file."""
@@ -82,4 +83,4 @@ class TweetsExporter:
         html_content = html.generate()
         html.save(html_content)
 
-        print(f"Saved to {html_file_path}")
+        rprint(f"[blue]Saved to {html_file_path}")
