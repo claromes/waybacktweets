@@ -3,6 +3,7 @@ repo_url: https://github.com/claromes/waybacktweets/
 repo_name: claromes/waybacktweets
 edit_uri: tree/main/docs
 site_author: Claromes
+site_description: Retrieves archived tweets' CDX data from the Wayback Machine
 copyright: Copyright &copy; 2023 - 2024 Claromes · Icons by TheDoodleLibrary
 
 theme:

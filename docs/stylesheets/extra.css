@@ -15,6 +15,10 @@
     max-height: none;
 }
 
+.magnifyingglass {
+    scale: 1.2;
+}
+
 .md-source__icon svg {
     scale: 1.5;
 }

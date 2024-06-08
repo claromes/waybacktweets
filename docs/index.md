@@ -2,4 +2,4 @@
 
 # Wayback Tweets
 
-Commands and Python functions for retrieving archived tweets
+Retrieves archived tweets' CDX data from the Wayback Machine, performs necessary parsing, and saves the data.

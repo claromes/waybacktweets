@@ -52,7 +52,7 @@ class HTMLTweetsVisualizer:
                 html += "<br>\n"
                 html += f'<p><strong class="content">Available Tweet Content:</strong> {tweet["available_tweet_text"]}</p>\n'
                 html += f'<p><strong class="content">Available Tweet Is Retweet:</strong> {tweet["available_tweet_is_RT"]}</p>\n'
-                html += f'<p><strong class="content">Available Tweet Username:</strong> {tweet["available_tweet_username"]}</p>\n'
+                html += f'<p><strong class="content">Available Tweet Username:</strong> {tweet["available_tweet_info"]}</p>\n'
 
             if tweet["archived_mimetype"] == "application/json":
                 html += f'<p><strong class="content">Parsed Tweet Text (application/json):</strong> {tweet["parsed_tweet_text_mimetype_json"]}</p>\n'

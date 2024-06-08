@@ -5,7 +5,8 @@ from urllib.parse import unquote
 import httpx
 from rich import print as rprint
 from rich.progress import Progress
-from utils import (
+
+from waybacktweets.utils import (
     check_double_status,
     check_pattern_tweet,
     clean_tweet_url,
@@ -60,7 +61,7 @@ class TwitterEmbed:
 
                 return tweet_content, is_RT, user_info
         except Exception:
-            rprint("[yellow]Error parsing the tweet, but the metadata was saved.")
+            rprint("[yellow]Error parsing the tweet, but the CDX data was saved.")
             return None
 
 
@@ -89,7 +90,7 @@ class JsonParser:
                 return json_data.get("text", json_data)
         except Exception:
             rprint(
-                f"[yellow]Connection error with {self.archived_tweet_url}. Error parsing the JSON, but the metadata was saved."  # noqa: E501
+                f"[yellow]Connection error with {self.archived_tweet_url}. Error parsing the JSON, but the CDX data was saved."  # noqa: E501
             )
 
             return ""
@@ -98,13 +99,13 @@ class JsonParser:
 class TweetsParser:
     """Handles the overall parsing of archived tweets."""
 
-    def __init__(self, archived_tweets_response, username, metadata_options):
+    def __init__(self, archived_tweets_response, username, field_options):
         self.archived_tweets_response = archived_tweets_response
         self.username = username
-        self.metadata_options = metadata_options
-        self.parsed_tweets = {option: [] for option in self.metadata_options}
+        self.field_options = field_options
+        self.parsed_tweets = {option: [] for option in self.field_options}
 
-    def add_metadata(self, key, value):
+    def add_field(self, key, value):
         """
         Appends a value to a list in the parsed data structure.
         Defines which data will be structured and saved.
@@ -113,7 +114,7 @@ class TweetsParser:
             self.parsed_tweets[key].append(value)
 
     def process_response(self, response):
-        """Process the archived tweet's response and add the relevant metadata."""
+        """Process the archived tweet's response and add the relevant CDX data."""
         tweet_remove_char = unquote(response[2]).replace("’", "")
         cleaned_tweet = check_pattern_tweet(tweet_remove_char).strip('"')
 
@@ -145,11 +146,9 @@ class TweetsParser:
         content = embed_parser.embed()
 
         if content:
-            self.add_metadata("available_tweet_text", semicolon_parser(content[0][0]))
-            self.add_metadata("available_tweet_is_RT", content[1][0])
-            self.add_metadata(
-                "available_tweet_username", semicolon_parser(content[2][0])
-            )
+            self.add_field("available_tweet_text", semicolon_parser(content[0][0]))
+            self.add_field("available_tweet_is_RT", content[1][0])
+            self.add_field("available_tweet_info", semicolon_parser(content[2][0]))
 
         parsed_text_json = ""
 
@@ -159,20 +158,20 @@ class TweetsParser:
                 text_json = json_parser.parse()
                 parsed_text_json = semicolon_parser(text_json)
 
-        self.add_metadata("parsed_tweet_text_mimetype_json", parsed_text_json)
-        self.add_metadata("archived_urlkey", response[0])
-        self.add_metadata("archived_timestamp", response[1])
-        self.add_metadata("original_tweet_url", encoded_tweet)
-        self.add_metadata("archived_tweet_url", encoded_archived_tweet)
-        self.add_metadata("parsed_tweet_url", encoded_parsed_tweet)
-        self.add_metadata("parsed_archived_tweet_url", encoded_parsed_archived_tweet)
-        self.add_metadata("archived_mimetype", response[3])
-        self.add_metadata("archived_statuscode", response[4])
-        self.add_metadata("archived_digest", response[5])
-        self.add_metadata("archived_length", response[6])
+        self.add_field("parsed_tweet_text_mimetype_json", parsed_text_json)
+        self.add_field("archived_urlkey", response[0])
+        self.add_field("archived_timestamp", response[1])
+        self.add_field("original_tweet_url", encoded_tweet)
+        self.add_field("archived_tweet_url", encoded_archived_tweet)
+        self.add_field("parsed_tweet_url", encoded_parsed_tweet)
+        self.add_field("parsed_archived_tweet_url", encoded_parsed_archived_tweet)
+        self.add_field("archived_mimetype", response[3])
+        self.add_field("archived_statuscode", response[4])
+        self.add_field("archived_digest", response[5])
+        self.add_field("archived_length", response[6])
 
     def parse(self):
-        """Parses the archived tweets metadata and structures it."""
+        """Parses the archived tweets CDX data and structures it."""
         with ThreadPoolExecutor(max_workers=10) as executor:
 
             futures = {

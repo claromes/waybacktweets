@@ -5,19 +5,19 @@ from rich import print as rprint
 class WaybackTweets:
     """Requests data from the Wayback CDX Server API and returns it in JSON format."""
 
-    def __init__(self, username, unique=False, timestamp_from=None, timestamp_to=None):
+    def __init__(self, username, unique, timestamp_from, timestamp_to, limit):
         self.username = username
         self.unique = unique
         self.timestamp_from = timestamp_from
         self.timestamp_to = timestamp_to
+        self.limit = limit
 
-    async def get(self):
+    def get(self):
         """GET request to the Internet Archive's CDX API to retrieve archived tweets."""
         url = "https://web.archive.org/cdx/search/cdx"
         params = {
             "url": f"https://twitter.com/{self.username}/status/*",
             "output": "json",
-            "limit": 1000,
         }
 
         if self.unique:
@@ -29,11 +29,13 @@ class WaybackTweets:
         if self.timestamp_to:
             params["to"] = self.timestamp_to
 
-        print("Hi, archivist...")
+        if self.limit:
+            params["limit"] = self.limit
+
+        print("Making a request to the Internet Archive...")
 
         try:
-            async with httpx.AsyncClient() as client:
-                response = await client.get(url, params=params)
+            response = httpx.get(url, params=params)
 
             if not (400 <= response.status_code <= 511):
                 return response.json()
@@ -46,4 +48,4 @@ class WaybackTweets:
                 "[red]Temporarily Offline: Internet Archive services are temporarily offline. Please check Internet Archive Twitter feed (https://twitter.com/internetarchive) for the latest information."  # noqa: E501
             )
         except UnboundLocalError as e:
-            print(e)
+            rprint(f"[red]{e}")

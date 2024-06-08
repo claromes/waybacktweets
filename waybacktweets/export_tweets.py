@@ -3,18 +3,17 @@ import os
 import re
 
 import pandas as pd
-from rich import print as rprint
-from viz_tweets import HTMLTweetsVisualizer
+
+from waybacktweets.viz_tweets import HTMLTweetsVisualizer
 
 
 class TweetsExporter:
     """Handles the exporting of parsed archived tweets."""
 
-    def __init__(self, data, username, metadata_options, ascending):
+    def __init__(self, data, username, field_options):
         self.data = data
         self.username = username
-        self.metadata_options = metadata_options
-        self.ascending = ascending
+        self.field_options = field_options
         self.formatted_datetime = self.datetime_now()
         self.filename = f"{self.username}_tweets_{self.formatted_datetime}"
         self.dataframe = self.create_dataframe(self)
@@ -50,8 +49,7 @@ class TweetsExporter:
         """Creates a DataFrame from the transposed data."""
         data_transposed = self.transpose_matrix(self.data)
 
-        df = pd.DataFrame(data_transposed, columns=self.metadata_options)
-        df = df.sort_values(by="archived_timestamp", ascending=self.ascending)
+        df = pd.DataFrame(data_transposed, columns=self.field_options)
 
         return df
 
@@ -60,14 +58,14 @@ class TweetsExporter:
         csv_file_path = f"{self.filename}.csv"
         self.dataframe.to_csv(csv_file_path, index=False)
 
-        rprint(f"[blue]Saved to {csv_file_path}")
+        print(f"Saved to {csv_file_path}")
 
     def save_to_json(self):
         """Saves the DataFrame to a JSON file."""
         json_file_path = f"{self.filename}.json"
         self.dataframe.to_json(json_file_path, orient="records", lines=False)
 
-        rprint(f"[blue]Saved to {json_file_path}")
+        print(f"Saved to {json_file_path}")
 
     def save_to_html(self):
         """Saves the DataFrame to an HTML file."""
@@ -83,4 +81,4 @@ class TweetsExporter:
         html_content = html.generate()
         html.save(html_content)
 
-        rprint(f"[blue]Saved to {html_file_path}")
+        print(f"Saved to {html_file_path}")
