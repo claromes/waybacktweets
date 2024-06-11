@@ -2,5 +2,4 @@
 *.json
 *.html
 waybacktweets/__pycache__
-waybacktweets/notes.md
-.vscode
+notes.md

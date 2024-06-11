@@ -1,8 +1,9 @@
 import re
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from urllib.parse import unquote
 
-import httpx
+import requests
 from rich import print as rprint
 from rich.progress import Progress
 
@@ -25,8 +26,9 @@ class TwitterEmbed:
         """Parses the archived tweets when they are still available."""
         try:
             url = f"https://publish.twitter.com/oembed?url={self.tweet_url}"
-            response = httpx.get(url)
-            if not (400 <= response.status_code <= 511):
+            response = requests.get(url)
+
+            if response:
                 json_response = response.json()
                 html = json_response["html"]
                 author_name = json_response["author_name"]
@@ -73,10 +75,20 @@ class JsonParser:
 
     def parse(self):
         """Parses the archived tweets in JSON format."""
-        try:
-            response = httpx.get(self.archived_tweet_url)
 
-            if response and not (400 <= response.status_code <= 511):
+        max_attempts = 5
+        try:
+            for attempt in range(max_attempts):
+                try:
+                    response = requests.get(self.archived_tweet_url)
+                    break
+                except requests.exceptions.ConnectionError:
+                    if attempt < max_attempts - 1:
+                        time.sleep(0.5)
+                    else:
+                        raise
+
+            if response:
                 json_data = response.json()
 
                 if "data" in json_data:
@@ -153,7 +165,7 @@ class TweetsParser:
         parsed_text_json = ""
 
         if response[3] == "application/json":
-            json_parser = JsonParser(encoded_archived_tweet)
+            json_parser = JsonParser(encoded_parsed_archived_tweet)
             if json_parser:
                 text_json = json_parser.parse()
                 parsed_text_json = semicolon_parser(text_json)
@@ -185,10 +197,7 @@ class TweetsParser:
 
                 for future in as_completed(futures):
                     try:
-                        with httpx.Client(timeout=60.0):
-                            future.result()
-                    except httpx.RequestError as e:
-                        rprint(f"[red]{e}")
+                        future.result()
                     except Exception as e:
                         rprint(f"[red]{e}")
 

@@ -1,4 +1,4 @@
-import httpx
+import requests
 from rich import print as rprint
 
 
@@ -35,15 +35,15 @@ class WaybackTweets:
         print("Making a request to the Internet Archive...")
 
         try:
-            response = httpx.get(url, params=params)
+            response = requests.get(url, params=params)
 
-            if not (400 <= response.status_code <= 511):
+            if response:
                 return response.json()
-        except httpx._exceptions.ReadTimeout:
+        except requests.exceptions.ReadTimeout:
             rprint("[red]Connection to web.archive.org timed out.")
-        except httpx._exceptions.ConnectError:
+        except requests.exceptions.ConnectionError:
             rprint("[red]Failed to establish a new connection with web.archive.org.")
-        except httpx._exceptions.HTTPError:
+        except requests.exceptions.HTTPError:
             rprint(
                 "[red]Temporarily Offline: Internet Archive services are temporarily offline. Please check Internet Archive Twitter feed (https://twitter.com/internetarchive) for the latest information."  # noqa: E501
             )
