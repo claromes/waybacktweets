@@ -7,12 +7,13 @@ from waybacktweets.utils import get_response
 class WaybackTweets:
     """Requests data from the Wayback CDX Server API and returns it in JSON format."""
 
-    def __init__(self, username, unique, timestamp_from, timestamp_to, limit):
+    def __init__(self, username, unique, timestamp_from, timestamp_to, limit, offset):
         self.username = username
         self.unique = unique
         self.timestamp_from = timestamp_from
         self.timestamp_to = timestamp_to
         self.limit = limit
+        self.offset = offset
 
     def get(self):
         """GET request to the Internet Archive's CDX API to retrieve archived tweets."""
@@ -33,6 +34,9 @@ class WaybackTweets:
 
         if self.limit:
             params["limit"] = self.limit
+
+        if self.offset:
+            params["offset"] = self.offset
 
         print("Making a request to the Internet Archive...")
 

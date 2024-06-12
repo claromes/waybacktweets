@@ -210,6 +210,7 @@ if query or st.session_state.count:
             st.session_state.archived_timestamp_filter[0],
             st.session_state.archived_timestamp_filter[1],
             tweets_per_page,
+            st.session_state.offset,
         )
         archived_tweets = response.get()
 

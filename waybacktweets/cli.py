@@ -46,7 +46,13 @@ def parse_date(ctx, param, value):
     help="Filtering by date range up to this date.",
 )
 @click.option("--limit", type=int, default=None, help="Query result limits.")
-def cli(username, unique, timestamp_from, timestamp_to, limit):
+@click.option(
+    "--offset",
+    type=int,
+    default=None,
+    help="Allows for a simple way to scroll through the results.",
+)
+def cli(username, unique, timestamp_from, timestamp_to, limit, offset):
     """
     Retrieves archived tweets' CDX data from the Wayback Machine,
     performs necessary parsing, and saves the data.
@@ -54,7 +60,9 @@ def cli(username, unique, timestamp_from, timestamp_to, limit):
     USERNAME: The Twitter username without @.
     """
     try:
-        api = WaybackTweets(username, unique, timestamp_from, timestamp_to, limit)
+        api = WaybackTweets(
+            username, unique, timestamp_from, timestamp_to, limit, offset
+        )
         archived_tweets = api.get()
 
         if archived_tweets:
