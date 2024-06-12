@@ -1,9 +1,8 @@
 import re
-import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from urllib.parse import unquote
 
-import requests
+from requests import exceptions
 from rich import print as rprint
 from rich.progress import Progress
 
@@ -12,6 +11,7 @@ from waybacktweets.utils import (
     check_pattern_tweet,
     clean_tweet_url,
     delete_tweet_pathnames,
+    get_response,
     semicolon_parser,
 )
 
@@ -26,7 +26,7 @@ class TwitterEmbed:
         """Parses the archived tweets when they are still available."""
         try:
             url = f"https://publish.twitter.com/oembed?url={self.tweet_url}"
-            response = requests.get(url)
+            response = get_response(url=url)
 
             if response:
                 json_response = response.json()
@@ -62,7 +62,7 @@ class TwitterEmbed:
                         is_RT.append(author_name != author_tweet)
 
                 return tweet_content, is_RT, user_info
-        except Exception:
+        except exceptions:
             rprint("[yellow]Error parsing the tweet, but the CDX data was saved.")
             return None
 
@@ -75,18 +75,8 @@ class JsonParser:
 
     def parse(self):
         """Parses the archived tweets in JSON format."""
-
-        max_attempts = 5
         try:
-            for attempt in range(max_attempts):
-                try:
-                    response = requests.get(self.archived_tweet_url)
-                    break
-                except requests.exceptions.ConnectionError:
-                    if attempt < max_attempts - 1:
-                        time.sleep(0.5)
-                    else:
-                        raise
+            response = get_response(url=self.archived_tweet_url)
 
             if response:
                 json_data = response.json()
@@ -100,10 +90,13 @@ class JsonParser:
                     )
 
                 return json_data.get("text", json_data)
-        except Exception:
+        except exceptions.ConnectionError:
             rprint(
-                f"[yellow]Connection error with {self.archived_tweet_url}. Error parsing the JSON, but the CDX data was saved."  # noqa: E501
+                f"[yellow]Connection error with {self.archived_tweet_url}. Max retries exceeded. Error parsing the JSON, but the CDX data was saved."  # noqa: E501
             )
+            return ""
+        except exceptions:
+            rprint("[yellow]Error parsing the JSON, but the CDX data was saved.")
 
             return ""
 
@@ -199,7 +192,7 @@ class TweetsParser:
                     try:
                         future.result()
                     except Exception as e:
-                        rprint(f"[red]{e}")
+                        rprint(f"[red]{e}...")
 
                     progress.update(task, advance=1)
 

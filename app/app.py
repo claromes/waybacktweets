@@ -7,7 +7,7 @@ import streamlit.components.v1 as components
 from waybacktweets.export_tweets import TweetsExporter
 from waybacktweets.parse_tweets import TweetsParser
 from waybacktweets.request_tweets import WaybackTweets
-from waybacktweets.utils import check_double_status
+from waybacktweets.utils import check_double_status, get_response
 
 # Initial Settings
 
@@ -111,7 +111,7 @@ def tweets_count(username, archived_timestamp_filter):
     url = f"https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{username}/status/*&collapse=timestamp:8&output=json&from={archived_timestamp_filter[0]}&to={archived_timestamp_filter[1]}"  # noqa: E501
 
     try:
-        response = requests.get(url)
+        response = get_response(url=url)
 
         if response.status_code == 200:
             data = response.json()
@@ -282,9 +282,18 @@ if query or st.session_state.count:
 
                                     st.divider()
 
-                                # Display tweets not available with text/html, unk, warc/revisit return # noqa: E501
+                                # Display tweets not available with text/html, unk, warc/revisit MIME type or application/json MIME type without parsed JSON text # noqa: E501
                                 elif (
-                                    archived_mimetype[i] != "application/json"
+                                    (
+                                        archived_mimetype[i] != "application/json"
+                                        and not parsed_tweet_text_mimetype_json[i]
+                                    )
+                                    and not available_tweet_text[i]
+                                ) or (
+                                    (
+                                        archived_mimetype[i] == "application/json"
+                                        and not parsed_tweet_text_mimetype_json[i]
+                                    )
                                     and not available_tweet_text[i]
                                 ):
                                     if (
@@ -319,11 +328,11 @@ if query or st.session_state.count:
 
                                     st.divider()
 
-                                # Display tweets not available with application/json return # noqa: E501
+                                # Display tweets not available with application/json MIME type and parsed JSON text # noqa: E501
                                 elif (
                                     archived_mimetype[i] == "application/json"
-                                    and not available_tweet_text[i]
-                                ):
+                                    and parsed_tweet_text_mimetype_json[i]
+                                ) and not available_tweet_text[i]:
                                     st.code(parsed_tweet_text_mimetype_json[i])
                                     # st.json(json_data, expanded=False)
 

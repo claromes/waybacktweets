@@ -18,6 +18,7 @@ class HTMLTweetsVisualizer:
 
     def generate(self):
         """Generates an HTML file."""
+
         html = f"<html>\n<head>\n<title>@{self.username} archived tweets</title>\n"
         html += "<style>\n"
         html += "body { font-family: monospace; background-color: #f5f8fa; color: #1c1e21; margin: 0; padding: 20px; }\n"
@@ -38,7 +39,16 @@ class HTMLTweetsVisualizer:
             html += '<div class="tweet">\n'
 
             if (
-                tweet["archived_mimetype"] != "application/json"
+                (
+                    tweet["archived_mimetype"] != "application/json"
+                    and not tweet["parsed_tweet_text_mimetype_json"]
+                )
+                and not tweet["available_tweet_text"]
+            ) or (
+                (
+                    tweet["archived_mimetype"] == "application/json"
+                    and not tweet["parsed_tweet_text_mimetype_json"]
+                )
                 and not tweet["available_tweet_text"]
             ):
                 html += f'<iframe src="{tweet["parsed_archived_tweet_url"]}" frameborder="0" scrolling="auto"></iframe>\n'
@@ -54,7 +64,10 @@ class HTMLTweetsVisualizer:
                 html += f'<p><strong class="content">Available Tweet Is Retweet:</strong> {tweet["available_tweet_is_RT"]}</p>\n'
                 html += f'<p><strong class="content">Available Tweet Username:</strong> {tweet["available_tweet_info"]}</p>\n'
 
-            if tweet["archived_mimetype"] == "application/json":
+            if (
+                tweet["archived_mimetype"] == "application/json"
+                and tweet["parsed_tweet_text_mimetype_json"]
+            ) and not tweet["available_tweet_text"]:
                 html += f'<p><strong class="content">Parsed Tweet Text (application/json):</strong> {tweet["parsed_tweet_text_mimetype_json"]}</p>\n'
 
             html += "<br>\n"

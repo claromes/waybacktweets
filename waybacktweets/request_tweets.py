@@ -1,5 +1,7 @@
-import requests
+from requests import exceptions
 from rich import print as rprint
+
+from waybacktweets.utils import get_response
 
 
 class WaybackTweets:
@@ -35,15 +37,17 @@ class WaybackTweets:
         print("Making a request to the Internet Archive...")
 
         try:
-            response = requests.get(url, params=params)
+            response = get_response(url=url, params=params)
 
             if response:
                 return response.json()
-        except requests.exceptions.ReadTimeout:
+        except exceptions.ReadTimeout:
             rprint("[red]Connection to web.archive.org timed out.")
-        except requests.exceptions.ConnectionError:
-            rprint("[red]Failed to establish a new connection with web.archive.org.")
-        except requests.exceptions.HTTPError:
+        except exceptions.ConnectionError:
+            rprint(
+                "[red]Failed to establish a new connection with web.archive.org. Max retries exceeded."  # noqa: E501
+            )
+        except exceptions.HTTPError:
             rprint(
                 "[red]Temporarily Offline: Internet Archive services are temporarily offline. Please check Internet Archive Twitter feed (https://twitter.com/internetarchive) for the latest information."  # noqa: E501
             )

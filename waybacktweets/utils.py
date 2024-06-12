@@ -4,6 +4,28 @@ Helper functions.
 
 import re
 
+import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+
+
+def get_response(url, params=None):
+    """Sends a GET request to the specified URL and returns the response."""
+    session = requests.Session()
+    retry = Retry(connect=3, backoff_factor=0.3)
+    adapter = HTTPAdapter(max_retries=retry)
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"  # noqa: E501
+    }
+
+    session.mount("http://", adapter)
+    session.mount("https://", adapter)
+
+    response = session.get(url, params=params, headers=headers)
+
+    if not 400 <= response.status_code <= 511:
+        return response
+
 
 def clean_tweet_url(tweet_url, username):
     """

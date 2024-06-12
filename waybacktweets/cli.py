@@ -5,6 +5,7 @@ CLI functions for retrieving archived tweets.
 from datetime import datetime
 
 import click
+from requests import exceptions
 from rich import print as rprint
 
 from waybacktweets.export_tweets import TweetsExporter
@@ -83,7 +84,7 @@ def cli(username, unique, timestamp_from, timestamp_to, limit):
             exporter.save_to_json()
             exporter.save_to_html()
 
-    except TypeError as e:
+    except exceptions as e:
         rprint(f"[red]{e}")
     finally:
         rprint(
