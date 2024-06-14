@@ -65,8 +65,12 @@ class TwitterEmbed:
         except exceptions:
             rprint("[yellow]Error parsing the tweet, but the CDX data was saved.")
             return None
+        except Exception as e:
+            rprint(f"[red]{e}")
+            return None
 
 
+# TODO: JSON Issue - Create separate function to handle JSON return without hitting rate limiting # noqa: E501
 class JsonParser:
     """Handles parsing of tweets when the mimetype is application/json."""
 
@@ -98,6 +102,9 @@ class JsonParser:
         except exceptions:
             rprint("[yellow]Error parsing the JSON, but the CDX data was saved.")
 
+            return ""
+        except Exception as e:
+            rprint(f"[red]{e}")
             return ""
 
 
@@ -155,15 +162,18 @@ class TweetsParser:
             self._add_field("available_tweet_is_RT", content[1][0])
             self._add_field("available_tweet_info", semicolon_parser(content[2][0]))
 
-        parsed_text_json = ""
+        # TODO: JSON Issue
+        # parsed_text_json = ""
 
-        if response[3] == "application/json":
-            json_parser = JsonParser(encoded_parsed_archived_tweet)
-            if json_parser:
-                text_json = json_parser.parse()
-                parsed_text_json = semicolon_parser(text_json)
+        # if response[3] == "application/json":
+        #     json_parser = JsonParser(encoded_parsed_archived_tweet)
+        #     text_json = json_parser.parse()
 
-        self._add_field("parsed_tweet_text_mimetype_json", parsed_text_json)
+        #     if text_json:
+        #         parsed_text_json = semicolon_parser(text_json)
+
+        # self._add_field("parsed_tweet_text_mimetype_json", parsed_text_json)
+
         self._add_field("archived_urlkey", response[0])
         self._add_field("archived_timestamp", response[1])
         self._add_field("original_tweet_url", encoded_tweet)
@@ -192,7 +202,7 @@ class TweetsParser:
                     try:
                         future.result()
                     except Exception as e:
-                        rprint(f"[red]{e}...")
+                        rprint(f"[red]{e}")
 
                     progress.update(task, advance=1)
 

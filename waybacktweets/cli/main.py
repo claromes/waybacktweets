@@ -75,7 +75,7 @@ def cli(
                 "archived_tweet_url",
                 "parsed_tweet_url",
                 "parsed_archived_tweet_url",
-                "parsed_tweet_text_mimetype_json",
+                # "parsed_tweet_text_mimetype_json", # TODO: JSON Issue
                 "available_tweet_text",
                 "available_tweet_is_RT",
                 "available_tweet_info",

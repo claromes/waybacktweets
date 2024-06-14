@@ -25,8 +25,10 @@ def get_response(url, params=None):
 
     response = session.get(url, params=params, headers=headers)
 
-    if not 400 <= response.status_code <= 511:
-        return response
+    if 400 <= response.status_code <= 511:
+        return None
+
+    return response
 
 
 def clean_tweet_url(tweet_url, username):

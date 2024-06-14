@@ -126,6 +126,9 @@ def tweets_count(username, archived_timestamp_filter):
     except requests.exceptions.ConnectionError:
         st.error("Failed to establish a new connection with web.archive.org.")
         st.stop()
+    except Exception as e:
+        st.error(f"{e}")
+        st.stop()
 
 
 # Interface Settings
@@ -437,3 +440,6 @@ if query or st.session_state.count:
         If the problem persists [open an issue](https://github.com/claromes/waybacktweets/issues)."""  # noqa: E501
         )
         st.session_state.offset = 0
+    except Exception as e:
+        st.error(f"{e}")
+        st.stop()

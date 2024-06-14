@@ -22,8 +22,9 @@ Parse
 .. autoclass:: TwitterEmbed
     :members:
 
-.. autoclass:: JsonParser
-    :members:
+.. TODO: JSON Issue
+.. .. autoclass:: JsonParser
+..     :members:
 
 
 Export
