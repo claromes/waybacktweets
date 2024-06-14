@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Wayback Tweets &#8212; Wayback Tweets Documentation (1.0.x)</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="_static/flask.css?v=b87c8d14" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=dc030f7e" />
+    <script src="_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="icon" href="_static/parthenon.svg"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installation"
+             accesskey="N">next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">Wayback Tweets Documentation (1.0.x)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Wayback Tweets</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="hide-header" id="wayback-tweets">
+<h1>Wayback Tweets<a class="headerlink" href="#wayback-tweets" title="Link to this heading">¶</a></h1>
+<section id="wayback-tweets-documentation">
+<h2>Wayback Tweets Documentation<a class="headerlink" href="#wayback-tweets-documentation" title="Link to this heading">¶</a></h2>
+<p>Retrieves archived tweets’ CDX data from the Wayback Machine, performs necessary parsing, and saves the data.</p>
+</section>
+<section id="user-guide">
+<h2>User Guide<a class="headerlink" href="#user-guide" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#using-pip">Using pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#from-source">From source</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#cli">CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#module">Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#web-app">Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="result.html">Result</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errors.html">Errors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="errors.html#readtimeout">ReadTimeout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errors.html#connectionerror">ConnectionError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errors.html#httperror">HTTPError</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contribute</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contribute.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contribute.html#hacking">Hacking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contribute.html#sponsoring">Sponsoring</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="command-line-interface">
+<h2>Command-Line Interface<a class="headerlink" href="#command-line-interface" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#usage">Usage</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.api.request_tweets">Request</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.api.parse_tweets">Parse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.api.export_tweets">Export</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.api.viz_tweets">Visualizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.utils.utils">Utils</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="streamlit-web-app">
+<h2>Streamlit Web App<a class="headerlink" href="#streamlit-web-app" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="streamlit.html">Web App</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="streamlit.html#filters">Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streamlit.html#pagination">Pagination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streamlit.html#community-comments">Community Comments</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="additional-information">
+<h2>Additional Information<a class="headerlink" href="#additional-information" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<ul>
+    <li><a href="https://github.com/claromes/waybacktweets/blob/main/LICENSE.md" target="_blank">GPL-3.0 license</a></li>
+    <li><a href="https://github.com/claromes/waybacktweets/releases" target="_blank">Changes</a></li>
+</ul></section>
+<section id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="py-modindex.html">Module Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="search.html">Search Page</a></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+  <span id="sidebar-top"></span>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  
+    
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/parthenon.svg" alt="Logo"/>
+            </a></p>
+  
+
+  <h3>Project Links</h3>
+  <ul>
+    <li><a href="https://pypi.org/project/waybacktweets/">PyPI Releases</a>
+  
+    <li><a href="https://github.com/claromes/waybacktweets/">Source Code</a>
+  
+    <li><a href="https://github.com/claromes/waybacktweets/issues/">Issue Tracker</a>
+  
+    <li><a href="https://ruby.social/@claromes">Mastodon</a>
+  
+    <li><a href="https://bsky.app/profile/claromes.com">Bluesky</a>
+  </ul>
+  <h3>Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">Wayback Tweets</a><ul>
+<li><a class="reference internal" href="#wayback-tweets-documentation">Wayback Tweets Documentation</a></li>
+<li><a class="reference internal" href="#user-guide">User Guide</a></li>
+<li><a class="reference internal" href="#command-line-interface">Command-Line Interface</a></li>
+<li><a class="reference internal" href="#api-reference">API Reference</a></li>
+<li><a class="reference internal" href="#streamlit-web-app">Streamlit Web App</a></li>
+<li><a class="reference internal" href="#additional-information">Additional Information</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2023 - 2024, Claromes · Icon by The Doodle Library.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    </div>
+  <script src="_static/version_warning_offset.js"></script>
+
+  </body>
+</html>

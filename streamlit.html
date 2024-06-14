@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Web App &#8212; Wayback Tweets Documentation (1.0.x)</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="_static/flask.css?v=b87c8d14" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=dc030f7e" />
+    <script src="_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="icon" href="_static/parthenon.svg"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="API" href="api.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="API"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Wayback Tweets Documentation (1.0.x)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Web App</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="web-app">
+<h1>Web App<a class="headerlink" href="#web-app" title="Link to this heading">¶</a></h1>
+<p>Aplication that displays multiple archived tweets on Wayback Machine to avoid opening each link manually. The application is a prototype written in Python with the Streamlit framework and hosted on Streamlit Cloud, allowing users to apply filters and view tweets that lack the original URL.</p>
+<section id="filters">
+<h2>Filters<a class="headerlink" href="#filters" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Calendar: Filtering by date range</p></li>
+<li><p>Checkbox: Only tweets not available</p></li>
+<li><p>Checkbox: Only unique URLs (filtering by the collapse option using the urlkey field)</p></li>
+</ul>
+</section>
+<section id="pagination">
+<h2>Pagination<a class="headerlink" href="#pagination" title="Link to this heading">¶</a></h2>
+<p>Pagination is automatic and allows viewing up to 25 tweets per page. This is a fixed value due to the API rate limit.</p>
+</section>
+<section id="community-comments">
+<h2>Community Comments<a class="headerlink" href="#community-comments" title="Link to this heading">¶</a></h2>
+<ul>
+     <li>"We're always delighted when we see our community members create tools for open source research." <a href="https://twitter.com/bellingcat/status/1728085974138122604" target="_blank">Bellingcat</a></li>
+     <br>
+     <li>"#myOSINTtip Clarissa Mendes launched a new tool for accessing old tweets via archive.org called the Wayback Tweets app. For those who love to look deeper at #osint tools, it is available on GitHub and uses the Wayback CDX Server API server (which is a hidden gem for accessing archive.org data!)" <a href="https://www.linkedin.com/posts/my-osint-training_myosinttip-osint-activity-7148425933324963841-0Q2n/" target="_blank">My OSINT Training</a></li>
+     <br>
+     <li>"Original way to find deleted tweets." <a href="https://twitter.com/henkvaness/status/1693298101765701676" target="_blank">Henk Van Ess</a></li>
+     <br>
+     <li>"This is an excellent tool to use now that most Twitter API-based tools have gone down with changes to the pricing structure over at X." <a href="https://osintnewsletter.com/p/22#%C2%A7osint-community" target="_blank">The OSINT Newsletter - Issue #22</a></li>
+     <br>
+     <li>"One of the keys to using the Wayback Machine effectively is knowing what it can and can't archive. It can, and has, archived many, many Twitter accounts... Utilize fun tools such as Wayback Tweets to do so more effectively." <a href="https://memeticwarfareweekly.substack.com/p/mww-paradise-by-the-telegram-dashboard" target="_blank">Ari Ben Am</a></li>
+     <br>
+     <li>"Want to see archived tweets on Wayback Machine in bulk? You can use Wayback Tweets." <a href="https://twitter.com/DailyOsint/status/1695065018662855102" target="_blank">Daily OSINT</a></li>
+     <br>
+     <li>"Untuk mempermudah penelusuran arsip, gunakan Wayback Tweets." <a href="https://twitter.com/gijnIndonesia/status/1685912219408805888" target="_blank">GIJN Indonesia</a></li>
+     <br>
+     <li>"A tool to quickly view tweets saved on archive.org." <a href="https://irinatechtips.substack.com/p/irina_tech_tips-newsletter-3-2023#%C2%A7wayback-tweets" target="_blank">Irina_Tech_Tips Newsletter #3</a></li>
+     <br>
+ </ul><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the application is down, please check the <a class="reference external" href="https://www.streamlitstatus.com/" rel="noopener noreferrer" target="_blank">Streamlit Cloud Status</a>.</p>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+  <span id="sidebar-top"></span>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  
+    
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/parthenon.svg" alt="Logo"/>
+            </a></p>
+  
+
+  <h3>Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">Web App</a><ul>
+<li><a class="reference internal" href="#filters">Filters</a></li>
+<li><a class="reference internal" href="#pagination">Pagination</a></li>
+<li><a class="reference internal" href="#community-comments">Community Comments</a></li>
+</ul>
+</li>
+</ul>
+<h3>Navigation</h3>
+<ul>
+  <li><a href="index.html">Overview</a>
+    <ul>
+          <li>Previous: <a href="api.html" title="previous chapter">API</a>
+          
+    </ul>
+  </li>
+</ul>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2023 - 2024, Claromes · Icon by The Doodle Library.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    </div>
+  <script src="_static/version_warning_offset.js"></script>
+
+  </body>
+</html>
