@@ -1,4 +1,4 @@
-#cli #usage #wbt h3,
-.sphinxsidebarwrapper li ul li ul:has(a[href="#wbt"]):last-child{
+#cli #usage #waybacktweets h3,
+.sphinxsidebarwrapper li ul li ul:has(a[href="#waybacktweets"]):last-child{
     display: none;
 }

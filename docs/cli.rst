@@ -5,5 +5,5 @@ Usage
 ---------
 
 .. click:: waybacktweets.cli.main:cli
-   :prog: wbt
+   :prog: waybacktweets
    :nested: full
