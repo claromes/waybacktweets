@@ -16,7 +16,7 @@ class TweetsExporter:
         self.field_options = field_options
         self.formatted_datetime = self._datetime_now()
         self.filename = f"{self.username}_tweets_{self.formatted_datetime}"
-        self.dataframe = self._create_dataframe(self)
+        self.dataframe = self._create_dataframe()
 
     @staticmethod
     def _datetime_now():

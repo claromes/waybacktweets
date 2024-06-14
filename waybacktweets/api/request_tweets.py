@@ -7,9 +7,9 @@ from waybacktweets.utils.utils import get_response
 class WaybackTweets:
     """Requests data from the Wayback CDX Server API and returns it in JSON format."""
 
-    def __init__(self, username, unique, timestamp_from, timestamp_to, limit, offset):
+    def __init__(self, username, collapse, timestamp_from, timestamp_to, limit, offset):
         self.username = username
-        self.unique = unique
+        self.collapse = collapse
         self.timestamp_from = timestamp_from
         self.timestamp_to = timestamp_to
         self.limit = limit
@@ -23,8 +23,8 @@ class WaybackTweets:
             "output": "json",
         }
 
-        if self.unique:
-            params["collapse"] = "urlkey"
+        if self.collapse:
+            params["collapse"] = self.collapse
 
         if self.timestamp_from:
             params["from"] = self.timestamp_from

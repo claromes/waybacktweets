@@ -5,6 +5,7 @@ Helper functions.
 import re
 from datetime import datetime
 
+import click
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
@@ -137,8 +138,12 @@ def parse_date(ctx=None, param=None, value=None):
         str: The input date string formatted in the "YYYYMMDD" format,
         or None if no date string was provided.
     """
-    if value is None:
-        return None
+    try:
+        if value is None:
+            return None
 
-    date = datetime.strptime(value, "%Y%m%d")
-    return date.strftime("%Y%m%d")
+        date = datetime.strptime(value, "%Y%m%d")
+
+        return date.strftime("%Y%m%d")
+    except ValueError:
+        raise click.BadParameter("Date must be in format YYYYmmdd")

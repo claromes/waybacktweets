@@ -108,7 +108,7 @@ def next_page():
 
 @st.cache_data(ttl=1800, show_spinner=False)
 def tweets_count(username, archived_timestamp_filter):
-    url = f"https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{username}/status/*&collapse=timestamp:8&output=json&from={archived_timestamp_filter[0]}&to={archived_timestamp_filter[1]}"  # noqa: E501
+    url = f"https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{username}/status/*&output=json&from={archived_timestamp_filter[0]}&to={archived_timestamp_filter[1]}"  # noqa: E501
 
     try:
         response = get_response(url=url)
@@ -189,7 +189,7 @@ if query or st.session_state.count:
     )
 
     st.caption(
-        "The search optimization uses an 8-digit [collapsing strategy](https://github.com/internetarchive/wayback/blob/master/wayback-cdx-server/README.md?ref=hackernoon.com#collapsing), refining the captures to one per day. The number of tweets per page is set to 25, and this is a fixed value due to the API rate limit."  # noqa: E501
+        "The number of tweets per page is set to 25, and this is a fixed value due to the API rate limit."  # noqa: E501
     )
     st.write(f"**{st.session_state.count} URLs have been captured**")
 
@@ -202,9 +202,13 @@ if query or st.session_state.count:
 
         # Tweet Listing Processing
 
+        collapse = None
+        if unique:
+            collapse = "urlkey"
+
         response = WaybackTweets(
             username,
-            unique,
+            collapse,
             st.session_state.archived_timestamp_filter[0],
             st.session_state.archived_timestamp_filter[1],
             tweets_per_page,

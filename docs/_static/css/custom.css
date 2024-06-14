@@ -1,3 +1,4 @@
-#cli #usage #wbt h3 {
+#cli #usage #wbt h3,
+.sphinxsidebarwrapper li ul li ul:has(a[href="#wbt"]):last-child{
     display: none;
 }

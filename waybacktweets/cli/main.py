@@ -17,26 +17,28 @@ from waybacktweets.utils.utils import parse_date
 @click.command()
 @click.argument("username", type=str)
 @click.option(
-    "--unique",
-    type=bool,
-    default=False,
-    help="Only show unique URLs. Filtering by the collapse option using the urlkey field.",  # noqa: E501
+    "--collapse",
+    type=click.Choice(["urlkey", "digest", "timestamp:XX"], case_sensitive=False),
+    default=None,
+    help="Collapse results based on a field, or a substring of a field. XX in the timestamp value ranges from 1 to 14, comparing the first XX digits of the timestamp field. It is recommended to use from 4 onwards, to compare at least by years.",  # noqa: E501
 )
 @click.option(
     "--from",
     "timestamp_from",
     type=click.UNPROCESSED,
+    metavar="DATE",
     callback=parse_date,
     default=None,
-    help="Filtering by date range from this date.",
+    help="Filtering by date range from this date. Format: YYYYmmdd",
 )
 @click.option(
     "--to",
     "timestamp_to",
     type=click.UNPROCESSED,
+    metavar="DATE",
     callback=parse_date,
     default=None,
-    help="Filtering by date range up to this date.",
+    help="Filtering by date range up to this date. Format: YYYYmmdd",
 )
 @click.option("--limit", type=int, default=None, help="Query result limits.")
 @click.option(
@@ -47,21 +49,21 @@ from waybacktweets.utils.utils import parse_date
 )
 def cli(
     username: str,
-    unique: bool,
+    collapse: Optional[str],
     timestamp_from: Optional[str],
     timestamp_to: Optional[str],
     limit: Optional[int],
     offset: Optional[int],
 ) -> None:
     """
-    Retrieves archived tweets' CDX data from the Wayback Machine,
+    Retrieves archived tweets CDX data from the Wayback Machine,
     performs necessary parsing, and saves the data.
 
     USERNAME: The Twitter username without @.
     """
     try:
         api = WaybackTweets(
-            username, unique, timestamp_from, timestamp_to, limit, offset
+            username, collapse, timestamp_from, timestamp_to, limit, offset
         )
         archived_tweets = api.get()
 
@@ -91,7 +93,6 @@ def cli(
             exporter.save_to_csv()
             exporter.save_to_json()
             exporter.save_to_html()
-
     except exceptions as e:
         rprint(f"[red]{e}")
     finally:
