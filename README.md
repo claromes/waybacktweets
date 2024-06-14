@@ -2,7 +2,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/waybacktweets)](https://pypi.org/project/waybacktweets)
 
-Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data.
+Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data in CSV, JSON, and HTML formats.
 
 ## Installation
 
@@ -44,8 +44,8 @@ archived_tweets = api.get()
 
 ## Documentation
 
-- [Wayback Tweets documentation]()
-- [Wayback CDX Server API - Beta documentation](https://archive.org/developers/wayback-cdx-server.html)
+- [Wayback Tweets documentation](https://claromes.github.io/waybacktweets)
+- [Wayback CDX Server API (Beta) documentation](https://archive.org/developers/wayback-cdx-server.html)
 
 ## Acknowledgements
 

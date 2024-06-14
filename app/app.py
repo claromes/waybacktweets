@@ -140,9 +140,9 @@ st.success(
     """**New Feature: CLI**
 
 You can now retrieve archived tweets using the Wayback Tweets command line tool.
-Download the archived tweets' CDX data in CSV, JSON, and HTML formats.
+Download the archived tweets CDX data in CSV, JSON, and HTML formats.
 
-For more details, [read the documentation](https://github.com/claromes/waybacktweets)."""  # noqa: E501
+For more details, [read the documentation](https://claromes.github.io/waybacktweets)."""  # noqa: E501
 )
 
 st.title(

@@ -37,4 +37,10 @@ From source
 
         poetry install
 
+    Run Streamlit App:
+
+    .. code-block:: shell
+
+        streamlit run app/app.py
+
 `Read the Poetry CLI documentation <https://python-poetry.org/docs/cli/>`_.
