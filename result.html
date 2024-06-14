@@ -8,7 +8,7 @@
     <title>Result &#8212; Wayback Tweets Documentation (1.0.x)</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
     <link rel="stylesheet" type="text/css" href="_static/flask.css?v=b87c8d14" />
-    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=dc030f7e" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=34aeb135" />
     <script src="_static/documentation_options.js?v=f2a433a1"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
@@ -46,14 +46,15 @@
   <section id="result">
 <h1>Result<a class="headerlink" href="#result" title="Link to this heading">¶</a></h1>
 <p>The package saves in three formats: CSV, JSON, and HTML. The files have the following fields:</p>
-<ul>
+<ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">archived_urlkey</span></code>: (<cite>str</cite>) A canonical transformation of the URL you supplied, for example, <code class="docutils literal notranslate"><span class="pre">org,eserver,tc)/</span></code>. Such keys are useful for indexing.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">archived_timestamp</span></code>: (<cite>datetime</cite>) A 14 digit date-time representation in the <code class="docutils literal notranslate"><span class="pre">YYYYMMDDhhmmss</span></code> format.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">original_tweet_url</span></code>: (<cite>str</cite>) The original tweet URL.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">archived_tweet_url</span></code>: (<cite>str</cite>) The original archived URL.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">parsed_tweet_url</span></code>: (<cite>str</cite>) The original tweet URL after parsing. <a class="reference external" href="api.html#module-waybacktweets.utils.utils" rel="noopener noreferrer" target="_blank">Check the utility functions</a>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">parsed_archived_tweet_url</span></code>: (<cite>str</cite>) The original archived URL after parsing. <a class="reference external" href="api.html#module-waybacktweets.utils.utils" rel="noopener noreferrer" target="_blank">Check the utility functions</a>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">parsed_tweet_text_mimetype_json</span></code>: (<cite>str</cite>) The tweet text extracted from the archived URL that has mimetype <code class="docutils literal notranslate"><span class="pre">application/json</span></code>.</p></li>
+</ul>
+<ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">available_tweet_text</span></code>: (<cite>str</cite>) The tweet text extracted from the URL that is still available on the Twitter account.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">available_tweet_is_RT</span></code>: (<cite>bool</cite>) Whether the tweet from the <code class="docutils literal notranslate"><span class="pre">available_tweet_text</span></code> field is a retweet or not.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">available_tweet_info</span></code>: (<cite>str</cite>) Name and date of the tweet from the <code class="docutils literal notranslate"><span class="pre">available_tweet_text</span></code> field.</p></li>

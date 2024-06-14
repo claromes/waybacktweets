@@ -8,7 +8,7 @@
     <title>Workflow &#8212; Wayback Tweets Documentation (1.0.x)</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
     <link rel="stylesheet" type="text/css" href="_static/flask.css?v=b87c8d14" />
-    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=dc030f7e" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=34aeb135" />
     <script src="_static/documentation_options.js?v=f2a433a1"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
@@ -17,7 +17,7 @@
     <script src="https://unpkg.com/d3/dist/d3.min.js"></script>
     <script>
                 window.addEventListener("load", function () {
-                  var svgs = d3.selectAll(".mermaid#id-d8fe6878-c28e-4b6b-bb6e-a0e916844979 svg");
+                  var svgs = d3.selectAll(".mermaid#id-e8aa29ea-9b80-499c-8edc-739706c780b1 svg");
                   svgs.each(function() {
                     var svg = d3.select(this);
                     svg.html("<g>" + svg.html() + "</g>");
@@ -65,7 +65,7 @@
 <p>The tool was written following a proposal not only to Retrieve data from archived tweets, but also to facilitate the reading of these tweets. Therefore, a flow is defined to obtain these results in the best possible way.</p>
 <p>Due to limitations of the Wayback CDX Server API, it is not always possible to parse the results with the mimetype <code class="docutils literal notranslate"><span class="pre">application/json</span></code>, regardless, the data in CDX format are saved.</p>
 <p>Use the mouse to zoom in and out the flowchart.</p>
-<div align="center" id="id-d8fe6878-c28e-4b6b-bb6e-a0e916844979" class="mermaid align-center">
+<div align="center" id="id-e8aa29ea-9b80-499c-8edc-739706c780b1" class="mermaid align-center">
             flowchart TB
    A[input Username]--&gt; B[(Wayback Machine)]
    B--&gt; B1[save Archived Tweets CDX data]
@@ -74,7 +74,7 @@
    C--&gt; |4xx| E[return None]
    E--&gt; F{request Archived\nTweet URL}
    F--&gt; |4xx| G[return Only CDX data]
-   F--&gt; |2xx/3xx: application/json| J[return JSON text]
+   F--&gt; |TODO: 2xx/3xx: application/json| J[return JSON text]
    F--&gt; |2xx/3xx: text/html, warc/revisit, unk| K[return HTML iframe tag]
         </div>
         </section>

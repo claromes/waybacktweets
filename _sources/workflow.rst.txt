@@ -19,5 +19,5 @@ Use the mouse to zoom in and out the flowchart.
       C--> |4xx| E[return None]
       E--> F{request Archived\nTweet URL}
       F--> |4xx| G[return Only CDX data]
-      F--> |2xx/3xx: application/json| J[return JSON text]
+      F--> |TODO: 2xx/3xx: application/json| J[return JSON text]
       F--> |2xx/3xx: text/html, warc/revisit, unk| K[return HTML iframe tag]

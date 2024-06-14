@@ -8,7 +8,7 @@
     <title>CLI &#8212; Wayback Tweets Documentation (1.0.x)</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
     <link rel="stylesheet" type="text/css" href="_static/flask.css?v=b87c8d14" />
-    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=dc030f7e" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=34aeb135" />
     <script src="_static/documentation_options.js?v=f2a433a1"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
@@ -16,7 +16,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="API" href="api.html" />
-    <link rel="prev" title="Contribute" href="contribute.html" /> 
+    <link rel="prev" title="TODO" href="todo.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -31,7 +31,7 @@
           <a href="api.html" title="API"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="contribute.html" title="Contribute"
+          <a href="todo.html" title="TODO"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">Wayback Tweets Documentation (1.0.x)</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">CLI</a></li> 
@@ -100,6 +100,39 @@ performs necessary parsing, and saves the data.</p>
 
 </section>
 </section>
+<section id="collapsing">
+<h2>Collapsing<a class="headerlink" href="#collapsing" title="Link to this heading">¶</a></h2>
+<p>The Wayback Tweets command line tool recommends the use of three types of “collapse”: <code class="docutils literal notranslate"><span class="pre">urlkey</span></code>, <code class="docutils literal notranslate"><span class="pre">digest</span></code>, and <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> field.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">urlkey</span></code>: (<cite>str</cite>) A canonical transformation of the URL you supplied, for example, <code class="docutils literal notranslate"><span class="pre">org,eserver,tc)/</span></code>. Such keys are useful for indexing.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">digest</span></code>: (<cite>str</cite>) The <code class="docutils literal notranslate"><span class="pre">SHA1</span></code> hash digest of the content, excluding the headers. It’s usually a base-32-encoded string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">timestamp</span></code>: (<cite>datetime</cite>) A 14 digit date-time representation in the <code class="docutils literal notranslate"><span class="pre">YYYYMMDDhhmmss</span></code> format. We recommend <code class="docutils literal notranslate"><span class="pre">YYYYMMDD</span></code>.</p></li>
+</ul>
+<p>However, it is possible to use it with other options. Read below text extracted from the official Wayback CDX Server API (Beta) documentation.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A new form of filtering is the option to “collapse” results based on a field, or a substring of a field. Collapsing is done on adjacent CDX lines where all captures after the first one that are duplicate are filtered out. This is useful for filtering out captures that are “too dense” or when looking for unique captures.</p>
+<p>To use collapsing, add one or more <code class="docutils literal notranslate"><span class="pre">collapse=field</span></code> or <code class="docutils literal notranslate"><span class="pre">collapse=field:N</span></code> where <code class="docutils literal notranslate"><span class="pre">N</span></code> is the first <code class="docutils literal notranslate"><span class="pre">N</span></code> characters of field to test.</p>
+<ul>
+<li><p>Ex: Only show at most 1 capture per hour (compare the first 10 digits of the <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> field). Given 2 captures <code class="docutils literal notranslate"><span class="pre">20130226010000</span></code> and <code class="docutils literal notranslate"><span class="pre">20130226010800</span></code>, since first 10 digits <code class="docutils literal notranslate"><span class="pre">2013022601</span></code> match, the 2nd capture will be filtered out:</p>
+<blockquote>
+<div><p><a class="reference external" href="http://web.archive.org/cdx/search/cdx?url=google.com&amp;collapse=timestamp:10" rel="noopener noreferrer" target="_blank">http://web.archive.org/cdx/search/cdx?url=google.com&amp;collapse=timestamp:10</a></p>
+<p>The calendar page at <cite>web.archive.org</cite> uses this filter by default: <cite>http://web.archive.org/web/*/archive.org</cite></p>
+</div></blockquote>
+</li>
+<li><p>Ex: Only show unique captures by <code class="docutils literal notranslate"><span class="pre">digest</span></code> (note that only adjacent digest are collapsed, duplicates elsewhere in the cdx are not affected):</p>
+<blockquote>
+<div><p><a class="reference external" href="http://web.archive.org/cdx/search/cdx?url=archive.org&amp;collapse=digest" rel="noopener noreferrer" target="_blank">http://web.archive.org/cdx/search/cdx?url=archive.org&amp;collapse=digest</a></p>
+</div></blockquote>
+</li>
+<li><p>Ex: Only show unique urls in a prefix query (filtering out captures except first capture of a given url). This is similar to the old prefix query in wayback (note: this query may be slow at the moment):</p>
+<blockquote>
+<div><p><a class="reference external" href="http://web.archive.org/cdx/search/cdx?url=archive.org&amp;collapse=urlkey&amp;matchType=prefix" rel="noopener noreferrer" target="_blank">http://web.archive.org/cdx/search/cdx?url=archive.org&amp;collapse=urlkey&amp;matchType=prefix</a></p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</section>
 </section>
 
 
@@ -124,6 +157,7 @@ performs necessary parsing, and saves the data.</p>
 <li><a class="reference internal" href="#waybacktweets">waybacktweets</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#collapsing">Collapsing</a></li>
 </ul>
 </li>
 </ul>
@@ -131,7 +165,7 @@ performs necessary parsing, and saves the data.</p>
 <ul>
   <li><a href="index.html">Overview</a>
     <ul>
-          <li>Previous: <a href="contribute.html" title="previous chapter">Contribute</a>
+          <li>Previous: <a href="todo.html" title="previous chapter">TODO</a>
           <li>Next: <a href="api.html" title="next chapter">API</a>
     </ul>
   </li>

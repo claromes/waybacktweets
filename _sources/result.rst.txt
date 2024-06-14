@@ -15,7 +15,8 @@ The package saves in three formats: CSV, JSON, and HTML. The files have the foll
 
 - ``parsed_archived_tweet_url``: (`str`) The original archived URL after parsing. `Check the utility functions <api.html#module-waybacktweets.utils.utils>`_.
 
-- ``parsed_tweet_text_mimetype_json``: (`str`) The tweet text extracted from the archived URL that has mimetype ``application/json``.
+.. TODO: JSON Issue
+.. - ``parsed_tweet_text_mimetype_json``: (`str`) The tweet text extracted from the archived URL that has mimetype ``application/json``.
 
 - ``available_tweet_text``: (`str`) The tweet text extracted from the URL that is still available on the Twitter account.
 

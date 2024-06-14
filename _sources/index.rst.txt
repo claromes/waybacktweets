@@ -7,7 +7,7 @@ Wayback Tweets
 Wayback Tweets Documentation
 ------------------------------
 
-Retrieves archived tweets' CDX data from the Wayback Machine, performs necessary parsing, and saves the data.
+Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data in CSV, JSON, and HTML formats.
 
 
 User Guide
@@ -22,6 +22,7 @@ User Guide
     result
     errors
     contribute
+    todo
 
 
 Command-Line Interface
