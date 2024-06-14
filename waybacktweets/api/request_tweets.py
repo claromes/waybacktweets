@@ -62,8 +62,6 @@ class WaybackTweets:
         if self.offset:
             params["offset"] = self.offset
 
-        print("Making a request to the Internet Archive...")
-
         try:
             response = get_response(url=url, params=params)
 

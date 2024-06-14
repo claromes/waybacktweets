@@ -65,6 +65,8 @@ def cli(
         api = WaybackTweets(
             username, collapse, timestamp_from, timestamp_to, limit, offset
         )
+
+        print("Making a request to the Internet Archive...")
         archived_tweets = api.get()
 
         if archived_tweets:
@@ -86,7 +88,7 @@ def cli(
             ]
 
             parser = TweetsParser(archived_tweets, username, field_options)
-            parsed_tweets = parser.parse()
+            parsed_tweets = parser.parse(print_progress=True)
 
             exporter = TweetsExporter(parsed_tweets, username, field_options)
 
@@ -97,5 +99,5 @@ def cli(
         rprint(f"[red]{e}")
     finally:
         rprint(
-            "[yellow]\nNeed help? Open an issue: https://github.com/claromes/waybacktweets/issues"  # noqa: E501
+            "[yellow]\nNeed help? Read the docs: https://claromes.github.io/waybacktweets"  # noqa: E501
         )

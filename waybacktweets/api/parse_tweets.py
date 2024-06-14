@@ -1,5 +1,6 @@
 import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from contextlib import nullcontext
 from typing import Any, Dict, List, Optional, Tuple
 from urllib.parse import unquote
 
@@ -231,10 +232,11 @@ class TweetsParser:
         self._add_field("archived_digest", response[5])
         self._add_field("archived_length", response[6])
 
-    def parse(self) -> Dict[str, List[Any]]:
+    def parse(self, print_progress=False) -> Dict[str, List[Any]]:
         """
         Parses the archived tweets CDX data and structures it.
 
+        :param print_progress: A boolean indicating whether to print progress or not.
         :returns: The parsed tweets data.
         """
         with ThreadPoolExecutor(max_workers=10) as executor:
@@ -243,10 +245,14 @@ class TweetsParser:
                 executor.submit(self._process_response, response): response
                 for response in self.archived_tweets_response[1:]
             }
-            with Progress() as progress:
-                task = progress.add_task(
-                    f"Waybacking @{self.username} tweets\n", total=len(futures)
-                )
+
+            progress_context = Progress() if print_progress else nullcontext()
+            with progress_context as progress:
+                task = None
+                if print_progress:
+                    task = progress.add_task(
+                        f"Waybacking @{self.username} tweets\n", total=len(futures)
+                    )
 
                 for future in as_completed(futures):
                     try:
@@ -254,6 +260,7 @@ class TweetsParser:
                     except Exception as e:
                         rprint(f"[red]{e}")
 
-                    progress.update(task, advance=1)
+                    if print_progress:
+                        progress.update(task, advance=1)
 
             return self.parsed_tweets
