@@ -6,12 +6,12 @@ class HTMLTweetsVisualizer:
     """Generates an HTML file to visualize the parsed data."""
 
     def __init__(self, json_file_path, html_file_path, username):
-        self.json_content = self.json_loader(json_file_path)
+        self.json_content = self._json_loader(json_file_path)
         self.html_file_path = html_file_path
         self.username = username
 
     @staticmethod
-    def json_loader(json_file_path):
+    def _json_loader(json_file_path):
         """Reads and loads JSON data from a specified file path."""
         with open(json_file_path, "r", encoding="utf-8") as f:
             return json.load(f)

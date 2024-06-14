@@ -1,24 +1,17 @@
 """
-CLI functions for retrieving archived tweets.
+CLI function for retrieving archived tweets.
 """
 
-from datetime import datetime
+from typing import Optional
 
 import click
 from requests import exceptions
 from rich import print as rprint
 
-from waybacktweets.export_tweets import TweetsExporter
-from waybacktweets.parse_tweets import TweetsParser
-from waybacktweets.request_tweets import WaybackTweets
-
-
-def parse_date(ctx, param, value):
-    if value is None:
-        return None
-
-    date = datetime.strptime(value, "%Y%m%d")
-    return date.strftime("%Y%m%d")
+from waybacktweets.api.export_tweets import TweetsExporter
+from waybacktweets.api.parse_tweets import TweetsParser
+from waybacktweets.api.request_tweets import WaybackTweets
+from waybacktweets.utils.utils import parse_date
 
 
 @click.command()
@@ -52,7 +45,14 @@ def parse_date(ctx, param, value):
     default=None,
     help="Allows for a simple way to scroll through the results.",
 )
-def cli(username, unique, timestamp_from, timestamp_to, limit, offset):
+def cli(
+    username: str,
+    unique: bool,
+    timestamp_from: Optional[str],
+    timestamp_to: Optional[str],
+    limit: Optional[int],
+    offset: Optional[int],
+) -> None:
     """
     Retrieves archived tweets' CDX data from the Wayback Machine,
     performs necessary parsing, and saves the data.

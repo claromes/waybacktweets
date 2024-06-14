@@ -3,6 +3,7 @@ Helper functions.
 """
 
 import re
+from datetime import datetime
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -115,3 +116,29 @@ def check_double_status(wayback_machine_url, original_tweet_url):
 def semicolon_parser(string):
     """Replaces semicolons in a string with %3B."""
     return "".join("%3B" if c == ";" else c for c in string)
+
+
+def parse_date(ctx=None, param=None, value=None):
+    """
+    Parses a date string and returns it in the format "YYYYMMDD".
+
+    This function takes an optional date string as input,
+    and if a date string is provided, it parses the date string into a datetime object
+    and then formats it in the "YYYYMMDD" format.
+
+    Args:
+        ctx (None, optional): Necessary when used with the click package.
+        Defaults to None.
+        param (None, optional): Necessary when used with the click package.
+        Defaults to None.
+        value (str, optional): A date string in the "YYYYMMDD" format. Defaults to None.
+
+    Returns:
+        str: The input date string formatted in the "YYYYMMDD" format,
+        or None if no date string was provided.
+    """
+    if value is None:
+        return None
+
+    date = datetime.strptime(value, "%Y%m%d")
+    return date.strftime("%Y%m%d")

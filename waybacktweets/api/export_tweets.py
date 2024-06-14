@@ -4,7 +4,7 @@ import re
 
 import pandas as pd
 
-from waybacktweets.viz_tweets import HTMLTweetsVisualizer
+from waybacktweets.api.viz_tweets import HTMLTweetsVisualizer
 
 
 class TweetsExporter:
@@ -14,12 +14,12 @@ class TweetsExporter:
         self.data = data
         self.username = username
         self.field_options = field_options
-        self.formatted_datetime = self.datetime_now()
+        self.formatted_datetime = self._datetime_now()
         self.filename = f"{self.username}_tweets_{self.formatted_datetime}"
-        self.dataframe = self.create_dataframe(self)
+        self.dataframe = self._create_dataframe(self)
 
     @staticmethod
-    def datetime_now():
+    def _datetime_now():
         """Formats datetime."""
         now = datetime.datetime.now()
         formatted_now = now.strftime("%Y%m%d%H%M%S")
@@ -28,7 +28,7 @@ class TweetsExporter:
         return formatted_now
 
     @staticmethod
-    def transpose_matrix(data, fill_value=None):
+    def _transpose_matrix(data, fill_value=None):
         """
         Transposes a matrix, filling in missing values with a specified fill value
         if needed.
@@ -44,10 +44,9 @@ class TweetsExporter:
 
         return data_transposed
 
-    @staticmethod
-    def create_dataframe(self):
+    def _create_dataframe(self):
         """Creates a DataFrame from the transposed data."""
-        data_transposed = self.transpose_matrix(self.data)
+        data_transposed = self._transpose_matrix(self.data)
 
         df = pd.DataFrame(data_transposed, columns=self.field_options)
 

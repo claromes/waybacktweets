@@ -6,7 +6,7 @@ from requests import exceptions
 from rich import print as rprint
 from rich.progress import Progress
 
-from waybacktweets.utils import (
+from waybacktweets.utils.utils import (
     check_double_status,
     check_pattern_tweet,
     clean_tweet_url,
@@ -110,7 +110,7 @@ class TweetsParser:
         self.field_options = field_options
         self.parsed_tweets = {option: [] for option in self.field_options}
 
-    def add_field(self, key, value):
+    def _add_field(self, key, value):
         """
         Appends a value to a list in the parsed data structure.
         Defines which data will be structured and saved.
@@ -118,7 +118,7 @@ class TweetsParser:
         if key in self.parsed_tweets:
             self.parsed_tweets[key].append(value)
 
-    def process_response(self, response):
+    def _process_response(self, response):
         """Process the archived tweet's response and add the relevant CDX data."""
         tweet_remove_char = unquote(response[2]).replace("’", "")
         cleaned_tweet = check_pattern_tweet(tweet_remove_char).strip('"')
@@ -151,9 +151,9 @@ class TweetsParser:
         content = embed_parser.embed()
 
         if content:
-            self.add_field("available_tweet_text", semicolon_parser(content[0][0]))
-            self.add_field("available_tweet_is_RT", content[1][0])
-            self.add_field("available_tweet_info", semicolon_parser(content[2][0]))
+            self._add_field("available_tweet_text", semicolon_parser(content[0][0]))
+            self._add_field("available_tweet_is_RT", content[1][0])
+            self._add_field("available_tweet_info", semicolon_parser(content[2][0]))
 
         parsed_text_json = ""
 
@@ -163,24 +163,24 @@ class TweetsParser:
                 text_json = json_parser.parse()
                 parsed_text_json = semicolon_parser(text_json)
 
-        self.add_field("parsed_tweet_text_mimetype_json", parsed_text_json)
-        self.add_field("archived_urlkey", response[0])
-        self.add_field("archived_timestamp", response[1])
-        self.add_field("original_tweet_url", encoded_tweet)
-        self.add_field("archived_tweet_url", encoded_archived_tweet)
-        self.add_field("parsed_tweet_url", encoded_parsed_tweet)
-        self.add_field("parsed_archived_tweet_url", encoded_parsed_archived_tweet)
-        self.add_field("archived_mimetype", response[3])
-        self.add_field("archived_statuscode", response[4])
-        self.add_field("archived_digest", response[5])
-        self.add_field("archived_length", response[6])
+        self._add_field("parsed_tweet_text_mimetype_json", parsed_text_json)
+        self._add_field("archived_urlkey", response[0])
+        self._add_field("archived_timestamp", response[1])
+        self._add_field("original_tweet_url", encoded_tweet)
+        self._add_field("archived_tweet_url", encoded_archived_tweet)
+        self._add_field("parsed_tweet_url", encoded_parsed_tweet)
+        self._add_field("parsed_archived_tweet_url", encoded_parsed_archived_tweet)
+        self._add_field("archived_mimetype", response[3])
+        self._add_field("archived_statuscode", response[4])
+        self._add_field("archived_digest", response[5])
+        self._add_field("archived_length", response[6])
 
     def parse(self):
         """Parses the archived tweets CDX data and structures it."""
         with ThreadPoolExecutor(max_workers=10) as executor:
 
             futures = {
-                executor.submit(self.process_response, response): response
+                executor.submit(self._process_response, response): response
                 for response in self.archived_tweets_response[1:]
             }
             with Progress() as progress:

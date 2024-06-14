@@ -4,10 +4,10 @@ import requests
 import streamlit as st
 import streamlit.components.v1 as components
 
-from waybacktweets.export_tweets import TweetsExporter
-from waybacktweets.parse_tweets import TweetsParser
-from waybacktweets.request_tweets import WaybackTweets
-from waybacktweets.utils import check_double_status, get_response
+from waybacktweets.api.export_tweets import TweetsExporter
+from waybacktweets.api.parse_tweets import TweetsParser
+from waybacktweets.api.request_tweets import WaybackTweets
+from waybacktweets.utils.utils import check_double_status, get_response
 
 # Initial Settings
 
@@ -120,14 +120,12 @@ def tweets_count(username, archived_timestamp_filter):
                 return total_tweets
             else:
                 return 0
-    except requests.exceptions.Timeout:
+    except requests.exceptions.ReadTimeout:
         st.error("Connection to web.archive.org timed out.")
         st.stop()
     except requests.exceptions.ConnectionError:
         st.error("Failed to establish a new connection with web.archive.org.")
         st.stop()
-    except UnboundLocalError:
-        st.empty()
 
 
 # Interface Settings
@@ -270,7 +268,7 @@ if query or st.session_state.count:
                             # Display all tweets
                             if not not_available:
                                 st.markdown(
-                                    f'{i+1 + st.session_state.offset}. [**archived url ↗**]({archived_tweet_url[i]}) · [**tweet url ↗**]({original_tweet_url[i]}) · **MIME type:** {archived_mimetype[i]} · **archived timestamp:** {datetime.datetime.strptime(str(archived_timestamp[i]), "%Y%m%d%H%M%S")} · **archived status code:** {archived_statuscode[i]}'  # noqa: E501
+                                    f'{i+1 + st.session_state.offset}. [**archived url ↗**]({archived_tweet_url[i]}) · [**tweet url ↗**]({original_tweet_url[i]}) · **mimetype:** {archived_mimetype[i]} · **archived timestamp:** {datetime.datetime.strptime(str(archived_timestamp[i]), "%Y%m%d%H%M%S")} · **archived status code:** {archived_statuscode[i]}'  # noqa: E501
                                 )
 
                                 # Display available tweets
@@ -283,7 +281,7 @@ if query or st.session_state.count:
 
                                     st.divider()
 
-                                # Display tweets not available with text/html, unk, warc/revisit MIME type or application/json MIME type without parsed JSON text # noqa: E501
+                                # Display tweets not available with text/html, unk, warc/revisit mimetype or application/json mimetype without parsed JSON text # noqa: E501
                                 elif (
                                     (
                                         archived_mimetype[i] != "application/json"
@@ -329,7 +327,7 @@ if query or st.session_state.count:
 
                                     st.divider()
 
-                                # Display tweets not available with application/json MIME type and parsed JSON text # noqa: E501
+                                # Display tweets not available with application/json mimetype and parsed JSON text # noqa: E501
                                 elif (
                                     archived_mimetype[i] == "application/json"
                                     and parsed_tweet_text_mimetype_json[i]
@@ -344,7 +342,7 @@ if query or st.session_state.count:
                                 return_none_count += 1
 
                                 st.markdown(
-                                    f'{i+1 + st.session_state.offset}. [**archived url ↗**]({archived_tweet_url[i]}) · [**tweet url ↗**]({original_tweet_url[i]}) · **MIME type:** {archived_mimetype[i]} · **archived timestamp:** {datetime.datetime.strptime(str(archived_timestamp[i]), "%Y%m%d%H%M%S")} · **archived status code:** {archived_statuscode[i]}'  # noqa: E501
+                                    f'{i+1 + st.session_state.offset}. [**archived url ↗**]({archived_tweet_url[i]}) · [**tweet url ↗**]({original_tweet_url[i]}) · **mimetype:** {archived_mimetype[i]} · **archived timestamp:** {datetime.datetime.strptime(str(archived_timestamp[i]), "%Y%m%d%H%M%S")} · **archived status code:** {archived_statuscode[i]}'  # noqa: E501
                                 )
 
                                 # Display tweets not available with text/html, unk, warc/revisit return # noqa: E501

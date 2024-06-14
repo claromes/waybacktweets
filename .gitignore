@@ -2,4 +2,8 @@
 *.json
 *.html
 waybacktweets/__pycache__
+waybacktweets/api/__pycache__
+waybacktweets/cli/__pycache__
+waybacktweets/utils/__pycache__
+docs/_build/
 notes.md

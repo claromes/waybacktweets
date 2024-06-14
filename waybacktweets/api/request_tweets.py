@@ -1,7 +1,7 @@
 from requests import exceptions
 from rich import print as rprint
 
-from waybacktweets.utils import get_response
+from waybacktweets.utils.utils import get_response
 
 
 class WaybackTweets:
@@ -55,5 +55,3 @@ class WaybackTweets:
             rprint(
                 "[red]Temporarily Offline: Internet Archive services are temporarily offline. Please check Internet Archive Twitter feed (https://twitter.com/internetarchive) for the latest information."  # noqa: E501
             )
-        except UnboundLocalError as e:
-            rprint(f"[red]{e}")
