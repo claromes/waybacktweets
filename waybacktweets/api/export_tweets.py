@@ -1,6 +1,7 @@
 import datetime
 import os
 import re
+from typing import Any, Dict, List, Optional
 
 import pandas as pd
 
@@ -8,9 +9,17 @@ from waybacktweets.api.viz_tweets import HTMLTweetsVisualizer
 
 
 class TweetsExporter:
-    """Handles the exporting of parsed archived tweets."""
+    """
+    Class responsible for exporting parsed archived tweets.
 
-    def __init__(self, data, username, field_options):
+    :param data: The parsed archived tweets data.
+    :param username: The username associated with the tweets.
+    :param field_options: The fields to be included in the exported data.
+    """
+
+    def __init__(
+        self, data: Dict[str, List[Any]], username: str, field_options: List[str]
+    ):
         self.data = data
         self.username = username
         self.field_options = field_options
@@ -19,8 +28,12 @@ class TweetsExporter:
         self.dataframe = self._create_dataframe()
 
     @staticmethod
-    def _datetime_now():
-        """Formats datetime."""
+    def _datetime_now() -> str:
+        """
+        Returns the current datetime, formatted as a string.
+
+        :returns: The current datetime.
+        """
         now = datetime.datetime.now()
         formatted_now = now.strftime("%Y%m%d%H%M%S")
         formatted_now = re.sub(r"\W+", "", formatted_now)
@@ -28,10 +41,17 @@ class TweetsExporter:
         return formatted_now
 
     @staticmethod
-    def _transpose_matrix(data, fill_value=None):
+    def _transpose_matrix(
+        data: Dict[str, List[Any]], fill_value: Optional[Any] = None
+    ) -> List[List[Any]]:
         """
-        Transposes a matrix, filling in missing values with a specified fill value
-        if needed.
+        Transposes a matrix,
+        filling in missing values with a specified fill value if needed.
+
+        :param data: The matrix to be transposed.
+        :param fill_value: The value to fill in missing values with.
+
+        :returns: The transposed matrix.
         """
         max_length = max(len(sublist) for sublist in data.values())
 
@@ -44,30 +64,40 @@ class TweetsExporter:
 
         return data_transposed
 
-    def _create_dataframe(self):
-        """Creates a DataFrame from the transposed data."""
+    def _create_dataframe(self) -> pd.DataFrame:
+        """
+        Creates a DataFrame from the transposed data.
+
+        :returns: The DataFrame representation of the data.
+        """
         data_transposed = self._transpose_matrix(self.data)
 
         df = pd.DataFrame(data_transposed, columns=self.field_options)
 
         return df
 
-    def save_to_csv(self):
-        """Saves the DataFrame to a CSV file."""
+    def save_to_csv(self) -> None:
+        """
+        Saves the DataFrame to a CSV file.
+        """
         csv_file_path = f"{self.filename}.csv"
         self.dataframe.to_csv(csv_file_path, index=False)
 
         print(f"Saved to {csv_file_path}")
 
-    def save_to_json(self):
-        """Saves the DataFrame to a JSON file."""
+    def save_to_json(self) -> None:
+        """
+        Saves the DataFrame to a JSON file.
+        """
         json_file_path = f"{self.filename}.json"
         self.dataframe.to_json(json_file_path, orient="records", lines=False)
 
         print(f"Saved to {json_file_path}")
 
-    def save_to_html(self):
-        """Saves the DataFrame to an HTML file."""
+    def save_to_html(self) -> None:
+        """
+        Saves the DataFrame to an HTML file.
+        """
         json_file_path = f"{self.filename}.json"
 
         if not os.path.exists(json_file_path):

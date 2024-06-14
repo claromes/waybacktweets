@@ -1,23 +1,40 @@
 # flake8: noqa: E501
 import json
+from typing import Any, Dict, List
 
 
 class HTMLTweetsVisualizer:
-    """Generates an HTML file to visualize the parsed data."""
+    """
+    Class responsible for generating an HTML file to visualize the parsed data.
 
-    def __init__(self, json_file_path, html_file_path, username):
+    :param json_content: The content of the JSON file.
+    :param html_file_path: The path where the HTML file will be saved.
+    :param username: The username associated with the tweets.
+    """
+
+    def __init__(self, json_file_path: str, html_file_path: str, username: str):
         self.json_content = self._json_loader(json_file_path)
         self.html_file_path = html_file_path
         self.username = username
 
     @staticmethod
-    def _json_loader(json_file_path):
-        """Reads and loads JSON data from a specified file path."""
+    def _json_loader(json_file_path: str) -> List[Dict[str, Any]]:
+        """
+        Reads and loads JSON data from a specified file path.
+
+        :param json_file_path: The path of the JSON file.
+
+        :returns: The content of the JSON file.
+        """
         with open(json_file_path, "r", encoding="utf-8") as f:
             return json.load(f)
 
-    def generate(self):
-        """Generates an HTML file."""
+    def generate(self) -> str:
+        """
+        Generates an HTML string that represents the parsed data.
+
+        :returns: The generated HTML string.
+        """
 
         html = f"<html>\n<head>\n<title>@{self.username} archived tweets</title>\n"
         html += "<style>\n"
@@ -95,7 +112,11 @@ class HTMLTweetsVisualizer:
 
         return html
 
-    def save(self, html_content):
-        """Saves the generated HTML."""
+    def save(self, html_content: str) -> None:
+        """
+        Saves the generated HTML string to a file.
+
+        :param html_content: The HTML string to be saved.
+        """
         with open(self.html_file_path, "w", encoding="utf-8") as f:
             f.write(html_content)

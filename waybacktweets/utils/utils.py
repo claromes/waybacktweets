@@ -1,9 +1,10 @@
 """
-Helper functions.
+Module containing utility functions for handling HTTP requests and manipulating URLs.
 """
 
 import re
 from datetime import datetime
+from typing import Any, Optional
 
 import click
 import requests
@@ -11,8 +12,19 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 
-def get_response(url, params=None):
-    """Sends a GET request to the specified URL and returns the response."""
+def get_response(
+    url: str, params: Optional[dict] = None
+) -> Optional[requests.Response]:
+    """
+    Sends a GET request to the specified URL and returns the response.
+
+    :param url: The URL to send the GET request to.
+    :param params: The parameters to include in the GET request.
+
+    :returns: The response from the server,
+        if the status code is not in the 400-511 range.
+        If the status code is in the 400-511 range.
+    """
     session = requests.Session()
     retry = Retry(connect=3, backoff_factor=0.3)
     adapter = HTTPAdapter(max_retries=retry)
@@ -31,12 +43,14 @@ def get_response(url, params=None):
     return response
 
 
-def clean_tweet_url(tweet_url, username):
+def clean_tweet_url(tweet_url: str, username: str) -> str:
     """
-    Converts the tweet to lowercase,
-    checks if it contains a tweet URL associated with the username.
-    Returns the original tweet URL with correct casing;
-    or returns the original tweet.
+    Cleans a tweet URL by ensuring it is associated with the correct username.
+
+    :param tweet_url: The tweet URL to clean.
+    :param username: The username to associate with the tweet URL.
+
+    :returns: The cleaned tweet URL.
     """
     tweet_lower = tweet_url.lower()
 
@@ -50,12 +64,18 @@ def clean_tweet_url(tweet_url, username):
         return tweet_url
 
 
-def clean_wayback_machine_url(wayback_machine_url, archived_timestamp, username):
+def clean_wayback_machine_url(
+    wayback_machine_url: str, archived_timestamp: str, username: str
+) -> str:
     """
-    Converts the Wayback Machine URL to lowercase,
-    checks if it contains a tweet URL associated with the username.
-    Returns the original tweet URL with correct casing and archived timestamp;
-    otherwise, it returns the original Wayback Machine URL.
+    Cleans a Wayback Machine URL by ensuring it is associated with the correct username
+    and timestamp.
+
+    :param wayback_machine_url: The Wayback Machine URL to clean.
+    :param archived_timestamp: The timestamp to associate with the Wayback Machine URL.
+    :param username: The username to associate with the Wayback Machine URL.
+
+    :returns: The cleaned Wayback Machine URL.
     """
     wayback_machine_url = wayback_machine_url.lower()
 
@@ -68,13 +88,13 @@ def clean_wayback_machine_url(wayback_machine_url, archived_timestamp, username)
         return wayback_machine_url
 
 
-def check_pattern_tweet(tweet_url):
+def check_pattern_tweet(tweet_url: str) -> str:
     """
-    Extracts tweet IDs from various types of tweet URLs or tweet-related patterns.
+    Extracts the tweet ID from a tweet URL.
 
-    Reply pattern: /status//
-    Link pattern:  /status///
-    Twimg pattern: /status/https://pbs
+    :param tweet_url: The tweet URL to extract the ID from.
+
+    :returns: The extracted tweet ID.
     """
     pattern = re.compile(r'/status/"([^"]+)"')
 
@@ -85,8 +105,14 @@ def check_pattern_tweet(tweet_url):
         return tweet_url
 
 
-def delete_tweet_pathnames(tweet_url):
-    """Removes any pathnames (/photos, /likes, /retweet...) from the tweet URL."""
+def delete_tweet_pathnames(tweet_url: str) -> str:
+    """
+    Removes any pathnames from a tweet URL.
+
+    :param tweet_url: The tweet URL to remove pathnames from.
+
+    :returns: The tweet URL without any pathnames.
+    """
     pattern_username = re.compile(r"https://twitter\.com/([^/]+)/status/\d+")
     match_username = pattern_username.match(tweet_url)
 
@@ -101,11 +127,15 @@ def delete_tweet_pathnames(tweet_url):
         return tweet_url
 
 
-def check_double_status(wayback_machine_url, original_tweet_url):
+def check_double_status(wayback_machine_url: str, original_tweet_url: str) -> bool:
     """
     Checks if a Wayback Machine URL contains two occurrences of "/status/"
     and if the original tweet does not contain "twitter.com".
-    Returns a boolean.
+
+    :param wayback_machine_url: The Wayback Machine URL to check.
+    :param original_tweet_url: The original tweet URL to check.
+
+    :returns: True if the conditions are met, False otherwise.
     """
     if (
         wayback_machine_url.count("/status/") == 2
@@ -116,28 +146,28 @@ def check_double_status(wayback_machine_url, original_tweet_url):
     return False
 
 
-def semicolon_parser(string):
-    """Replaces semicolons in a string with %3B."""
+def semicolon_parser(string: str) -> str:
+    """
+    Replaces semicolons in a string with %3B.
+
+    :param string: The string to replace semicolons in.
+
+    :returns: The string with semicolons replaced by %3B.
+    """
     return "".join("%3B" if c == ";" else c for c in string)
 
 
-def parse_date(ctx=None, param=None, value=None):
+def parse_date(
+    ctx: Optional[Any] = None, param: Optional[Any] = None, value: Optional[str] = None
+) -> Optional[str]:
     """
     Parses a date string and returns it in the format "YYYYMMDD".
 
-    This function takes an optional date string as input,
-    and if a date string is provided, it parses the date string into a datetime object
-    and then formats it in the "YYYYMMDD" format.
+    :param ctx: Necessary when used with the click package. Defaults to None.
+    :param param: Necessary when used with the click package. Defaults to None.
+    :param value: A date string in the "YYYYMMDD" format. Defaults to None.
 
-    Args:
-        ctx (None, optional): Necessary when used with the click package.
-        Defaults to None.
-        param (None, optional): Necessary when used with the click package.
-        Defaults to None.
-        value (str, optional): A date string in the "YYYYMMDD" format. Defaults to None.
-
-    Returns:
-        str: The input date string formatted in the "YYYYMMDD" format,
+    :returns: The input date string formatted in the "YYYYMMDD" format,
         or None if no date string was provided.
     """
     try:

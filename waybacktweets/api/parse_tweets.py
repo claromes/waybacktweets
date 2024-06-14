@@ -1,5 +1,6 @@
 import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from typing import Any, Dict, List, Optional, Tuple
 from urllib.parse import unquote
 
 from requests import exceptions
@@ -17,13 +18,33 @@ from waybacktweets.utils.utils import (
 
 
 class TwitterEmbed:
-    """Handles parsing of tweets using the Twitter Publish service."""
+    """
+    Class responsible for parsing tweets using the Twitter Publish service.
 
-    def __init__(self, tweet_url):
+    :param tweet_url: The URL of the tweet to be parsed.
+    """
+
+    def __init__(self, tweet_url: str):
         self.tweet_url = tweet_url
 
-    def embed(self):
-        """Parses the archived tweets when they are still available."""
+    def embed(self) -> Optional[Tuple[List[str], List[bool], List[str]]]:
+        """
+        Parses the archived tweets when they are still available.
+
+        This function goes through each archived tweet and checks
+        if it is still available.
+        If the tweet is available, it extracts the necessary information
+        and adds it to the respective lists.
+        The function returns a tuple of three lists:
+        - The first list contains the tweet texts.
+        - The second list contains boolean values indicating whether each tweet
+        is still available.
+        - The third list contains the URLs of the tweets.
+
+        :returns: A tuple of three lists containing the tweet texts,
+            availability statuses, and URLs, respectively. If no tweets are available,
+            returns None.
+        """
         try:
             url = f"https://publish.twitter.com/oembed?url={self.tweet_url}"
             response = get_response(url=url)
@@ -72,13 +93,21 @@ class TwitterEmbed:
 
 # TODO: JSON Issue - Create separate function to handle JSON return without hitting rate limiting # noqa: E501
 class JsonParser:
-    """Handles parsing of tweets when the mimetype is application/json."""
+    """
+    Class responsible for parsing tweets when the mimetype is application/json.
 
-    def __init__(self, archived_tweet_url):
+    :param archived_tweet_url: The URL of the archived tweet to be parsed.
+    """
+
+    def __init__(self, archived_tweet_url: str):
         self.archived_tweet_url = archived_tweet_url
 
-    def parse(self):
-        """Parses the archived tweets in JSON format."""
+    def parse(self) -> str:
+        """
+        Parses the archived tweets in JSON format.
+
+        :returns: The parsed tweet text.
+        """
         try:
             response = get_response(url=self.archived_tweet_url)
 
@@ -109,24 +138,41 @@ class JsonParser:
 
 
 class TweetsParser:
-    """Handles the overall parsing of archived tweets."""
+    """
+    Class responsible for the overall parsing of archived tweets.
 
-    def __init__(self, archived_tweets_response, username, field_options):
+    :param archived_tweets_response: The response from the archived tweets.
+    :param username: The username associated with the tweets.
+    :param field_options: The fields to be included in the parsed data.
+    """
+
+    def __init__(
+        self,
+        archived_tweets_response: List[str],
+        username: str,
+        field_options: List[str],
+    ):
         self.archived_tweets_response = archived_tweets_response
         self.username = username
         self.field_options = field_options
         self.parsed_tweets = {option: [] for option in self.field_options}
 
-    def _add_field(self, key, value):
+    def _add_field(self, key: str, value: Any) -> None:
         """
         Appends a value to a list in the parsed data structure.
-        Defines which data will be structured and saved.
+
+        :param key: The key in the parsed data structure.
+        :param value: The value to be appended.
         """
         if key in self.parsed_tweets:
             self.parsed_tweets[key].append(value)
 
-    def _process_response(self, response):
-        """Process the archived tweet's response and add the relevant CDX data."""
+    def _process_response(self, response: List[str]) -> None:
+        """
+        Processes the archived tweet's response and adds the relevant CDX data.
+
+        :param response: The response from the archived tweet.
+        """
         tweet_remove_char = unquote(response[2]).replace("’", "")
         cleaned_tweet = check_pattern_tweet(tweet_remove_char).strip('"')
 
@@ -185,8 +231,12 @@ class TweetsParser:
         self._add_field("archived_digest", response[5])
         self._add_field("archived_length", response[6])
 
-    def parse(self):
-        """Parses the archived tweets CDX data and structures it."""
+    def parse(self) -> Dict[str, List[Any]]:
+        """
+        Parses the archived tweets CDX data and structures it.
+
+        :returns: The parsed tweets data.
+        """
         with ThreadPoolExecutor(max_workers=10) as executor:
 
             futures = {

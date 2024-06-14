@@ -1,3 +1,5 @@
+from typing import Any, Dict, Optional
+
 from requests import exceptions
 from rich import print as rprint
 
@@ -5,9 +7,26 @@ from waybacktweets.utils.utils import get_response
 
 
 class WaybackTweets:
-    """Requests data from the Wayback CDX Server API and returns it in JSON format."""
+    """
+    Class responsible for requesting data from the Wayback CDX Server API.
 
-    def __init__(self, username, collapse, timestamp_from, timestamp_to, limit, offset):
+    :param username: The username associated with the tweets.
+    :param collapse: The field to collapse duplicate lines on.
+    :param timestamp_from: The timestamp to start retrieving tweets from.
+    :param timestamp_to: The timestamp to stop retrieving tweets at.
+    :param limit: The maximum number of results to return.
+    :param offset: The number of lines to skip in the results.
+    """
+
+    def __init__(
+        self,
+        username: str,
+        collapse: str,
+        timestamp_from: str,
+        timestamp_to: str,
+        limit: int,
+        offset: int,
+    ):
         self.username = username
         self.collapse = collapse
         self.timestamp_from = timestamp_from
@@ -15,8 +34,13 @@ class WaybackTweets:
         self.limit = limit
         self.offset = offset
 
-    def get(self):
-        """GET request to the Internet Archive's CDX API to retrieve archived tweets."""
+    def get(self) -> Optional[Dict[str, Any]]:
+        """
+        Sends a GET request to the Internet Archive's CDX API
+        to retrieve archived tweets.
+
+        :returns: The response from the CDX API in JSON format, if successful.
+        """
         url = "https://web.archive.org/cdx/search/cdx"
         params = {
             "url": f"https://twitter.com/{self.username}/status/*",
