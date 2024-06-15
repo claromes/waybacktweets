@@ -3,11 +3,9 @@ import datetime
 from pallets_sphinx_themes import ProjectLink, get_version
 
 project = "Wayback Tweets"
-copyright = (
-    f"2023 - {datetime.datetime.now().year}, Claromes · Icon by The Doodle Library"
-)
-author = "Claromes"
 release, version = get_version("waybacktweets")
+copyright = f"2023 - {datetime.datetime.now().year}, Claromes · Icon by The Doodle Library · Title Font by Google, licensed under the Open Font License · Wayback Tweets v{version}"  # noqa: E501
+author = "Claromes"
 
 # -- General configuration ---------------------------------------------------
 
@@ -23,7 +21,6 @@ extensions = [
 
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
-autodoc_typehints = "description"
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -46,7 +43,7 @@ html_sidebars = {
     "index": ["project.html", "localtoc.html", "searchbox.html"],
     "**": ["localtoc.html", "relations.html", "searchbox.html"],
 }
-html_favicon = "_static/parthenon.svg"
-html_logo = "_static/parthenon.svg"
+html_favicon = "../assets/parthenon.svg"
+html_logo = "../assets/parthenon.svg"
 html_title = f"Wayback Tweets Documentation ({version})"
 html_show_sourcelink = False

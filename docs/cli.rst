@@ -71,7 +71,7 @@ Read below text extracted from the official Wayback CDX Server API (Beta) docume
 
    The matchType may also be set implicitly by using wildcard '*' at end or beginning of the url:
 
-   - If url is ends in '/*', eg url=archive.org/* the query is equivalent to url=archive.org/&matchType=prefix
-   - If url starts with '*.', eg url=*.archive.org/ the query is equivalent to url=archive.org/&matchType=domain
+   - If url is ends in '/\*', eg url=archive.org/\* the query is equivalent to url=archive.org/&matchType=prefix
+   - If url starts with '\*.', eg url=\*.archive.org/ the query is equivalent to url=archive.org/&matchType=domain
 
    (Note: The domain mode is only available if the CDX is in `SURT <http://crawler.archive.org/articles/user_manual/glossary.html#surt>`_-order format.)

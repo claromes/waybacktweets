@@ -15,7 +15,8 @@ from waybacktweets.utils.utils import (
 
 # Initial Settings
 
-LOGO = "app/assets/parthenon.svg"
+LOGO = "assets/parthenon.svg"
+TITLE = "assets/waybacktweets.png"
 
 st.set_page_config(
     page_title="Wayback Tweets",
@@ -54,6 +55,9 @@ st.html(
     img[data-testid="stLogo"] {
         scale: 4;
         padding-left: 10px;
+    }
+    button[data-testid="StyledFullScreenButton"] {
+        display: none;
     }
 </style>
 """
@@ -163,10 +167,7 @@ Retrieve archived tweets CDX data in CSV, JSON, and HTML formats using the comma
 Read the documentation: [claromes.github.io/waybacktweets](https://claromes.github.io/waybacktweets)."""  # noqa: E501
 )
 
-st.title(
-    "Wayback Tweets",
-    anchor=False,
-)
+st.image(TITLE, use_column_width="never")
 st.caption(
     "[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![Star](https://img.shields.io/github/stars/claromes/waybacktweets?style=social)](https://github.com/claromes/waybacktweets)"  # noqa: E501
 )

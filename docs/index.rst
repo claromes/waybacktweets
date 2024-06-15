@@ -3,9 +3,8 @@
 Wayback Tweets
 ================
 
-
-Wayback Tweets Documentation
-------------------------------
+.. image:: ../assets/waybacktweets.png
+    :align: center
 
 Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data in CSV, JSON, and HTML formats.
 
