@@ -81,14 +81,25 @@ performs necessary parsing, and saves the data.</p>
 
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-waybacktweets-limit">
-<span class="sig-name descname"><span class="pre">--limit</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;limit&gt;</span></span><a class="headerlink" href="#cmdoption-waybacktweets-limit" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">--limit</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;INTEGER&gt;</span></span><a class="headerlink" href="#cmdoption-waybacktweets-limit" title="Link to this definition">¶</a></dt>
 <dd><p>Query result limits.</p>
 </dd></dl>
 
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-waybacktweets-offset">
-<span class="sig-name descname"><span class="pre">--offset</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;offset&gt;</span></span><a class="headerlink" href="#cmdoption-waybacktweets-offset" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">--offset</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;INTEGER&gt;</span></span><a class="headerlink" href="#cmdoption-waybacktweets-offset" title="Link to this definition">¶</a></dt>
 <dd><p>Allows for a simple way to scroll through the results.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-waybacktweets-matchtype">
+<span class="sig-name descname"><span class="pre">--matchtype</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;matchtype&gt;</span></span><a class="headerlink" href="#cmdoption-waybacktweets-matchtype" title="Link to this definition">¶</a></dt>
+<dd><p>Results matching a certain prefix, a certain host or all subdomains. Default: exact</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>exact | prefix | host | domain</p>
+</dd>
+</dl>
 </dd></dl>
 
 <p class="rubric">Arguments</p>
@@ -133,6 +144,40 @@ performs necessary parsing, and saves the data.</p>
 </ul>
 </div>
 </section>
+<section id="url-match-scope">
+<h2>URL Match Scope<a class="headerlink" href="#url-match-scope" title="Link to this heading">¶</a></h2>
+<p>The CDX Server can return results matching a certain prefix, a certain host or all subdomains by using the <code class="docutils literal notranslate"><span class="pre">matchType</span></code> param.</p>
+<p>For example, with the value <code class="docutils literal notranslate"><span class="pre">prefix</span></code> it is possible to retrieve URLs beyond <cite>/status/</cite>.</p>
+<p>Read below text extracted from the official Wayback CDX Server API (Beta) documentation.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For example, if given the url: archive.org/about/ and:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">matchType=exact</span></code> (default if omitted) will return results matching exactly archive.org/about/</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">matchType=prefix</span></code> will return results for all results under the path archive.org/about/</p>
+<blockquote>
+<div><p><a class="reference external" href="http://web.archive.org/cdx/search/cdx?url=archive.org/about/&amp;matchType=prefix&amp;limit=1000" rel="noopener noreferrer" target="_blank">http://web.archive.org/cdx/search/cdx?url=archive.org/about/&amp;matchType=prefix&amp;limit=1000</a></p>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">matchType=host</span></code> will return results from host archive.org</p>
+<blockquote>
+<div><p><a class="reference external" href="http://web.archive.org/cdx/search/cdx?url=archive.org/about/&amp;matchType=host&amp;limit=1000" rel="noopener noreferrer" target="_blank">http://web.archive.org/cdx/search/cdx?url=archive.org/about/&amp;matchType=host&amp;limit=1000</a></p>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">matchType=domain</span></code> will return results from host archive.org and all subhosts *.archive.org</p>
+<blockquote>
+<div><p><a class="reference external" href="http://web.archive.org/cdx/search/cdx?url=archive.org/about/&amp;matchType=domain&amp;limit=1000" rel="noopener noreferrer" target="_blank">http://web.archive.org/cdx/search/cdx?url=archive.org/about/&amp;matchType=domain&amp;limit=1000</a></p>
+</div></blockquote>
+</li>
+</ul>
+<p>The matchType may also be set implicitly by using wildcard ‘*’ at end or beginning of the url:</p>
+<ul class="simple">
+<li><p>If url is ends in ‘/<em>’, eg url=archive.org/</em> the query is equivalent to url=archive.org/&amp;matchType=prefix</p></li>
+<li><p>If url starts with ‘<em>.’, eg url=</em>.archive.org/ the query is equivalent to url=archive.org/&amp;matchType=domain</p></li>
+</ul>
+<p>(Note: The domain mode is only available if the CDX is in <a class="reference external" href="http://crawler.archive.org/articles/user_manual/glossary.html#surt" rel="noopener noreferrer" target="_blank">SURT</a>-order format.)</p>
+</div>
+</section>
 </section>
 
 
@@ -158,6 +203,7 @@ performs necessary parsing, and saves the data.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#collapsing">Collapsing</a></li>
+<li><a class="reference internal" href="#url-match-scope">URL Match Scope</a></li>
 </ul>
 </li>
 </ul>

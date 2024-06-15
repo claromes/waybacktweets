@@ -49,7 +49,7 @@
 <span id="request"></span><h2>Request<a class="headerlink" href="#module-waybacktweets.api.request_tweets" title="Link to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="waybacktweets.api.request_tweets.WaybackTweets">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.api.request_tweets.</span></span><span class="sig-name descname"><span class="pre">WaybackTweets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collapse</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp_from</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp_to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.request_tweets.WaybackTweets" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.api.request_tweets.</span></span><span class="sig-name descname"><span class="pre">WaybackTweets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collapse</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp_from</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp_to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matchtype</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.request_tweets.WaybackTweets" title="Link to this definition">¶</a></dt>
 <dd><p>Class responsible for requesting data from the Wayback CDX Server API.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -60,6 +60,8 @@
 <li><p><strong>timestamp_to</strong> (<em>str</em>) – The timestamp to stop retrieving tweets at.</p></li>
 <li><p><strong>limit</strong> (<em>int</em>) – The maximum number of results to return.</p></li>
 <li><p><strong>offset</strong> (<em>int</em>) – The number of lines to skip in the results.</p></li>
+<li><p><strong>matchType</strong> – Results matching a certain prefix, a certain host or all subdomains. # noqa: E501</p></li>
+<li><p><strong>matchtype</strong> (<em>str</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -145,6 +147,33 @@ returns None.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><em>Tuple</em>[<em>List</em>[str], <em>List</em>[bool], <em>List</em>[str]] | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="waybacktweets.api.parse_tweets.JsonParser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.api.parse_tweets.</span></span><span class="sig-name descname"><span class="pre">JsonParser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">archived_tweet_url</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.parse_tweets.JsonParser" title="Link to this definition">¶</a></dt>
+<dd><p>Class responsible for parsing tweets when the mimetype is application/json.</p>
+<p>Note: This class is in an experimental phase, but it is currently being
+used by the Streamlit Web App.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>archived_tweet_url</strong> (<em>str</em>) – The URL of the archived tweet to be parsed.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="waybacktweets.api.parse_tweets.JsonParser.parse">
+<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.parse_tweets.JsonParser.parse" title="Link to this definition">¶</a></dt>
+<dd><p>Parses the archived tweets in JSON format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The parsed tweet text.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -350,6 +379,25 @@ and timestamp.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="waybacktweets.utils.utils.is_tweet_url">
+<span class="sig-prename descclassname"><span class="pre">waybacktweets.utils.utils.</span></span><span class="sig-name descname"><span class="pre">is_tweet_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">twitter_url</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.utils.utils.is_tweet_url" title="Link to this definition">¶</a></dt>
+<dd><p>Checks if the provided URL is a Twitter status URL.</p>
+<p>This function checks if the provided URL contains “/status/” exactly once,
+which is a common pattern in Twitter status URLs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>twitter_url</strong> (<em>str</em>) – The URL to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the URL is a Twitter status URL, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="waybacktweets.utils.utils.get_response">
 <span class="sig-prename descclassname"><span class="pre">waybacktweets.utils.utils.</span></span><span class="sig-name descname"><span class="pre">get_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.utils.utils.get_response" title="Link to this definition">¶</a></dt>
 <dd><p>Sends a GET request to the specified URL and returns the response.</p>
@@ -447,6 +495,10 @@ or None if no date string was provided.</p>
 <li><a class="reference internal" href="#waybacktweets.api.parse_tweets.TwitterEmbed.embed"><code class="docutils literal notranslate"><span class="pre">TwitterEmbed.embed()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#waybacktweets.api.parse_tweets.JsonParser"><code class="docutils literal notranslate"><span class="pre">JsonParser</span></code></a><ul>
+<li><a class="reference internal" href="#waybacktweets.api.parse_tweets.JsonParser.parse"><code class="docutils literal notranslate"><span class="pre">JsonParser.parse()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-waybacktweets.api.export_tweets">Export</a><ul>
@@ -472,6 +524,7 @@ or None if no date string was provided.</p>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.clean_tweet_url"><code class="docutils literal notranslate"><span class="pre">clean_tweet_url()</span></code></a></li>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.clean_wayback_machine_url"><code class="docutils literal notranslate"><span class="pre">clean_wayback_machine_url()</span></code></a></li>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.delete_tweet_pathnames"><code class="docutils literal notranslate"><span class="pre">delete_tweet_pathnames()</span></code></a></li>
+<li><a class="reference internal" href="#waybacktweets.utils.utils.is_tweet_url"><code class="docutils literal notranslate"><span class="pre">is_tweet_url()</span></code></a></li>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.get_response"><code class="docutils literal notranslate"><span class="pre">get_response()</span></code></a></li>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.parse_date"><code class="docutils literal notranslate"><span class="pre">parse_date()</span></code></a></li>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.semicolon_parser"><code class="docutils literal notranslate"><span class="pre">semicolon_parser()</span></code></a></li>

@@ -65,8 +65,9 @@
 <span class="n">timestamp_to</span> <span class="o">=</span> <span class="n">parse_date</span><span class="p">(</span><span class="s2">&quot;20191231&quot;</span><span class="p">)</span>
 <span class="n">limit</span> <span class="o">=</span> <span class="mi">250</span>
 <span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">matchtype</span> <span class="o">=</span> <span class="s2">&quot;exact&quot;</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">WaybackTweets</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">collapse</span><span class="p">,</span> <span class="n">timestamp_from</span><span class="p">,</span> <span class="n">timestamp_to</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span>
+<span class="n">api</span> <span class="o">=</span> <span class="n">WaybackTweets</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">collapse</span><span class="p">,</span> <span class="n">timestamp_from</span><span class="p">,</span> <span class="n">timestamp_to</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">matchtype</span><span class="p">)</span>
 
 <span class="n">archived_tweets</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 </pre></div>
