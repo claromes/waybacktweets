@@ -56,5 +56,4 @@ Utils
 .. autofunction:: delete_tweet_pathnames
 .. autofunction:: is_tweet_url
 .. autofunction:: get_response
-.. autofunction:: parse_date
 .. autofunction:: semicolon_parser

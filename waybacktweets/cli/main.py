@@ -1,8 +1,9 @@
 """
-CLI function for retrieving archived tweets.
+CLI functions for retrieving archived tweets.
 """
 
-from typing import Optional
+from datetime import datetime
+from typing import Any, Optional
 
 import click
 from requests import exceptions
@@ -11,7 +12,30 @@ from rich import print as rprint
 from waybacktweets.api.export_tweets import TweetsExporter
 from waybacktweets.api.parse_tweets import TweetsParser
 from waybacktweets.api.request_tweets import WaybackTweets
-from waybacktweets.utils.utils import parse_date
+
+
+def parse_date(
+    ctx: Optional[Any] = None, param: Optional[Any] = None, value: Optional[str] = None
+) -> Optional[str]:
+    """
+    Parses a date string and returns it in the format "YYYYMMDD".
+
+    :param ctx: Necessary when used with the click package. Defaults to None.
+    :param param: Necessary when used with the click package. Defaults to None.
+    :param value: A date string in the "YYYYMMDD" format. Defaults to None.
+
+    :returns: The input date string formatted in the "YYYYMMDD" format,
+        or None if no date string was provided.
+    """
+    try:
+        if value is None:
+            return None
+
+        date = datetime.strptime(value, "%Y%m%d")
+
+        return date.strftime("%Y%m%d")
+    except ValueError:
+        raise click.BadParameter("Date must be in format YYYYmmdd")
 
 
 @click.command()
@@ -54,7 +78,7 @@ from waybacktweets.utils.utils import parse_date
     "--matchtype",
     type=click.Choice(["exact", "prefix", "host", "domain"], case_sensitive=False),
     default=None,
-    help="Results matching a certain prefix, a certain host or all subdomains. Default: exact",  # noqa: E501
+    help="Results matching a certain prefix, a certain host or all subdomains.",  # noqa: E501
 )
 def cli(
     username: str,

@@ -3,10 +3,8 @@ Module containing utility functions for handling HTTP requests and manipulating 
 """
 
 import re
-from datetime import datetime
-from typing import Any, Optional
+from typing import Optional
 
-import click
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
@@ -155,30 +153,6 @@ def semicolon_parser(string: str) -> str:
     :returns: The string with semicolons replaced by %3B.
     """
     return "".join("%3B" if c == ";" else c for c in string)
-
-
-def parse_date(
-    ctx: Optional[Any] = None, param: Optional[Any] = None, value: Optional[str] = None
-) -> Optional[str]:
-    """
-    Parses a date string and returns it in the format "YYYYMMDD".
-
-    :param ctx: Necessary when used with the click package. Defaults to None.
-    :param param: Necessary when used with the click package. Defaults to None.
-    :param value: A date string in the "YYYYMMDD" format. Defaults to None.
-
-    :returns: The input date string formatted in the "YYYYMMDD" format,
-        or None if no date string was provided.
-    """
-    try:
-        if value is None:
-            return None
-
-        date = datetime.strptime(value, "%Y%m%d")
-
-        return date.strftime("%Y%m%d")
-    except ValueError:
-        raise click.BadParameter("Date must be in format YYYYmmdd")
 
 
 def is_tweet_url(twitter_url: str) -> bool:

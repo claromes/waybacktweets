@@ -16,18 +16,18 @@ class WaybackTweets:
     :param timestamp_to: The timestamp to stop retrieving tweets at.
     :param limit: The maximum number of results to return.
     :param offset: The number of lines to skip in the results.
-    :param matchType: Results matching a certain prefix, a certain host or all subdomains. # noqa: E501
-    """
+    :param matchType: Results matching a certain prefix, a certain host or all subdomains.
+    """  # noqa: E501
 
     def __init__(
         self,
         username: str,
-        collapse: str,
-        timestamp_from: str,
-        timestamp_to: str,
-        limit: int,
-        offset: int,
-        matchtype: str,
+        collapse: str = None,
+        timestamp_from: str = None,
+        timestamp_to: str = None,
+        limit: int = None,
+        offset: int = None,
+        matchtype: str = None,
     ):
         self.username = username
         self.collapse = collapse
