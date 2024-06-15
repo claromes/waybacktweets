@@ -40,12 +40,21 @@ from waybacktweets.utils.utils import parse_date
     default=None,
     help="Filtering by date range up to this date. Format: YYYYmmdd",
 )
-@click.option("--limit", type=int, default=None, help="Query result limits.")
+@click.option(
+    "--limit", type=int, metavar="INTEGER", default=None, help="Query result limits."
+)
 @click.option(
     "--offset",
     type=int,
+    metavar="INTEGER",
     default=None,
     help="Allows for a simple way to scroll through the results.",
+)
+@click.option(
+    "--matchtype",
+    type=click.Choice(["exact", "prefix", "host", "domain"], case_sensitive=False),
+    default=None,
+    help="Results matching a certain prefix, a certain host or all subdomains. Default: exact",  # noqa: E501
 )
 def cli(
     username: str,
@@ -54,6 +63,7 @@ def cli(
     timestamp_to: Optional[str],
     limit: Optional[int],
     offset: Optional[int],
+    matchtype: Optional[str],
 ) -> None:
     """
     Retrieves archived tweets CDX data from the Wayback Machine,
@@ -63,7 +73,7 @@ def cli(
     """
     try:
         api = WaybackTweets(
-            username, collapse, timestamp_from, timestamp_to, limit, offset
+            username, collapse, timestamp_from, timestamp_to, limit, offset, matchtype
         )
 
         print("Making a request to the Internet Archive...")
@@ -77,7 +87,6 @@ def cli(
                 "archived_tweet_url",
                 "parsed_tweet_url",
                 "parsed_archived_tweet_url",
-                # "parsed_tweet_text_mimetype_json", # TODO: JSON Issue
                 "available_tweet_text",
                 "available_tweet_is_RT",
                 "available_tweet_info",

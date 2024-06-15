@@ -1,6 +1,6 @@
 # Wayback Tweets
 
-[![PyPI](https://img.shields.io/pypi/v/waybacktweets)](https://pypi.org/project/waybacktweets)
+[![PyPI](https://img.shields.io/pypi/v/waybacktweets)](https://pypi.org/project/waybacktweets) [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://waybacktweets.streamlit.app)
 
 Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data in CSV, JSON, and HTML formats.
 
@@ -32,8 +32,9 @@ timestamp_from = parse_date("20150101")
 timestamp_to = parse_date("20191231")
 limit = 250
 offset = 0
+matchtype = "exact"
 
-api = WaybackTweets(username, collapse, timestamp_from, timestamp_to, limit, offset)
+api = WaybackTweets(username, collapse, timestamp_from, timestamp_to, limit, offset, matchtype)
 
 archived_tweets = api.get()
 ```

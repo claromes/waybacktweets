@@ -16,6 +16,7 @@ class WaybackTweets:
     :param timestamp_to: The timestamp to stop retrieving tweets at.
     :param limit: The maximum number of results to return.
     :param offset: The number of lines to skip in the results.
+    :param matchType: Results matching a certain prefix, a certain host or all subdomains. # noqa: E501
     """
 
     def __init__(
@@ -26,6 +27,7 @@ class WaybackTweets:
         timestamp_to: str,
         limit: int,
         offset: int,
+        matchtype: str,
     ):
         self.username = username
         self.collapse = collapse
@@ -33,6 +35,7 @@ class WaybackTweets:
         self.timestamp_to = timestamp_to
         self.limit = limit
         self.offset = offset
+        self.matchtype = matchtype
 
     def get(self) -> Optional[Dict[str, Any]]:
         """
@@ -42,8 +45,13 @@ class WaybackTweets:
         :returns: The response from the CDX API in JSON format, if successful.
         """
         url = "https://web.archive.org/cdx/search/cdx"
+
+        status = "/status/*"
+        if self.matchtype != "exact":
+            status = ""
+
         params = {
-            "url": f"https://twitter.com/{self.username}/status/*",
+            "url": f"https://twitter.com/{self.username}{status}",
             "output": "json",
         }
 
@@ -62,6 +70,9 @@ class WaybackTweets:
         if self.offset:
             params["offset"] = self.offset
 
+        if self.matchtype:
+            params["matchType"] = self.matchtype
+
         try:
             response = get_response(url=url, params=params)
 
@@ -71,7 +82,7 @@ class WaybackTweets:
             rprint("[red]Connection to web.archive.org timed out.")
         except exceptions.ConnectionError:
             rprint(
-                "[red]Failed to establish a new connection with web.archive.org. Max retries exceeded."  # noqa: E501
+                "[red]Failed to establish a new connection with web.archive.org. Max retries exceeded. Please wait a few minutes and try again."  # noqa: E501
             )
         except exceptions.HTTPError:
             rprint(

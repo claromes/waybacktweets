@@ -179,3 +179,20 @@ def parse_date(
         return date.strftime("%Y%m%d")
     except ValueError:
         raise click.BadParameter("Date must be in format YYYYmmdd")
+
+
+def is_tweet_url(twitter_url: str) -> bool:
+    """
+    Checks if the provided URL is a Twitter status URL.
+
+    This function checks if the provided URL contains "/status/" exactly once,
+    which is a common pattern in Twitter status URLs.
+
+    :param twitter_url: The URL to check.
+
+    :returns: True if the URL is a Twitter status URL, False otherwise.
+    """
+    if twitter_url.count("/status/") == 1:
+        return True
+
+    return False

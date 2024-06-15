@@ -22,9 +22,8 @@ Parse
 .. autoclass:: TwitterEmbed
     :members:
 
-.. TODO: JSON Issue
-.. .. autoclass:: JsonParser
-..     :members:
+.. autoclass:: JsonParser
+    :members:
 
 
 Export
@@ -55,6 +54,7 @@ Utils
 .. autofunction:: clean_tweet_url
 .. autofunction:: clean_wayback_machine_url
 .. autofunction:: delete_tweet_pathnames
+.. autofunction:: is_tweet_url
 .. autofunction:: get_response
 .. autofunction:: parse_date
 .. autofunction:: semicolon_parser

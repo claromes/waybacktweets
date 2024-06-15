@@ -29,8 +29,9 @@ Using Wayback Tweets as a Python Module
     timestamp_to = parse_date("20191231")
     limit = 250
     offset = 0
+    matchtype = "exact"
 
-    api = WaybackTweets(username, collapse, timestamp_from, timestamp_to, limit, offset)
+    api = WaybackTweets(username, collapse, timestamp_from, timestamp_to, limit, offset, matchtype)
 
     archived_tweets = api.get()
 

@@ -6,18 +6,17 @@ Aplication that displays multiple archived tweets on Wayback Machine to avoid op
 
 Filters
 ----------
+- Filtering by date range: Using the `from` and `to` filters
 
-- Calendar: Filtering by date range
+- Only unavailable tweets: Checks if the archived URL still exists on Twitter (see the `flowchart <workflow.html>`_)
 
-- Checkbox: Only tweets not available
-
-- Checkbox: Only unique URLs (filtering by the collapse option using the urlkey field)
+- Only unique URLs: Filtering by the collapse option using the ``urlkey`` field and the URL Match Scope ``prefix``
 
 
 Pagination
 ------------
 
-Pagination is automatic and allows viewing up to 25 tweets per page. This is a fixed value due to the API rate limit.
+Pagination allows viewing up to 25 tweets per page. This helps to avoid rate limiting from the API, for parsing returns with the mimetype ``application/json``.
 
 
 Community Comments

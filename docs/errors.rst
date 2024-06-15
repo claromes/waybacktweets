@@ -17,10 +17,10 @@ This error is raised when the package fails to establish a new connection with w
 
 The output message from the package would be: ``Failed to establish a new connection with web.archive.org. Max retries exceeded.``
 
-.. TODO: JSON Issue
-.. This is the error often returned when performing experimental parsing of URLs with the mimetype ``application/json``.
 
-.. The warning output message from the package would be: ``Connection error with https://web.archive.org/web/<TIMESTAMP>/https://twitter.com/<USERNAME>/status/<TWEET_ID>. Max retries exceeded. Error parsing the JSON, but the CDX data was saved.``
+This is the error often returned when performing experimental parsing of URLs with the mimetype ``application/json``.
+
+The warning output message from the package would be: ``Connection error with https://web.archive.org/web/<TIMESTAMP>/https://twitter.com/<USERNAME>/status/<TWEET_ID>. Max retries exceeded. Error parsing the JSON, but the CDX data was saved.``
 
 HTTPError
 ----------------

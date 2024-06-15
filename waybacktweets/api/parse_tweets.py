@@ -14,6 +14,7 @@ from waybacktweets.utils.utils import (
     clean_tweet_url,
     delete_tweet_pathnames,
     get_response,
+    is_tweet_url,
     semicolon_parser,
 )
 
@@ -95,7 +96,9 @@ class TwitterEmbed:
 # TODO: JSON Issue - Create separate function to handle JSON return without hitting rate limiting # noqa: E501
 class JsonParser:
     """
-    Class responsible for parsing tweets when the mimetype is application/json.
+    Class responsible for parsing tweets when the mimetype is application/json.\n
+    Note: This class is in an experimental phase, but it is currently being
+    used by the Streamlit Web App.
 
     :param archived_tweet_url: The URL of the archived tweet to be parsed.
     """
@@ -201,13 +204,24 @@ class TweetsParser:
         encoded_parsed_tweet = semicolon_parser(original_tweet)
         encoded_parsed_archived_tweet = semicolon_parser(parsed_wayback_machine_url)
 
-        embed_parser = TwitterEmbed(encoded_tweet)
-        content = embed_parser.embed()
+        available_tweet_text = None
+        available_tweet_is_RT = None
+        available_tweet_info = None
 
-        if content:
-            self._add_field("available_tweet_text", semicolon_parser(content[0][0]))
-            self._add_field("available_tweet_is_RT", content[1][0])
-            self._add_field("available_tweet_info", semicolon_parser(content[2][0]))
+        is_tweet = is_tweet_url(encoded_tweet)
+
+        if is_tweet:
+            embed_parser = TwitterEmbed(encoded_tweet)
+            content = embed_parser.embed()
+
+            if content:
+                available_tweet_text = semicolon_parser(content[0][0])
+                available_tweet_is_RT = content[1][0]
+                available_tweet_info = semicolon_parser(content[2][0])
+
+        self._add_field("available_tweet_text", available_tweet_text)
+        self._add_field("available_tweet_is_RT", available_tweet_is_RT)
+        self._add_field("available_tweet_info", available_tweet_info)
 
         # TODO: JSON Issue
         # parsed_text_json = ""
