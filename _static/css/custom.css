@@ -1,3 +1,7 @@
+body {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
 #cli #usage #waybacktweets h3,
 #cli .admonition-title,
 .sphinxsidebarwrapper li ul li ul:has(a[href="#waybacktweets"]):last-child {
