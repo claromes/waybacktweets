@@ -6,7 +6,6 @@ from datetime import datetime
 from typing import Any, Optional
 
 import click
-from requests import exceptions
 from rich import print as rprint
 
 from waybacktweets.api.export_tweets import TweetsExporter
@@ -128,7 +127,7 @@ def cli(
             exporter.save_to_csv()
             exporter.save_to_json()
             exporter.save_to_html()
-    except exceptions as e:
+    except Exception as e:
         rprint(f"[red]{e}")
     finally:
         rprint(

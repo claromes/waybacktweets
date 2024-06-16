@@ -1,4 +1,8 @@
 # flake8: noqa: E501
+"""
+Generates an HTML file to visualize the parsed data.
+"""
+
 import json
 from typing import Any, Dict, List
 

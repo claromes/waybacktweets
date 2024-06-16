@@ -1,6 +1,9 @@
+"""
+Requests data from the Wayback Machine API.
+"""
+
 from typing import Any, Dict, Optional
 
-from requests import exceptions
 from rich import print as rprint
 
 from waybacktweets.utils.utils import get_response
@@ -73,20 +76,19 @@ class WaybackTweets:
         if self.matchtype:
             params["matchType"] = self.matchtype
 
-        try:
-            response = get_response(url=url, params=params)
+        response, error, error_type = get_response(url=url, params=params)
 
-            if response:
-                return response.json()
-        except exceptions.ReadTimeout:
+        if response:
+            return response.json()
+        elif error and error_type == "ReadTimeout":
             rprint("[red]Connection to web.archive.org timed out.")
-        except exceptions.ConnectionError:
+        elif error and error_type == "ConnectionError":
             rprint(
                 "[red]Failed to establish a new connection with web.archive.org. Max retries exceeded. Please wait a few minutes and try again."  # noqa: E501
             )
-        except exceptions.HTTPError:
+        elif error and error_type == "HTTPError":
+            rprint("[red]Connection to web.archive.org timed out.")
+        elif error and error_type:
             rprint(
                 "[red]Temporarily Offline: Internet Archive services are temporarily offline. Please check Internet Archive Twitter feed (https://twitter.com/internetarchive) for the latest information."  # noqa: E501
             )
-        except Exception as e:
-            rprint(f"[red]{e}")

@@ -4,7 +4,7 @@ from pallets_sphinx_themes import ProjectLink, get_version
 
 project = "Wayback Tweets"
 release, version = get_version("waybacktweets")
-copyright = f"2023 - {datetime.datetime.now().year}, Claromes · Icon by The Doodle Library · Title Font by Google, licensed under the Open Font License · Wayback Tweets v{version}"  # noqa: E501
+copyright = f"2023 - {datetime.datetime.now().year}, Claromes · Icon by The Doodle Library · Title font by Google, licensed under the Open Font License · Wayback Tweets v{version}"  # noqa: E501
 author = "Claromes"
 
 # -- General configuration ---------------------------------------------------

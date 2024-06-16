@@ -19,7 +19,7 @@ User Guide
     quickstart
     workflow
     result
-    errors
+    exceptions
     contribute
     todo
 

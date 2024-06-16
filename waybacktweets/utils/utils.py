@@ -1,9 +1,9 @@
 """
-Module containing utility functions for handling HTTP requests and manipulating URLs.
+Utility functions for handling HTTP requests and manipulating URLs.
 """
 
 import re
-from typing import Optional
+from typing import Optional, Tuple
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -12,16 +12,16 @@ from urllib3.util.retry import Retry
 
 def get_response(
     url: str, params: Optional[dict] = None
-) -> Optional[requests.Response]:
+) -> Tuple[Optional[requests.Response], Optional[str], Optional[str]]:
     """
-    Sends a GET request to the specified URL and returns the response.
+    Sends a GET request to the specified URL and returns the response,
+    an error message if any, and the type of exception if any.
 
     :param url: The URL to send the GET request to.
     :param params: The parameters to include in the GET request.
 
-    :returns: The response from the server,
-        if the status code is not in the 400-511 range.
-        If the status code is in the 400-511 range.
+    :returns: A tuple containing the response from the server or None,
+              an error message or None, and the type of exception or None.
     """
     session = requests.Session()
     retry = Retry(connect=3, backoff_factor=0.3)
@@ -33,12 +33,17 @@ def get_response(
     session.mount("http://", adapter)
     session.mount("https://", adapter)
 
-    response = session.get(url, params=params, headers=headers)
+    try:
+        response = session.get(url, params=params, headers=headers)
+        response.raise_for_status()
 
-    if 400 <= response.status_code <= 511:
-        return None
-
-    return response
+        if not response or response.json() == []:
+            return None, "No data was saved due to an empty response.", None
+        return response, None, None
+    except requests.exceptions.RequestException as e:
+        return None, str(e), type(e).__name__
+    except Exception as e:
+        return None, str(e), type(e).__name__
 
 
 def clean_tweet_url(tweet_url: str, username: str) -> str:

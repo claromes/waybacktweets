@@ -1,3 +1,7 @@
+"""
+Exports the parsed archived tweets.
+"""
+
 import datetime
 import os
 import re

@@ -47,7 +47,7 @@ if archived_tweets:
 
 ### Using Wayback Tweets as a Web App
 
-[Access the application](https://waybacktweets.streamlit.app), a prototype written in Python with the Streamlit framework and hosted on Streamlit Cloud.
+[Open the application](https://waybacktweets.streamlit.app), a prototype written in Python with the Streamlit framework and hosted on Streamlit Cloud.
 
 ## Documentation
 

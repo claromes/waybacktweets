@@ -1,6 +1,5 @@
 import datetime
 
-import requests
 import streamlit as st
 import streamlit.components.v1 as components
 
@@ -26,11 +25,11 @@ st.set_page_config(
         "About": f"""
     [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![License](https://img.shields.io/github/license/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/blob/main/LICENSE.md) [![Star](https://img.shields.io/github/stars/claromes/waybacktweets?style=social)](https://github.com/claromes/waybacktweets)
 
-    Aplication that displays multiple archived tweets on Wayback Machine to avoid opening each link manually.
+    Application that displays multiple archived tweets on Wayback Machine to avoid opening each link manually.
 
     The application is a prototype hosted on Streamlit Cloud, allowing users to apply filters and view tweets that lack the original URL. [Read more](https://claromes.github.io/waybacktweets/streamlit.html).
 
-    © Copyright 2023 - {datetime.datetime.now().year}, [Claromes](https://claromes.com) · Icon by The Doodle Library
+    © 2023 - {datetime.datetime.now().year}, [Claromes](https://claromes.com) · Icon by The Doodle Library · Title font by Google, licensed under the Open Font License
 
     ---
 """,  # noqa: E501
@@ -129,24 +128,23 @@ def next_page():
 def tweets_count(username, archived_timestamp_filter):
     url = f"https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{username}/status/*&output=json&from={archived_timestamp_filter[0]}&to={archived_timestamp_filter[1]}"  # noqa: E501
 
-    try:
-        response = get_response(url=url)
+    response, error, error_type = get_response(url=url)
 
-        if response.status_code == 200:
-            data = response.json()
-            if data and len(data) > 1:
-                total_tweets = len(data) - 1
-                return total_tweets
-            else:
-                return 0
-    except requests.exceptions.ReadTimeout:
-        st.error("Connection to web.archive.org timed out.")
-        st.stop()
-    except requests.exceptions.ConnectionError:
+    if response.status_code == 200:
+        data = response.json()
+        if data and len(data) > 1:
+            total_tweets = len(data) - 1
+            return total_tweets
+        else:
+            return 0
+    elif error and error_type == "ReadTimeout":
         st.error("Failed to establish a new connection with web.archive.org.")
         st.stop()
-    except Exception as e:
-        st.error(f"{e}")
+    elif error and error_type == "ConnectionError":
+        st.error("Failed to establish a new connection with web.archive.org.")
+        st.stop()
+    elif error and error_type:
+        st.error(f"{error}")
         st.stop()
 
 
