@@ -94,7 +94,7 @@ performs necessary parsing, and saves the data.</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-waybacktweets-matchtype">
 <span class="sig-name descname"><span class="pre">--matchtype</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;matchtype&gt;</span></span><a class="headerlink" href="#cmdoption-waybacktweets-matchtype" title="Link to this definition">¶</a></dt>
-<dd><p>Results matching a certain prefix, a certain host or all subdomains. Default: exact</p>
+<dd><p>Results matching a certain prefix, a certain host or all subdomains.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Options<span class="colon">:</span></dt>
 <dd class="field-odd"><p>exact | prefix | host | domain</p>
@@ -147,7 +147,7 @@ performs necessary parsing, and saves the data.</p>
 <section id="url-match-scope">
 <h2>URL Match Scope<a class="headerlink" href="#url-match-scope" title="Link to this heading">¶</a></h2>
 <p>The CDX Server can return results matching a certain prefix, a certain host or all subdomains by using the <code class="docutils literal notranslate"><span class="pre">matchType</span></code> param.</p>
-<p>For example, with the value <code class="docutils literal notranslate"><span class="pre">prefix</span></code> it is possible to retrieve URLs beyond <cite>/status/</cite>.</p>
+<p>The package <code class="docutils literal notranslate"><span class="pre">waybacktweets</span></code> uses the pathname <code class="docutils literal notranslate"><span class="pre">/status</span></code> followed by the wildcard ‘*’ at the end of the URL to retrieve only tweets. However, if a value is provided for this parameter, the search will be made from the URL <cite>twitter.com/&lt;USERNAME&gt;</cite>.</p>
 <p>Read below text extracted from the official Wayback CDX Server API (Beta) documentation.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -172,8 +172,8 @@ performs necessary parsing, and saves the data.</p>
 </ul>
 <p>The matchType may also be set implicitly by using wildcard ‘*’ at end or beginning of the url:</p>
 <ul class="simple">
-<li><p>If url is ends in ‘/<em>’, eg url=archive.org/</em> the query is equivalent to url=archive.org/&amp;matchType=prefix</p></li>
-<li><p>If url starts with ‘<em>.’, eg url=</em>.archive.org/ the query is equivalent to url=archive.org/&amp;matchType=domain</p></li>
+<li><p>If url is ends in ‘/*’, eg url=archive.org/* the query is equivalent to url=archive.org/&amp;matchType=prefix</p></li>
+<li><p>If url starts with ‘*.’, eg url=*.archive.org/ the query is equivalent to url=archive.org/&amp;matchType=domain</p></li>
 </ul>
 <p>(Note: The domain mode is only available if the CDX is in <a class="reference external" href="http://crawler.archive.org/articles/user_manual/glossary.html#surt" rel="noopener noreferrer" target="_blank">SURT</a>-order format.)</p>
 </div>
@@ -232,7 +232,7 @@ performs necessary parsing, and saves the data.</p>
     </div>
   
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2023 - 2024, Claromes · Icon by The Doodle Library.
+    &#169; Copyright 2023 - 2024, Claromes · Icon by The Doodle Library · Title font by Google, licensed under the Open Font License · Wayback Tweets v1.0.x.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
     </div>
   <script src="_static/version_warning_offset.js"></script>

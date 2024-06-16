@@ -49,34 +49,40 @@
 <h2>CLI<a class="headerlink" href="#cli" title="Link to this heading">¶</a></h2>
 <p>Using Wayback Tweets as a standalone command line tool</p>
 <p>waybacktweets [OPTIONS] USERNAME</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>waybacktweets<span class="w"> </span>--from<span class="w"> </span><span class="m">20150101</span><span class="w"> </span>--to<span class="w"> </span><span class="m">20191231</span><span class="w"> </span>--limit<span class="w"> </span><span class="m">250</span><span class="w"> </span>jack<span class="sb">`</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>waybacktweets<span class="w"> </span>--from<span class="w"> </span><span class="m">20150101</span><span class="w"> </span>--to<span class="w"> </span><span class="m">20191231</span><span class="w"> </span>--limit<span class="w"> </span><span class="m">250</span><span class="w"> </span>jack
 </pre></div>
 </div>
 </section>
 <section id="module">
 <h2>Module<a class="headerlink" href="#module" title="Link to this heading">¶</a></h2>
 <p>Using Wayback Tweets as a Python Module</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">waybacktweets</span> <span class="kn">import</span> <span class="n">WaybackTweets</span>
-<span class="kn">from</span> <span class="nn">waybacktweets.utils</span> <span class="kn">import</span> <span class="n">parse_date</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">waybacktweets</span> <span class="kn">import</span> <span class="n">WaybackTweets</span><span class="p">,</span> <span class="n">TweetsParser</span><span class="p">,</span> <span class="n">TweetsExporter</span>
 
-<span class="n">username</span> <span class="o">=</span> <span class="s2">&quot;jack&quot;</span>
-<span class="n">collapse</span> <span class="o">=</span> <span class="s2">&quot;urlkey&quot;</span>
-<span class="n">timestamp_from</span> <span class="o">=</span> <span class="n">parse_date</span><span class="p">(</span><span class="s2">&quot;20150101&quot;</span><span class="p">)</span>
-<span class="n">timestamp_to</span> <span class="o">=</span> <span class="n">parse_date</span><span class="p">(</span><span class="s2">&quot;20191231&quot;</span><span class="p">)</span>
-<span class="n">limit</span> <span class="o">=</span> <span class="mi">250</span>
-<span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">matchtype</span> <span class="o">=</span> <span class="s2">&quot;exact&quot;</span>
+<span class="n">USERNAME</span> <span class="o">=</span> <span class="s2">&quot;jack&quot;</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">WaybackTweets</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">collapse</span><span class="p">,</span> <span class="n">timestamp_from</span><span class="p">,</span> <span class="n">timestamp_to</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">matchtype</span><span class="p">)</span>
-
+<span class="n">api</span> <span class="o">=</span> <span class="n">WaybackTweets</span><span class="p">(</span><span class="n">USERNAME</span><span class="p">)</span>
 <span class="n">archived_tweets</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">archived_tweets</span><span class="p">:</span>
+    <span class="n">field_options</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;archived_timestamp&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;original_tweet_url&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;archived_tweet_url&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;archived_statuscode&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">TweetsParser</span><span class="p">(</span><span class="n">archived_tweets</span><span class="p">,</span> <span class="n">USERNAME</span><span class="p">,</span> <span class="n">field_options</span><span class="p">)</span>
+    <span class="n">parsed_tweets</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+
+    <span class="n">exporter</span> <span class="o">=</span> <span class="n">TweetsExporter</span><span class="p">(</span><span class="n">parsed_tweets</span><span class="p">,</span> <span class="n">USERNAME</span><span class="p">,</span> <span class="n">field_options</span><span class="p">)</span>
+    <span class="n">exporter</span><span class="o">.</span><span class="n">save_to_csv</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
 <section id="web-app">
 <h2>Web App<a class="headerlink" href="#web-app" title="Link to this heading">¶</a></h2>
 <p>Using Wayback Tweets as a Streamlit Web App</p>
-<p><a class="reference external" href="https://waybacktweets.streamlit.app" rel="noopener noreferrer" target="_blank">Access the application</a>, a prototype written in Python with the Streamlit framework and hosted on Streamlit Cloud.</p>
+<p><a class="reference external" href="https://waybacktweets.streamlit.app" rel="noopener noreferrer" target="_blank">Open the application</a>, a prototype written in Python with the Streamlit framework and hosted on Streamlit Cloud.</p>
 </section>
 </section>
 
@@ -129,7 +135,7 @@
     </div>
   
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2023 - 2024, Claromes · Icon by The Doodle Library.
+    &#169; Copyright 2023 - 2024, Claromes · Icon by The Doodle Library · Title font by Google, licensed under the Open Font License · Wayback Tweets v1.0.x.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
     </div>
   <script src="_static/version_warning_offset.js"></script>

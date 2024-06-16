@@ -1,4 +1,4 @@
-Errors
+Exceptions
 ================
 
 These are the most common errors and are handled by the ``waybacktweets`` package.

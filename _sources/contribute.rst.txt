@@ -24,6 +24,7 @@ Install from the source, following `these instructions <installation.html>`_.
 Brief explanation about the code under the Wayback Tweets directory:
 
 - ``app``: Streamlit app
+- ``assets``: Title and logo images
 - ``docs``: Documentation generated with Sphinx
 - ``waybacktweets/api``: Main package modules
 - ``waybacktweets/cli``: Command line Interface module

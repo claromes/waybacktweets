@@ -47,7 +47,7 @@ URL Match Scope
 
 The CDX Server can return results matching a certain prefix, a certain host or all subdomains by using the ``matchType`` param.
 
-For example, with the value ``prefix`` it is possible to retrieve URLs beyond `/status/`.
+The package ``waybacktweets`` uses the pathname ``/status`` followed by the wildcard '*' at the end of the URL to retrieve only tweets. However, if a value is provided for this parameter, the search will be made from the URL `twitter.com/<USERNAME>`.
 
 Read below text extracted from the official Wayback CDX Server API (Beta) documentation.
 
@@ -71,7 +71,7 @@ Read below text extracted from the official Wayback CDX Server API (Beta) docume
 
    The matchType may also be set implicitly by using wildcard '*' at end or beginning of the url:
 
-   - If url is ends in '/*', eg url=archive.org/* the query is equivalent to url=archive.org/&matchType=prefix
-   - If url starts with '*.', eg url=*.archive.org/ the query is equivalent to url=archive.org/&matchType=domain
+   - If url is ends in '/\*', eg url=archive.org/\* the query is equivalent to url=archive.org/&matchType=prefix
+   - If url starts with '\*.', eg url=\*.archive.org/ the query is equivalent to url=archive.org/&matchType=domain
 
    (Note: The domain mode is only available if the CDX is in `SURT <http://crawler.archive.org/articles/user_manual/glossary.html#surt>`_-order format.)
