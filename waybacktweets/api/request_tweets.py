@@ -46,12 +46,12 @@ class WaybackTweets:
         """
         url = "https://web.archive.org/cdx/search/cdx"
 
-        status = "/status/*"
-        if self.matchtype != "exact":
-            status = ""
+        status_pathname = "status/*"
+        if self.matchtype:
+            status_pathname = ""
 
         params = {
-            "url": f"https://twitter.com/{self.username}{status}",
+            "url": f"https://twitter.com/{self.username}/{status_pathname}",
             "output": "json",
         }
 

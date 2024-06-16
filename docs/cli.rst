@@ -47,7 +47,7 @@ URL Match Scope
 
 The CDX Server can return results matching a certain prefix, a certain host or all subdomains by using the ``matchType`` param.
 
-For example, with the value ``prefix`` it is possible to retrieve URLs beyond `/status/`.
+The package ``waybacktweets`` uses the pathname ``/status`` followed by the wildcard '*' at the end of the URL to retrieve only tweets. However, if a value is provided for this parameter, the search will be made from the URL `twitter.com/<USERNAME>`.
 
 Read below text extracted from the official Wayback CDX Server API (Beta) documentation.
 
