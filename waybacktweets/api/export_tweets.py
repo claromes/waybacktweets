@@ -14,8 +14,8 @@ class TweetsExporter:
 
     :param data: The parsed archived tweets data.
     :param username: The username associated with the tweets.
-    :param field_options: The fields to be included in the exported data.
-    """
+    :param field_options: The fields to be included in the exported data. Options include "archived_urlkey", "archived_timestamp", "original_tweet_url", "archived_tweet_url", "parsed_tweet_url", "parsed_archived_tweet_url", "available_tweet_text", "available_tweet_is_RT", "available_tweet_info", "archived_mimetype", "archived_statuscode", "archived_digest", "archived_length".
+    """  # noqa: E501
 
     def __init__(
         self, data: Dict[str, List[Any]], username: str, field_options: List[str]

@@ -13,3 +13,7 @@ TODO
 
 |uncheck| Code: Develop a scraper to download snapshots from https://archive.today (`Not planned`)
 
+|uncheck| Code: Unit Tests (`Planned`)
+
+|uncheck| Code: Mapping and parsing of other Twitter-related URLs (`Planned`)
+

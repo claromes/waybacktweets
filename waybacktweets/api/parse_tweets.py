@@ -147,8 +147,8 @@ class TweetsParser:
 
     :param archived_tweets_response: The response from the archived tweets.
     :param username: The username associated with the tweets.
-    :param field_options: The fields to be included in the parsed data.
-    """
+    :param field_options: The fields to be included in the parsed data. Options include "archived_urlkey", "archived_timestamp", "original_tweet_url", "archived_tweet_url", "parsed_tweet_url", "parsed_archived_tweet_url", "available_tweet_text", "available_tweet_is_RT", "available_tweet_info", "archived_mimetype", "archived_statuscode", "archived_digest", "archived_length".
+    """  # noqa: E501
 
     def __init__(
         self,

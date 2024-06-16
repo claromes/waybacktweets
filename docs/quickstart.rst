@@ -20,20 +20,26 @@ Using Wayback Tweets as a Python Module
 
 .. code-block:: python
 
-    from waybacktweets import WaybackTweets
-    from waybacktweets.utils import parse_date
+    from waybacktweets import WaybackTweets, TweetsParser, TweetsExporter
 
-    username = "jack"
-    collapse = "urlkey"
-    timestamp_from = parse_date("20150101")
-    timestamp_to = parse_date("20191231")
-    limit = 250
-    offset = 0
-    matchtype = "exact"
+    USERNAME = "jack"
 
-    api = WaybackTweets(username, collapse, timestamp_from, timestamp_to, limit, offset, matchtype)
-
+    api = WaybackTweets(USERNAME)
     archived_tweets = api.get()
+
+    if archived_tweets:
+        field_options = [
+            "archived_timestamp",
+            "original_tweet_url",
+            "archived_tweet_url",
+            "archived_statuscode",
+        ]
+
+        parser = TweetsParser(archived_tweets, USERNAME, field_options)
+        parsed_tweets = parser.parse()
+
+        exporter = TweetsExporter(parsed_tweets, USERNAME, field_options)
+        exporter.save_to_csv()
 
 Web App
 -------------
