@@ -35,7 +35,7 @@ max-line-length = 88
 extend-ignore = ["E203", "E701"]
 
 [tool.poetry.scripts]
-waybacktweets = 'waybacktweets.cli.main:cli'
+waybacktweets = 'waybacktweets._cli:main'
 
 [build-system]
 requires = ["poetry-core"]

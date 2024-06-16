@@ -4,7 +4,7 @@ CLI
 Usage
 ---------
 
-.. click:: waybacktweets.cli.main:cli
+.. click:: waybacktweets._cli:main
    :prog: waybacktweets
    :nested: full
 

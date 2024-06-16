@@ -79,7 +79,7 @@ def parse_date(
     default=None,
     help="Results matching a certain prefix, a certain host or all subdomains.",  # noqa: E501
 )
-def cli(
+def main(
     username: str,
     collapse: Optional[str],
     timestamp_from: Optional[str],
