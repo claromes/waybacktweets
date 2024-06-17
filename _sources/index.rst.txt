@@ -6,7 +6,7 @@ Wayback Tweets
 .. image:: ../assets/waybacktweets.png
     :align: center
 
-Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data in CSV, JSON, and HTML formats.
+Retrieves archived tweets CDX data from the Wayback Machine, performs several parses to facilitate the analysis of archived tweets and types of tweets (see :ref:`field_options`), and saves the data in CSV, JSON, and HTML formats.
 
 .. note::
     Intensive queries can lead to rate limiting, resulting in a temporary ban of a few minutes from web.archive.org.

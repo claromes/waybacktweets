@@ -83,7 +83,7 @@
 
 </section>
 <section id="module-waybacktweets.api.parse">
-<span id="parse"></span><h2>Parse<a class="headerlink" href="#module-waybacktweets.api.parse" title="Link to this heading">¶</a></h2>
+<span id="parse"></span><span id="parser"></span><h2>Parse<a class="headerlink" href="#module-waybacktweets.api.parse" title="Link to this heading">¶</a></h2>
 <p>Parses the returned data from the Wayback CDX Server API.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="waybacktweets.api.parse.TweetsParser">
@@ -207,7 +207,7 @@
 
 </section>
 <section id="module-waybacktweets.api.export">
-<span id="export"></span><h2>Export<a class="headerlink" href="#module-waybacktweets.api.export" title="Link to this heading">¶</a></h2>
+<span id="export"></span><span id="exporter"></span><h2>Export<a class="headerlink" href="#module-waybacktweets.api.export" title="Link to this heading">¶</a></h2>
 <p>Exports the parsed archived tweets.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="waybacktweets.api.export.TweetsExporter">
@@ -370,9 +370,9 @@
 </dd></dl>
 
 </section>
-<section id="module-waybacktweets.utils.utils">
-<span id="utils"></span><h2>Utils<a class="headerlink" href="#module-waybacktweets.utils.utils" title="Link to this heading">¶</a></h2>
-<p>Utility functions for handling HTTP requests and manipulating URLs.</p>
+<section id="utils">
+<span id="id1"></span><h2>Utils<a class="headerlink" href="#utils" title="Link to this heading">¶</a></h2>
+<p id="module-waybacktweets.utils.utils">Utility functions for handling HTTP requests and manipulating URLs.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="waybacktweets.utils.utils.check_double_status">
 <span class="sig-prename descclassname"><span class="pre">waybacktweets.utils.utils.</span></span><span class="sig-name descname"><span class="pre">check_double_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wayback_machine_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_tweet_url</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.utils.utils.check_double_status" title="Link to this definition">¶</a></dt>
@@ -396,16 +396,21 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="waybacktweets.utils.utils.check_pattern_tweet">
 <span class="sig-prename descclassname"><span class="pre">waybacktweets.utils.utils.</span></span><span class="sig-name descname"><span class="pre">check_pattern_tweet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tweet_url</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.utils.utils.check_pattern_tweet" title="Link to this definition">¶</a></dt>
-<dd><p>Extracts the tweet ID from a tweet URL.</p>
+<dd><p>Extracts the URL from a tweet URL with patterns such as:</p>
+<ul class="simple">
+<li><p>Reply: /status//</p></li>
+<li><p>Link:  /status///</p></li>
+<li><p>Twimg: /status/<a class="reference external" href="https://pbs" rel="noopener noreferrer" target="_blank">https://pbs</a></p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>tweet_url</strong> (<em>str</em>) – The tweet URL to extract the ID from.</p>
+<dd class="field-odd"><p><strong>tweet_url</strong> (<em>str</em>) – The tweet URL to extract the URL from.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The extracted tweet ID.</p>
+<dd class="field-odd"><p>Only the extracted URL from a tweet.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -653,7 +658,7 @@
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-waybacktweets.utils.utils">Utils</a><ul>
+<li><a class="reference internal" href="#utils">Utils</a><ul>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.check_double_status"><code class="docutils literal notranslate"><span class="pre">check_double_status()</span></code></a></li>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.check_pattern_tweet"><code class="docutils literal notranslate"><span class="pre">check_pattern_tweet()</span></code></a></li>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.clean_tweet_url"><code class="docutils literal notranslate"><span class="pre">clean_tweet_url()</span></code></a></li>
