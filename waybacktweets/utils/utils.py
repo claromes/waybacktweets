@@ -24,15 +24,18 @@ def get_response(
     """
     Sends a GET request to the specified URL and returns the response.
 
-    :param url: The URL to send the GET request to.
-    :param params: The parameters to include in the GET request.
+    Args:
+        url (str): The URL to send the GET request to.
+        params (dict, optional): The parameters to include in the GET request.
 
-    :returns: The response from the server.
+    Returns:
+        The response from the server.
 
-    :raises ReadTimeoutError: If a read timeout occurs.
-    :raises ConnectionError: If a connection error occurs.
-    :raises HTTPError: If an HTTP error occurs.
-    :raises EmptyResponseError: If the response is empty.
+    Raises:
+        ReadTimeoutError: If a read timeout occurs.
+        ConnectionError: If a connection error occurs.
+        HTTPError: If an HTTP error occurs.
+        EmptyResponseError: If the response is empty.
     """
     session = requests.Session()
     retry = Retry(connect=3, backoff_factor=0.3)
@@ -65,10 +68,12 @@ def clean_tweet_url(tweet_url: str, username: str) -> str:
     """
     Cleans a tweet URL by ensuring it is associated with the correct username.
 
-    :param tweet_url: The tweet URL to clean.
-    :param username: The username to associate with the tweet URL.
+    Args:
+        tweet_url (str): The tweet URL to clean.
+        username (str): The username to associate with the tweet URL.
 
-    :returns: The cleaned tweet URL.
+    Returns:
+        The cleaned tweet URL.
     """
     tweet_lower = tweet_url.lower()
 
@@ -86,15 +91,16 @@ def clean_wayback_machine_url(
     wayback_machine_url: str, archived_timestamp: str, username: str
 ) -> str:
     """
-    Cleans a Wayback Machine URL by ensuring it is associated with the correct username
-    and timestamp.
+    Cleans a Wayback Machine URL by ensuring it is associated with the correct username and timestamp.
 
-    :param wayback_machine_url: The Wayback Machine URL to clean.
-    :param archived_timestamp: The timestamp to associate with the Wayback Machine URL.
-    :param username: The username to associate with the Wayback Machine URL.
+    Args:
+        wayback_machine_url (str): The Wayback Machine URL to clean.
+        archived_timestamp (str): The timestamp to associate with the Wayback Machine URL.
+        username (str): The username to associate with the Wayback Machine URL.
 
-    :returns: The cleaned Wayback Machine URL.
-    """
+    Returns:
+        The cleaned Wayback Machine URL.
+    """  # noqa: E501
     wayback_machine_url = wayback_machine_url.lower()
 
     pattern = re.compile(r"/status/(\d+)")
@@ -110,9 +116,11 @@ def check_pattern_tweet(tweet_url: str) -> str:
     """
     Extracts the tweet ID from a tweet URL.
 
-    :param tweet_url: The tweet URL to extract the ID from.
+    Args:
+        tweet_url (str): The tweet URL to extract the ID from.
 
-    :returns: The extracted tweet ID.
+    Returns:
+        The extracted tweet ID.
     """
     pattern = re.compile(r'/status/"([^"]+)"')
 
@@ -127,9 +135,11 @@ def delete_tweet_pathnames(tweet_url: str) -> str:
     """
     Removes any pathnames from a tweet URL.
 
-    :param tweet_url: The tweet URL to remove pathnames from.
+    Args:
+        tweet_url (str): The tweet URL to remove pathnames from.
 
-    :returns: The tweet URL without any pathnames.
+    Returns:
+        The tweet URL without any pathnames.
     """
     pattern_username = re.compile(r"https://twitter\.com/([^/]+)/status/\d+")
     match_username = pattern_username.match(tweet_url)
@@ -147,14 +157,15 @@ def delete_tweet_pathnames(tweet_url: str) -> str:
 
 def check_double_status(wayback_machine_url: str, original_tweet_url: str) -> bool:
     """
-    Checks if a Wayback Machine URL contains two occurrences of "/status/"
-    and if the original tweet does not contain "twitter.com".
+    Checks if a Wayback Machine URL contains two occurrences of "/status/" and if the original tweet does not contain "twitter.com".
 
-    :param wayback_machine_url: The Wayback Machine URL to check.
-    :param original_tweet_url: The original tweet URL to check.
+    Args:
+        wayback_machine_url (str): The Wayback Machine URL to check.
+        original_tweet_url (str): The original tweet URL to check.
 
-    :returns: True if the conditions are met, False otherwise.
-    """
+    Returns:
+        True if the conditions are met, False otherwise.
+    """  # noqa: E501
     if (
         wayback_machine_url.count("/status/") == 2
         and "twitter.com" not in original_tweet_url
@@ -168,9 +179,11 @@ def semicolon_parser(string: str) -> str:
     """
     Replaces semicolons in a string with %3B.
 
-    :param string: The string to replace semicolons in.
+    Args:
+        string (str): The string to replace semicolons in.
 
-    :returns: The string with semicolons replaced by %3B.
+    Returns:
+        The string with semicolons replaced by %3B.
     """
     return "".join("%3B" if c == ";" else c for c in string)
 
@@ -179,13 +192,14 @@ def is_tweet_url(twitter_url: str) -> bool:
     """
     Checks if the provided URL is a Twitter status URL.
 
-    This function checks if the provided URL contains "/status/" exactly once,
-    which is a common pattern in Twitter status URLs.
+    This function checks if the provided URL contains "/status/" exactly once, which is a common pattern in Twitter status URLs.
 
-    :param twitter_url: The URL to check.
+    Args:
+        twitter_url (str): The URL to check.
 
-    :returns: True if the URL is a Twitter status URL, False otherwise.
-    """
+    Returns:
+        True if the URL is a Twitter status URL, False otherwise.
+    """  # noqa: E501
     if twitter_url.count("/status/") == 1:
         return True
 

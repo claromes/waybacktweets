@@ -1,18 +1,28 @@
 """
+Configuration module.
+
 Manages global configuration settings throughout the application.
 """
 
+from dataclasses import dataclass
 
+
+@dataclass
 class _Config:
-    def __init__(self, verbose: bool = True):
-        self.verbose = verbose
+    """
+    A class used to represent the configuration settings.
+
+    Attributes:
+        verbose (bool): Determines if verbose logging should be enabled.
+    """
+
+    verbose: bool = True
 
 
 config = _Config()
 """
-Configuration settings.
+Global configuration instance.
 
-.. attribute:: verbose
-
-    Determines if verbose logging should be enabled.
+Attributes:
+    verbose (bool): Determines if verbose logging should be enabled.
 """

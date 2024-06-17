@@ -11,13 +11,14 @@ class HTMLTweetsVisualizer:
     """
     Class responsible for generating an HTML file to visualize the parsed data.
 
-    :param json_content: The content of the JSON file.
-    :param html_file_path: The path where the HTML file will be saved.
-    :param username: The username associated with the tweets.
+    Args:
+        json_file_path (str): The path of the JSON file.
+        html_file_path (str): The path where the HTML file will be saved.
+        username (str): The username associated with the tweets.
     """
 
     def __init__(self, json_file_path: str, html_file_path: str, username: str):
-        self.json_content = self._json_loader(json_file_path)
+        self.json_file_path = self._json_loader(json_file_path)
         self.html_file_path = html_file_path
         self.username = username
 
@@ -26,9 +27,11 @@ class HTMLTweetsVisualizer:
         """
         Reads and loads JSON data from a specified file path.
 
-        :param json_file_path: The path of the JSON file.
+        Args:
+            json_file_path (str): The path of the JSON file.
 
-        :returns: The content of the JSON file.
+        Returns:
+            The content of the JSON file.
         """
         with open(json_file_path, "r", encoding="utf-8") as f:
             return json.load(f)
@@ -37,7 +40,8 @@ class HTMLTweetsVisualizer:
         """
         Generates an HTML string that represents the parsed data.
 
-        :returns: The generated HTML string.
+        Returns:
+            The generated HTML string.
         """
 
         html = f"<html>\n<head>\n<title>@{self.username} archived tweets</title>\n"
@@ -56,23 +60,9 @@ class HTMLTweetsVisualizer:
         html += f"<h1>@{self.username} archived tweets</h1>\n"
         html += '<div class="container">\n'
 
-        for tweet in self.json_content:
+        for tweet in self.json_file_path:
             html += '<div class="tweet">\n'
 
-            # TODO: JSON Issue
-            # if (
-            #     (
-            #         tweet["archived_mimetype"] != "application/json"
-            #         and not tweet["parsed_tweet_text_mimetype_json"]
-            #     )
-            #     and not tweet["available_tweet_text"]
-            # ) or (
-            #     (
-            #         tweet["archived_mimetype"] == "application/json"
-            #         and not tweet["parsed_tweet_text_mimetype_json"]
-            #     )
-            #     and not tweet["available_tweet_text"]
-            # ):
             if (
                 tweet["archived_mimetype"] != "application/json"
                 and not tweet["available_tweet_text"]
@@ -89,13 +79,6 @@ class HTMLTweetsVisualizer:
                 html += f'<p><strong class="content">Available Tweet Content:</strong> {tweet["available_tweet_text"]}</p>\n'
                 html += f'<p><strong class="content">Available Tweet Is Retweet:</strong> {tweet["available_tweet_is_RT"]}</p>\n'
                 html += f'<p><strong class="content">Available Tweet Username:</strong> {tweet["available_tweet_info"]}</p>\n'
-
-            # TODO: JSON Issue
-            # if (
-            #     tweet["archived_mimetype"] == "application/json"
-            #     and tweet["parsed_tweet_text_mimetype_json"]
-            # ) and not tweet["available_tweet_text"]:
-            #     html += f'<p><strong class="content">Parsed Tweet Text (application/json):</strong> {tweet["parsed_tweet_text_mimetype_json"]}</p>\n'
 
             html += "<br>\n"
             html += f'<p><strong>Archived URL Key:</strong> {tweet["archived_urlkey"]}</p>\n'
@@ -120,7 +103,8 @@ class HTMLTweetsVisualizer:
         """
         Saves the generated HTML string to a file.
 
-        :param html_content: The HTML string to be saved.
+        Args:
+            html_content (str): The HTML string to be saved.
         """
         with open(self.html_file_path, "w", encoding="utf-8") as f:
             f.write(html_content)

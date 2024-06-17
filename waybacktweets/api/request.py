@@ -21,13 +21,14 @@ class WaybackTweets:
     """
     Class responsible for requesting data from the Wayback CDX Server API.
 
-    :param username: The username associated with the tweets.
-    :param collapse: The field to collapse duplicate lines on.
-    :param timestamp_from: The timestamp to start retrieving tweets from.
-    :param timestamp_to: The timestamp to stop retrieving tweets at.
-    :param limit: The maximum number of results to return.
-    :param offset: The number of lines to skip in the results.
-    :param matchType: Results matching a certain prefix, a certain host or all subdomains.
+    Args:
+        username (str): The username associated with the tweets.
+        collapse (str, optional): The field to collapse duplicate lines on.
+        timestamp_from (str, optional): The timestamp to start retrieving tweets from.
+        timestamp_to (str, optional): The timestamp to stop retrieving tweets at.
+        limit (int, optional): The maximum number of results to return.
+        offset (int, optional): The number of lines to skip in the results.
+        matchtype (str, optional): Results matching a certain prefix, a certain host or all subdomains.
     """  # noqa: E501
 
     def __init__(
@@ -50,11 +51,11 @@ class WaybackTweets:
 
     def get(self) -> Optional[Dict[str, Any]]:
         """
-        Sends a GET request to the Internet Archive's CDX API
-        to retrieve archived tweets.
+        Sends a GET request to the Internet Archive's CDX API to retrieve archived tweets.
 
-        :returns: The response from the CDX API in JSON format, if successful.
-        """
+        Returns:
+            The response from the CDX API in JSON format, if successful. Otherwise, None.
+        """  # noqa: E501
         url = "https://web.archive.org/cdx/search/cdx"
 
         status_pathname = "status/*"

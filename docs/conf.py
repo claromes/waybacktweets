@@ -11,16 +11,19 @@ author = "Claromes"
 
 extensions = [
     "sphinx.ext.autodoc",
+    "sphinx.ext.napoleon",
     "sphinx.ext.extlinks",
     "sphinx.ext.intersphinx",
     "pallets_sphinx_themes",
     "sphinxcontrib.mermaid",
     "sphinx_new_tab_link",
     "sphinx_click.ext",
+    "sphinx_autodoc_typehints",
 ]
 
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+autodoc_typehints = "description"
 
 
 # -- Options for HTML output -------------------------------------------------

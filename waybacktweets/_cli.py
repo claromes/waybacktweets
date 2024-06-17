@@ -14,19 +14,20 @@ from waybacktweets.api.request import WaybackTweets
 from waybacktweets.config.config import config
 
 
-def parse_date(
+def _parse_date(
     ctx: Optional[Any] = None, param: Optional[Any] = None, value: Optional[str] = None
 ) -> Optional[str]:
     """
     Parses a date string and returns it in the format "YYYYMMDD".
 
-    :param ctx: Necessary when used with the click package. Defaults to None.
-    :param param: Necessary when used with the click package. Defaults to None.
-    :param value: A date string in the "YYYYMMDD" format. Defaults to None.
+    Args:
+        ctx: Necessary when used with the click package. Defaults to None.
+        param: Necessary when used with the click package. Defaults to None.
+        value: A date string in the "YYYYMMDD" format. Defaults to None.
 
-    :returns: The input date string formatted in the "YYYYMMDD" format,
-        or None if no date string was provided.
-    """
+    Returns:
+        The input date string formatted in the "YYYYMMDD" format, or None if no date string was provided.
+    """  # noqa: E501
     try:
         if value is None:
             return None
@@ -53,7 +54,7 @@ def parse_date(
     "timestamp_from",
     type=click.UNPROCESSED,
     metavar="DATE",
-    callback=parse_date,
+    callback=_parse_date,
     default=None,
     help="Filtering by date range from this date. Format: YYYYmmdd",
 )
@@ -63,7 +64,7 @@ def parse_date(
     "timestamp_to",
     type=click.UNPROCESSED,
     metavar="DATE",
-    callback=parse_date,
+    callback=_parse_date,
     default=None,
     help="Filtering by date range up to this date. Format: YYYYmmdd",
 )
@@ -109,11 +110,10 @@ def main(
     verbose: Optional[bool],
 ) -> None:
     """
-    Retrieves archived tweets CDX data from the Wayback Machine,
-    performs necessary parsing, and saves the data.
+    Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data.
 
     USERNAME: The Twitter username without @.
-    """
+    """  # noqa: E501
     try:
         config.verbose = verbose
 

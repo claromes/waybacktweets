@@ -30,9 +30,10 @@ from waybacktweets.utils.utils import (
 
 class TwitterEmbed:
     """
-    Class responsible for parsing tweets using the Twitter Publish service.
+    This class is responsible for parsing tweets using the Twitter Publish service.
 
-    :param tweet_url: The URL of the tweet to be parsed.
+    Args:
+        tweet_url (str): The URL of the tweet to be parsed.
     """
 
     def __init__(self, tweet_url: str):
@@ -42,20 +43,15 @@ class TwitterEmbed:
         """
         Parses the archived tweets when they are still available.
 
-        This function goes through each archived tweet and checks
-        if it is still available.
-        If the tweet is available, it extracts the necessary information
-        and adds it to the respective lists.
-        The function returns a tuple of three lists:
+        This function goes through each archived tweet and checks if it is still available. If the tweet is available, it extracts the necessary information and adds it to the respective lists. The function returns a tuple of three lists:
+
         - The first list contains the tweet texts.
-        - The second list contains boolean values indicating whether each tweet
-        is still available.
+        - The second list contains boolean values indicating whether each tweet is still available.
         - The third list contains the URLs of the tweets.
 
-        :returns: A tuple of three lists containing the tweet texts,
-            availability statuses, and URLs, respectively. If no tweets are available,
-            returns None.
-        """
+        Returns:
+            A tuple of three lists containing the tweet texts, availability statuses, and URLs, respectively. If no tweets are available, returns None.
+        """  # noqa: E501
         try:
             url = f"https://publish.twitter.com/oembed?url={self.tweet_url}"
             response = get_response(url=url)
@@ -110,12 +106,13 @@ class TwitterEmbed:
 
 class JsonParser:
     """
-    Class responsible for parsing tweets when the mimetype is application/json.\n
-    Note: This class is in an experimental phase, but it is currently being
-    used by the Streamlit Web App.
+    This class is responsible for parsing tweets when the mimetype is application/json.
 
-    :param archived_tweet_url: The URL of the archived tweet to be parsed.
-    """
+    Note: This class is in an experimental phase, but it is currently being used by the Streamlit Web App.
+
+    Args:
+        archived_tweet_url (str): The URL of the archived tweet to be parsed.
+    """  # noqa: E501
 
     def __init__(self, archived_tweet_url: str):
         self.archived_tweet_url = archived_tweet_url
@@ -124,7 +121,8 @@ class JsonParser:
         """
         Parses the archived tweets in JSON format.
 
-        :returns: The parsed tweet text.
+        Returns:
+            The parsed tweet text.
         """
         try:
             response = get_response(url=self.archived_tweet_url)
@@ -155,11 +153,12 @@ class JsonParser:
 
 class TweetsParser:
     """
-    Class responsible for the overall parsing of archived tweets.
+    This class is responsible for the overall parsing of archived tweets.
 
-    :param archived_tweets_response: The response from the archived tweets.
-    :param username: The username associated with the tweets.
-    :param field_options: The fields to be included in the parsed data. Options include "archived_urlkey", "archived_timestamp", "original_tweet_url", "archived_tweet_url", "parsed_tweet_url", "parsed_archived_tweet_url", "available_tweet_text", "available_tweet_is_RT", "available_tweet_info", "archived_mimetype", "archived_statuscode", "archived_digest", "archived_length".
+    Args:
+        archived_tweets_response (List[str]): The response from the archived tweets.
+        username (str): The username associated with the tweets.
+        field_options (List[str]): The fields to be included in the parsed data. For more details on each option, visit :ref:`field_options`.
     """  # noqa: E501
 
     def __init__(
@@ -177,8 +176,9 @@ class TweetsParser:
         """
         Appends a value to a list in the parsed data structure.
 
-        :param key: The key in the parsed data structure.
-        :param value: The value to be appended.
+        Args:
+            key (str): The key in the parsed data structure.
+            value (Any): The value to be appended.
         """
         if key in self.parsed_tweets:
             self.parsed_tweets[key].append(value)
@@ -187,7 +187,8 @@ class TweetsParser:
         """
         Processes the archived tweet's response and adds the relevant CDX data.
 
-        :param response: The response from the archived tweet.
+        Args:
+            response (List[str]): The response from the archived tweet.
         """
         tweet_remove_char = unquote(response[2]).replace("’", "")
         cleaned_tweet = check_pattern_tweet(tweet_remove_char).strip('"')
@@ -250,10 +251,12 @@ class TweetsParser:
         """
         Parses the archived tweets CDX data and structures it.
 
-        :param print_progress: A boolean indicating whether to print progress or not.
+        Args:
+            print_progress (bool): A boolean indicating whether to print progress or not.
 
-        :returns: The parsed tweets data.
-        """
+        Returns:
+            The parsed tweets data.
+        """  # noqa: E501
         with ThreadPoolExecutor(max_workers=10) as executor:
 
             futures = {

@@ -16,9 +16,10 @@ class TweetsExporter:
     """
     Class responsible for exporting parsed archived tweets.
 
-    :param data: The parsed archived tweets data.
-    :param username: The username associated with the tweets.
-    :param field_options: The fields to be included in the exported data. Options include "archived_urlkey", "archived_timestamp", "original_tweet_url", "archived_tweet_url", "parsed_tweet_url", "parsed_archived_tweet_url", "available_tweet_text", "available_tweet_is_RT", "available_tweet_info", "archived_mimetype", "archived_statuscode", "archived_digest", "archived_length".
+    Args:
+        data (Dict[str, List[Any]]): The parsed archived tweets data.
+        username (str): The username associated with the tweets.
+        field_options (List[str]): The fields to be included in the exported data. For more details on each option, visit :ref:`field_options`.
     """  # noqa: E501
 
     def __init__(
@@ -36,7 +37,8 @@ class TweetsExporter:
         """
         Returns the current datetime, formatted as a string.
 
-        :returns: The current datetime.
+        Returns:
+            The current datetime.
         """
         now = datetime.datetime.now()
         formatted_now = now.strftime("%Y%m%d%H%M%S")
@@ -49,14 +51,15 @@ class TweetsExporter:
         data: Dict[str, List[Any]], fill_value: Optional[Any] = None
     ) -> List[List[Any]]:
         """
-        Transposes a matrix,
-        filling in missing values with a specified fill value if needed.
+        Transposes a matrix, filling in missing values with a specified fill value if needed.
 
-        :param data: The matrix to be transposed.
-        :param fill_value: The value to fill in missing values with.
+        Args:
+            data (Dict[str, List[Any]]): The matrix to be transposed.
+            fill_value (Optional[Any]): The value to fill in missing values with.
 
-        :returns: The transposed matrix.
-        """
+        Returns:
+            The transposed matrix.
+        """  # noqa: E501
         max_length = max(len(sublist) for sublist in data.values())
 
         filled_data = {
@@ -72,7 +75,8 @@ class TweetsExporter:
         """
         Creates a DataFrame from the transposed data.
 
-        :returns: The DataFrame representation of the data.
+        Returns:
+            The DataFrame representation of the data.
         """
         data_transposed = self._transpose_matrix(self.data)
 
