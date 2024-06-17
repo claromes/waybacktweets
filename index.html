@@ -43,6 +43,10 @@
 <h1>Wayback Tweets<a class="headerlink" href="#wayback-tweets" title="Link to this heading">¶</a></h1>
 <img alt="_images/waybacktweets.png" class="align-center" src="_images/waybacktweets.png" />
 <p>Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data in CSV, JSON, and HTML formats.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Intensive queries can lead to rate limiting, resulting in a temporary ban of a few minutes from web.archive.org.</p>
+</div>
 <section id="user-guide">
 <h2>User Guide<a class="headerlink" href="#user-guide" title="Link to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
@@ -59,7 +63,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
-<li class="toctree-l1"><a class="reference internal" href="result.html">Result</a></li>
+<li class="toctree-l1"><a class="reference internal" href="field_options.html">Field Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="exceptions.html">Exceptions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="exceptions.html#readtimeouterror">ReadTimeoutError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="exceptions.html#connectionerror">ConnectionError</a></li>
@@ -95,13 +99,13 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.config.config">Config</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.exceptions.exceptions">Exceptions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.api.export">Export</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.api.parse">Parse</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.api.request">Request</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.api.parse">Parse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.api.export">Export</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.api.visualize">Visualize</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.utils.utils">Utils</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.api.visualize">Visualizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.exceptions.exceptions">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.config.config">Config</a></li>
 </ul>
 </li>
 </ul>

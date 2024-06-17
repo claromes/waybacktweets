@@ -39,15 +39,19 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="web-app">
+  <div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The current version of the Web App is v0.4.3. Version 1.0 has not yet been implemented in the Streamlit Web App, as it is in the review and testing phase.</p>
+</div>
+<section id="web-app">
 <h1>Web App<a class="headerlink" href="#web-app" title="Link to this heading">¶</a></h1>
 <p>Aplication that displays multiple archived tweets on Wayback Machine to avoid opening each link manually. The application is a prototype written in Python with the Streamlit framework and hosted on Streamlit Cloud, allowing users to apply filters and view tweets that lack the original URL.</p>
 <p><a class="reference external" href="https://waybacktweets.streamlit.app" rel="noopener noreferrer" target="_blank">Open the application</a>.</p>
 <section id="filters">
 <h2>Filters<a class="headerlink" href="#filters" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p>Filtering by date range: Using the <cite>from</cite> and <cite>to</cite> filters</p></li>
-<li><p>Only unavailable tweets: Checks if the archived URL still exists on Twitter (see the <a class="reference external" href="workflow.html" rel="noopener noreferrer" target="_blank">flowchart</a>)</p></li>
+<li><p>Filtering by date range: Using the <code class="docutils literal notranslate"><span class="pre">from</span></code> and <code class="docutils literal notranslate"><span class="pre">to</span></code> filters</p></li>
+<li><p>Only unavailable tweets: Checks if the archived URL still exists on Twitter (see the <a class="reference internal" href="workflow.html#flowchart"><span class="std std-ref">Workflow</span></a>)</p></li>
 <li><p>Only unique URLs: Filtering by the collapse option using the <code class="docutils literal notranslate"><span class="pre">urlkey</span></code> field and the URL Match Scope <code class="docutils literal notranslate"><span class="pre">prefix</span></code></p></li>
 </ul>
 </section>

@@ -17,7 +17,7 @@
     <script src="https://unpkg.com/d3/dist/d3.min.js"></script>
     <script>
                 window.addEventListener("load", function () {
-                  var svgs = d3.selectAll(".mermaid#id-c32fb987-8567-4f18-90ee-0729cac96a3f svg");
+                  var svgs = d3.selectAll(".mermaid#id-a758ec7c-651b-40d2-8faa-23a63fc3b669 svg");
                   svgs.each(function() {
                     var svg = d3.select(this);
                     svg.html("<g>" + svg.html() + "</g>");
@@ -32,7 +32,7 @@
     <link rel="icon" href="_static/parthenon.svg"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Result" href="result.html" />
+    <link rel="next" title="Field Options" href="field_options.html" />
     <link rel="prev" title="Quickstart" href="quickstart.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -45,7 +45,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="result.html" title="Result"
+          <a href="field_options.html" title="Field Options"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="quickstart.html" title="Quickstart"
@@ -61,11 +61,11 @@
           <div class="body" role="main">
             
   <section id="workflow">
-<h1>Workflow<a class="headerlink" href="#workflow" title="Link to this heading">¶</a></h1>
+<span id="flowchart"></span><h1>Workflow<a class="headerlink" href="#workflow" title="Link to this heading">¶</a></h1>
 <p>The tool was written following a proposal not only to Retrieve data from archived tweets, but also to facilitate the reading of these tweets. Therefore, a flow is defined to obtain these results in the best possible way.</p>
 <p>Due to limitations of the Wayback CDX Server API, it is not always possible to parse the results with the mimetype <code class="docutils literal notranslate"><span class="pre">application/json</span></code>, regardless, the data in CDX format are saved.</p>
 <p>Use the mouse to zoom in and out the flowchart.</p>
-<div align="center" id="id-c32fb987-8567-4f18-90ee-0729cac96a3f" class="mermaid align-center">
+<div align="center" id="id-a758ec7c-651b-40d2-8faa-23a63fc3b669" class="mermaid align-center">
             flowchart TB
    A[input Username]--&gt; B[(Wayback Machine)]
    B--&gt; B1[save Archived Tweets CDX data]
@@ -98,7 +98,7 @@
   <li><a href="index.html">Overview</a>
     <ul>
           <li>Previous: <a href="quickstart.html" title="previous chapter">Quickstart</a>
-          <li>Next: <a href="result.html" title="next chapter">Result</a>
+          <li>Next: <a href="field_options.html" title="next chapter">Field Options</a>
     </ul>
   </li>
 </ul>

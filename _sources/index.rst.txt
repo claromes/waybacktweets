@@ -8,6 +8,9 @@ Wayback Tweets
 
 Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data in CSV, JSON, and HTML formats.
 
+.. note::
+    Intensive queries can lead to rate limiting, resulting in a temporary ban of a few minutes from web.archive.org.
+
 
 User Guide
 ------------
@@ -18,7 +21,7 @@ User Guide
     installation
     quickstart
     workflow
-    result
+    field_options
     exceptions
     contribute
     todo

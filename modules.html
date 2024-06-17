@@ -40,30 +40,17 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.config.config">Config</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api.html#waybacktweets.config.config.config"><code class="docutils literal notranslate"><span class="pre">config</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#waybacktweets.config.config.verbose"><code class="docutils literal notranslate"><span class="pre">verbose</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.exceptions.exceptions">Exceptions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api.html#waybacktweets.exceptions.exceptions.ReadTimeoutError"><code class="docutils literal notranslate"><span class="pre">ReadTimeoutError</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#waybacktweets.exceptions.exceptions.ConnectionError"><code class="docutils literal notranslate"><span class="pre">ConnectionError</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#waybacktweets.exceptions.exceptions.HTTPError"><code class="docutils literal notranslate"><span class="pre">HTTPError</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#waybacktweets.exceptions.exceptions.EmptyResponseError"><code class="docutils literal notranslate"><span class="pre">EmptyResponseError</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#waybacktweets.exceptions.exceptions.GetResponseError"><code class="docutils literal notranslate"><span class="pre">GetResponseError</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.api.export">Export</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api.html#waybacktweets.api.export.TweetsExporter"><code class="docutils literal notranslate"><span class="pre">TweetsExporter</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api.html#waybacktweets.api.export.TweetsExporter.save_to_csv"><code class="docutils literal notranslate"><span class="pre">TweetsExporter.save_to_csv()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api.html#waybacktweets.api.export.TweetsExporter.save_to_html"><code class="docutils literal notranslate"><span class="pre">TweetsExporter.save_to_html()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api.html#waybacktweets.api.export.TweetsExporter.save_to_json"><code class="docutils literal notranslate"><span class="pre">TweetsExporter.save_to_json()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.api.request">Request</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#waybacktweets.api.request.WaybackTweets"><code class="docutils literal notranslate"><span class="pre">WaybackTweets</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#waybacktweets.api.request.WaybackTweets.get"><code class="docutils literal notranslate"><span class="pre">WaybackTweets.get()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.api.parse">Parse</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api.html#waybacktweets.api.parse.TweetsParser"><code class="docutils literal notranslate"><span class="pre">TweetsParser</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#waybacktweets.api.parse.TweetsParser._add_field"><code class="docutils literal notranslate"><span class="pre">TweetsParser._add_field()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#waybacktweets.api.parse.TweetsParser._process_response"><code class="docutils literal notranslate"><span class="pre">TweetsParser._process_response()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api.html#waybacktweets.api.parse.TweetsParser.parse"><code class="docutils literal notranslate"><span class="pre">TweetsParser.parse()</span></code></a></li>
 </ul>
 </li>
@@ -77,9 +64,23 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.api.request">Request</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api.html#waybacktweets.api.request.WaybackTweets"><code class="docutils literal notranslate"><span class="pre">WaybackTweets</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api.html#waybacktweets.api.request.WaybackTweets.get"><code class="docutils literal notranslate"><span class="pre">WaybackTweets.get()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.api.export">Export</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#waybacktweets.api.export.TweetsExporter"><code class="docutils literal notranslate"><span class="pre">TweetsExporter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#waybacktweets.api.export.TweetsExporter._create_dataframe"><code class="docutils literal notranslate"><span class="pre">TweetsExporter._create_dataframe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#waybacktweets.api.export.TweetsExporter._datetime_now"><code class="docutils literal notranslate"><span class="pre">TweetsExporter._datetime_now()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#waybacktweets.api.export.TweetsExporter._transpose_matrix"><code class="docutils literal notranslate"><span class="pre">TweetsExporter._transpose_matrix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#waybacktweets.api.export.TweetsExporter.save_to_csv"><code class="docutils literal notranslate"><span class="pre">TweetsExporter.save_to_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#waybacktweets.api.export.TweetsExporter.save_to_html"><code class="docutils literal notranslate"><span class="pre">TweetsExporter.save_to_html()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#waybacktweets.api.export.TweetsExporter.save_to_json"><code class="docutils literal notranslate"><span class="pre">TweetsExporter.save_to_json()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.api.visualize">Visualize</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#waybacktweets.api.visualize.HTMLTweetsVisualizer"><code class="docutils literal notranslate"><span class="pre">HTMLTweetsVisualizer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#waybacktweets.api.visualize.HTMLTweetsVisualizer._json_loader"><code class="docutils literal notranslate"><span class="pre">HTMLTweetsVisualizer._json_loader()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#waybacktweets.api.visualize.HTMLTweetsVisualizer.generate"><code class="docutils literal notranslate"><span class="pre">HTMLTweetsVisualizer.generate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#waybacktweets.api.visualize.HTMLTweetsVisualizer.save"><code class="docutils literal notranslate"><span class="pre">HTMLTweetsVisualizer.save()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -95,12 +96,17 @@
 <li class="toctree-l3"><a class="reference internal" href="api.html#waybacktweets.utils.utils.semicolon_parser"><code class="docutils literal notranslate"><span class="pre">semicolon_parser()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.api.visualize">Visualizer</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api.html#waybacktweets.api.visualize.HTMLTweetsVisualizer"><code class="docutils literal notranslate"><span class="pre">HTMLTweetsVisualizer</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api.html#waybacktweets.api.visualize.HTMLTweetsVisualizer.generate"><code class="docutils literal notranslate"><span class="pre">HTMLTweetsVisualizer.generate()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api.html#waybacktweets.api.visualize.HTMLTweetsVisualizer.save"><code class="docutils literal notranslate"><span class="pre">HTMLTweetsVisualizer.save()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.exceptions.exceptions">Exceptions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#waybacktweets.exceptions.exceptions.ReadTimeoutError"><code class="docutils literal notranslate"><span class="pre">ReadTimeoutError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#waybacktweets.exceptions.exceptions.ConnectionError"><code class="docutils literal notranslate"><span class="pre">ConnectionError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#waybacktweets.exceptions.exceptions.HTTPError"><code class="docutils literal notranslate"><span class="pre">HTTPError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#waybacktweets.exceptions.exceptions.EmptyResponseError"><code class="docutils literal notranslate"><span class="pre">EmptyResponseError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#waybacktweets.exceptions.exceptions.GetResponseError"><code class="docutils literal notranslate"><span class="pre">GetResponseError</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-waybacktweets.config.config">Config</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#waybacktweets.config.config.config"><code class="docutils literal notranslate"><span class="pre">config</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#waybacktweets.config.config.verbose"><code class="docutils literal notranslate"><span class="pre">verbose</span></code></a></li>
 </ul>
 </li>
 </ul>

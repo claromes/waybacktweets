@@ -1,4 +1,6 @@
-Result
+.. _field_options:
+
+Field Options
 ================
 
 The package saves in three formats: CSV, JSON, and HTML. The files have the following fields:

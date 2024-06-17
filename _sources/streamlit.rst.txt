@@ -1,3 +1,6 @@
+.. note::
+    The current version of the Web App is v0.4.3. Version 1.0 has not yet been implemented in the Streamlit Web App, as it is in the review and testing phase.
+
 Web App
 =========
 
@@ -8,9 +11,9 @@ Aplication that displays multiple archived tweets on Wayback Machine to avoid op
 
 Filters
 ----------
-- Filtering by date range: Using the `from` and `to` filters
+- Filtering by date range: Using the ``from`` and ``to`` filters
 
-- Only unavailable tweets: Checks if the archived URL still exists on Twitter (see the `flowchart <workflow.html>`_)
+- Only unavailable tweets: Checks if the archived URL still exists on Twitter (see the :ref:`flowchart`)
 
 - Only unique URLs: Filtering by the collapse option using the ``urlkey`` field and the URL Match Scope ``prefix``
 
