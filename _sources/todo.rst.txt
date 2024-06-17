@@ -5,9 +5,7 @@ TODO
 
     <input type="checkbox">
 
-|uncheck| Code: JSON Issue: Create a separate function to handle JSON return, apply JsonParser (``waybacktweets/api/parse_tweets.py:73``), and avoid rate limiting (`Planned for v1.1`)
-
-|uncheck| Docs: Add tutorial on how to save Tweet via command line (`Planned for v1.1`)
+|uncheck| Code: JSON Parser: Create a separate function to handle JSON return, apply JsonParser (``waybacktweets/api/parse.py:111``), and avoid rate limiting (`Planned for v1.1`)
 
 |uncheck| Code: Download images when tweet URL has extensions like JPG or PNG (`Planned for v1.2`)
 

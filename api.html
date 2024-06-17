@@ -45,45 +45,99 @@
             
   <section id="api">
 <h1>API<a class="headerlink" href="#api" title="Link to this heading">¶</a></h1>
-<section id="module-waybacktweets.api.request_tweets">
-<span id="request"></span><h2>Request<a class="headerlink" href="#module-waybacktweets.api.request_tweets" title="Link to this heading">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="waybacktweets.api.request_tweets.WaybackTweets">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.api.request_tweets.</span></span><span class="sig-name descname"><span class="pre">WaybackTweets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collapse</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp_from</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp_to</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matchtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.request_tweets.WaybackTweets" title="Link to this definition">¶</a></dt>
-<dd><p>Class responsible for requesting data from the Wayback CDX Server API.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>username</strong> – The username associated with the tweets.</p></li>
-<li><p><strong>collapse</strong> – The field to collapse duplicate lines on.</p></li>
-<li><p><strong>timestamp_from</strong> – The timestamp to start retrieving tweets from.</p></li>
-<li><p><strong>timestamp_to</strong> – The timestamp to stop retrieving tweets at.</p></li>
-<li><p><strong>limit</strong> – The maximum number of results to return.</p></li>
-<li><p><strong>offset</strong> – The number of lines to skip in the results.</p></li>
-<li><p><strong>matchType</strong> – Results matching a certain prefix, a certain host or all subdomains.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="waybacktweets.api.request_tweets.WaybackTweets.get">
-<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#waybacktweets.api.request_tweets.WaybackTweets.get" title="Link to this definition">¶</a></dt>
-<dd><p>Sends a GET request to the Internet Archive’s CDX API
-to retrieve archived tweets.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The response from the CDX API in JSON format, if successful.</p>
-</dd>
-</dl>
+<section id="module-waybacktweets.config.config">
+<span id="config"></span><h2>Config<a class="headerlink" href="#module-waybacktweets.config.config" title="Link to this heading">¶</a></h2>
+<p>Manages global configuration settings throughout the application.</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="waybacktweets.config.config.config">
+<span class="sig-prename descclassname"><span class="pre">waybacktweets.config.config.</span></span><span class="sig-name descname"><span class="pre">config</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;waybacktweets.config.config._Config</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#waybacktweets.config.config.config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration settings.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="waybacktweets.config.config.verbose">
+<span class="sig-prename descclassname"><span class="pre">waybacktweets.config.config.</span></span><span class="sig-name descname"><span class="pre">verbose</span></span><a class="headerlink" href="#waybacktweets.config.config.verbose" title="Link to this definition">¶</a></dt>
+<dd><p>Determines if verbose logging should be enabled.</p>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-<section id="module-waybacktweets.api.parse_tweets">
-<span id="parse"></span><h2>Parse<a class="headerlink" href="#module-waybacktweets.api.parse_tweets" title="Link to this heading">¶</a></h2>
+<section id="module-waybacktweets.exceptions.exceptions">
+<span id="exceptions"></span><h2>Exceptions<a class="headerlink" href="#module-waybacktweets.exceptions.exceptions" title="Link to this heading">¶</a></h2>
+<p>Wayback Tweets Exceptions</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="waybacktweets.api.parse_tweets.TweetsParser">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.api.parse_tweets.</span></span><span class="sig-name descname"><span class="pre">TweetsParser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">archived_tweets_response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.parse_tweets.TweetsParser" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="waybacktweets.exceptions.exceptions.ReadTimeoutError">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.exceptions.exceptions.</span></span><span class="sig-name descname"><span class="pre">ReadTimeoutError</span></span><a class="headerlink" href="#waybacktweets.exceptions.exceptions.ReadTimeoutError" title="Link to this definition">¶</a></dt>
+<dd><p>Exception raised for read timeout errors.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="waybacktweets.exceptions.exceptions.ConnectionError">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.exceptions.exceptions.</span></span><span class="sig-name descname"><span class="pre">ConnectionError</span></span><a class="headerlink" href="#waybacktweets.exceptions.exceptions.ConnectionError" title="Link to this definition">¶</a></dt>
+<dd><p>Exception raised for connection errors.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="waybacktweets.exceptions.exceptions.HTTPError">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.exceptions.exceptions.</span></span><span class="sig-name descname"><span class="pre">HTTPError</span></span><a class="headerlink" href="#waybacktweets.exceptions.exceptions.HTTPError" title="Link to this definition">¶</a></dt>
+<dd><p>Exception raised for HTTP errors.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="waybacktweets.exceptions.exceptions.EmptyResponseError">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.exceptions.exceptions.</span></span><span class="sig-name descname"><span class="pre">EmptyResponseError</span></span><a class="headerlink" href="#waybacktweets.exceptions.exceptions.EmptyResponseError" title="Link to this definition">¶</a></dt>
+<dd><p>Exception raised for empty responses.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="waybacktweets.exceptions.exceptions.GetResponseError">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.exceptions.exceptions.</span></span><span class="sig-name descname"><span class="pre">GetResponseError</span></span><a class="headerlink" href="#waybacktweets.exceptions.exceptions.GetResponseError" title="Link to this definition">¶</a></dt>
+<dd><p>Base class for exceptions in get_response.</p>
+</dd></dl>
+
+</section>
+<section id="module-waybacktweets.api.export">
+<span id="export"></span><h2>Export<a class="headerlink" href="#module-waybacktweets.api.export" title="Link to this heading">¶</a></h2>
+<p>Exports the parsed archived tweets.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="waybacktweets.api.export.TweetsExporter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.api.export.</span></span><span class="sig-name descname"><span class="pre">TweetsExporter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.export.TweetsExporter" title="Link to this definition">¶</a></dt>
+<dd><p>Class responsible for exporting parsed archived tweets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – The parsed archived tweets data.</p></li>
+<li><p><strong>username</strong> – The username associated with the tweets.</p></li>
+<li><p><strong>field_options</strong> – The fields to be included in the exported data. Options include “archived_urlkey”, “archived_timestamp”, “original_tweet_url”, “archived_tweet_url”, “parsed_tweet_url”, “parsed_archived_tweet_url”, “available_tweet_text”, “available_tweet_is_RT”, “available_tweet_info”, “archived_mimetype”, “archived_statuscode”, “archived_digest”, “archived_length”.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="waybacktweets.api.export.TweetsExporter.save_to_csv">
+<span class="sig-name descname"><span class="pre">save_to_csv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#waybacktweets.api.export.TweetsExporter.save_to_csv" title="Link to this definition">¶</a></dt>
+<dd><p>Saves the DataFrame to a CSV file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="waybacktweets.api.export.TweetsExporter.save_to_html">
+<span class="sig-name descname"><span class="pre">save_to_html</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#waybacktweets.api.export.TweetsExporter.save_to_html" title="Link to this definition">¶</a></dt>
+<dd><p>Saves the DataFrame to an HTML file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="waybacktweets.api.export.TweetsExporter.save_to_json">
+<span class="sig-name descname"><span class="pre">save_to_json</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#waybacktweets.api.export.TweetsExporter.save_to_json" title="Link to this definition">¶</a></dt>
+<dd><p>Saves the DataFrame to a JSON file.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-waybacktweets.api.parse">
+<span id="parse"></span><h2>Parse<a class="headerlink" href="#module-waybacktweets.api.parse" title="Link to this heading">¶</a></h2>
+<p>Parses the returned data from the Wayback CDX Server API.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="waybacktweets.api.parse.TweetsParser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.api.parse.</span></span><span class="sig-name descname"><span class="pre">TweetsParser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">archived_tweets_response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.parse.TweetsParser" title="Link to this definition">¶</a></dt>
 <dd><p>Class responsible for the overall parsing of archived tweets.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -95,8 +149,8 @@ to retrieve archived tweets.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="waybacktweets.api.parse_tweets.TweetsParser.parse">
-<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">print_progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#waybacktweets.api.parse_tweets.TweetsParser.parse" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="waybacktweets.api.parse.TweetsParser.parse">
+<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">print_progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#waybacktweets.api.parse.TweetsParser.parse" title="Link to this definition">¶</a></dt>
 <dd><p>Parses the archived tweets CDX data and structures it.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -111,8 +165,8 @@ to retrieve archived tweets.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="waybacktweets.api.parse_tweets.TwitterEmbed">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.api.parse_tweets.</span></span><span class="sig-name descname"><span class="pre">TwitterEmbed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tweet_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.parse_tweets.TwitterEmbed" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="waybacktweets.api.parse.TwitterEmbed">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.api.parse.</span></span><span class="sig-name descname"><span class="pre">TwitterEmbed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tweet_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.parse.TwitterEmbed" title="Link to this definition">¶</a></dt>
 <dd><p>Class responsible for parsing tweets using the Twitter Publish service.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -120,8 +174,8 @@ to retrieve archived tweets.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="waybacktweets.api.parse_tweets.TwitterEmbed.embed">
-<span class="sig-name descname"><span class="pre">embed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#waybacktweets.api.parse_tweets.TwitterEmbed.embed" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="waybacktweets.api.parse.TwitterEmbed.embed">
+<span class="sig-name descname"><span class="pre">embed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#waybacktweets.api.parse.TwitterEmbed.embed" title="Link to this definition">¶</a></dt>
 <dd><p>Parses the archived tweets when they are still available.</p>
 <p>This function goes through each archived tweet and checks
 if it is still available.
@@ -144,8 +198,8 @@ returns None.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="waybacktweets.api.parse_tweets.JsonParser">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.api.parse_tweets.</span></span><span class="sig-name descname"><span class="pre">JsonParser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">archived_tweet_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.parse_tweets.JsonParser" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="waybacktweets.api.parse.JsonParser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.api.parse.</span></span><span class="sig-name descname"><span class="pre">JsonParser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">archived_tweet_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.parse.JsonParser" title="Link to this definition">¶</a></dt>
 <dd><p>Class responsible for parsing tweets when the mimetype is application/json.</p>
 <p>Note: This class is in an experimental phase, but it is currently being
 used by the Streamlit Web App.</p>
@@ -155,8 +209,8 @@ used by the Streamlit Web App.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="waybacktweets.api.parse_tweets.JsonParser.parse">
-<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#waybacktweets.api.parse_tweets.JsonParser.parse" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="waybacktweets.api.parse.JsonParser.parse">
+<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#waybacktweets.api.parse.JsonParser.parse" title="Link to this definition">¶</a></dt>
 <dd><p>Parses the archived tweets in JSON format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -168,75 +222,34 @@ used by the Streamlit Web App.</p>
 </dd></dl>
 
 </section>
-<section id="module-waybacktweets.api.export_tweets">
-<span id="export"></span><h2>Export<a class="headerlink" href="#module-waybacktweets.api.export_tweets" title="Link to this heading">¶</a></h2>
+<section id="module-waybacktweets.api.request">
+<span id="request"></span><h2>Request<a class="headerlink" href="#module-waybacktweets.api.request" title="Link to this heading">¶</a></h2>
+<p>Requests data from the Wayback Machine API.</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="waybacktweets.api.export_tweets.TweetsExporter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.api.export_tweets.</span></span><span class="sig-name descname"><span class="pre">TweetsExporter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.export_tweets.TweetsExporter" title="Link to this definition">¶</a></dt>
-<dd><p>Class responsible for exporting parsed archived tweets.</p>
+<dt class="sig sig-object py" id="waybacktweets.api.request.WaybackTweets">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.api.request.</span></span><span class="sig-name descname"><span class="pre">WaybackTweets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collapse</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp_from</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp_to</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matchtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.request.WaybackTweets" title="Link to this definition">¶</a></dt>
+<dd><p>Class responsible for requesting data from the Wayback CDX Server API.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> – The parsed archived tweets data.</p></li>
 <li><p><strong>username</strong> – The username associated with the tweets.</p></li>
-<li><p><strong>field_options</strong> – The fields to be included in the exported data. Options include “archived_urlkey”, “archived_timestamp”, “original_tweet_url”, “archived_tweet_url”, “parsed_tweet_url”, “parsed_archived_tweet_url”, “available_tweet_text”, “available_tweet_is_RT”, “available_tweet_info”, “archived_mimetype”, “archived_statuscode”, “archived_digest”, “archived_length”.</p></li>
+<li><p><strong>collapse</strong> – The field to collapse duplicate lines on.</p></li>
+<li><p><strong>timestamp_from</strong> – The timestamp to start retrieving tweets from.</p></li>
+<li><p><strong>timestamp_to</strong> – The timestamp to stop retrieving tweets at.</p></li>
+<li><p><strong>limit</strong> – The maximum number of results to return.</p></li>
+<li><p><strong>offset</strong> – The number of lines to skip in the results.</p></li>
+<li><p><strong>matchType</strong> – Results matching a certain prefix, a certain host or all subdomains.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="waybacktweets.api.export_tweets.TweetsExporter.save_to_csv">
-<span class="sig-name descname"><span class="pre">save_to_csv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#waybacktweets.api.export_tweets.TweetsExporter.save_to_csv" title="Link to this definition">¶</a></dt>
-<dd><p>Saves the DataFrame to a CSV file.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="waybacktweets.api.export_tweets.TweetsExporter.save_to_html">
-<span class="sig-name descname"><span class="pre">save_to_html</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#waybacktweets.api.export_tweets.TweetsExporter.save_to_html" title="Link to this definition">¶</a></dt>
-<dd><p>Saves the DataFrame to an HTML file.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="waybacktweets.api.export_tweets.TweetsExporter.save_to_json">
-<span class="sig-name descname"><span class="pre">save_to_json</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#waybacktweets.api.export_tweets.TweetsExporter.save_to_json" title="Link to this definition">¶</a></dt>
-<dd><p>Saves the DataFrame to a JSON file.</p>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-waybacktweets.api.viz_tweets">
-<span id="visualizer"></span><h2>Visualizer<a class="headerlink" href="#module-waybacktweets.api.viz_tweets" title="Link to this heading">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="waybacktweets.api.viz_tweets.HTMLTweetsVisualizer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.api.viz_tweets.</span></span><span class="sig-name descname"><span class="pre">HTMLTweetsVisualizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">html_file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.viz_tweets.HTMLTweetsVisualizer" title="Link to this definition">¶</a></dt>
-<dd><p>Class responsible for generating an HTML file to visualize the parsed data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>json_content</strong> – The content of the JSON file.</p></li>
-<li><p><strong>html_file_path</strong> – The path where the HTML file will be saved.</p></li>
-<li><p><strong>username</strong> – The username associated with the tweets.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="waybacktweets.api.viz_tweets.HTMLTweetsVisualizer.generate">
-<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#waybacktweets.api.viz_tweets.HTMLTweetsVisualizer.generate" title="Link to this definition">¶</a></dt>
-<dd><p>Generates an HTML string that represents the parsed data.</p>
+<dt class="sig sig-object py" id="waybacktweets.api.request.WaybackTweets.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#waybacktweets.api.request.WaybackTweets.get" title="Link to this definition">¶</a></dt>
+<dd><p>Sends a GET request to the Internet Archive’s CDX API
+to retrieve archived tweets.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The generated HTML string.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="waybacktweets.api.viz_tweets.HTMLTweetsVisualizer.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html_content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#waybacktweets.api.viz_tweets.HTMLTweetsVisualizer.save" title="Link to this definition">¶</a></dt>
-<dd><p>Saves the generated HTML string to a file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>html_content</strong> – The HTML string to be saved.</p>
+<dd class="field-odd"><p>The response from the CDX API in JSON format, if successful.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -246,6 +259,7 @@ used by the Streamlit Web App.</p>
 </section>
 <section id="module-waybacktweets.utils.utils">
 <span id="utils"></span><h2>Utils<a class="headerlink" href="#module-waybacktweets.utils.utils" title="Link to this heading">¶</a></h2>
+<p>Utility functions for handling HTTP requests and manipulating URLs.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="waybacktweets.utils.utils.check_double_status">
 <span class="sig-prename descclassname"><span class="pre">waybacktweets.utils.utils.</span></span><span class="sig-name descname"><span class="pre">check_double_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wayback_machine_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_tweet_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#waybacktweets.utils.utils.check_double_status" title="Link to this definition">¶</a></dt>
@@ -331,8 +345,7 @@ and timestamp.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="waybacktweets.utils.utils.get_response">
 <span class="sig-prename descclassname"><span class="pre">waybacktweets.utils.utils.</span></span><span class="sig-name descname"><span class="pre">get_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Response</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#waybacktweets.utils.utils.get_response" title="Link to this definition">¶</a></dt>
-<dd><p>Sends a GET request to the specified URL and returns the response,
-an error message if any, and the type of exception if any.</p>
+<dd><p>Sends a GET request to the specified URL and returns the response.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -341,8 +354,15 @@ an error message if any, and the type of exception if any.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A tuple containing the response from the server or None,
-an error message or None, and the type of exception or None.</p>
+<dd class="field-even"><p>The response from the server.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#waybacktweets.exceptions.exceptions.ReadTimeoutError" title="waybacktweets.exceptions.exceptions.ReadTimeoutError"><strong>ReadTimeoutError</strong></a> – If a read timeout occurs.</p></li>
+<li><p><a class="reference internal" href="#waybacktweets.exceptions.exceptions.ConnectionError" title="waybacktweets.exceptions.exceptions.ConnectionError"><strong>ConnectionError</strong></a> – If a connection error occurs.</p></li>
+<li><p><a class="reference internal" href="#waybacktweets.exceptions.exceptions.HTTPError" title="waybacktweets.exceptions.exceptions.HTTPError"><strong>HTTPError</strong></a> – If an HTTP error occurs.</p></li>
+<li><p><a class="reference internal" href="#waybacktweets.exceptions.exceptions.EmptyResponseError" title="waybacktweets.exceptions.exceptions.EmptyResponseError"><strong>EmptyResponseError</strong></a> – If the response is empty.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -378,6 +398,47 @@ which is a common pattern in Twitter status URLs.</p>
 </dd></dl>
 
 </section>
+<section id="module-waybacktweets.api.visualize">
+<span id="visualizer"></span><h2>Visualizer<a class="headerlink" href="#module-waybacktweets.api.visualize" title="Link to this heading">¶</a></h2>
+<p>Generates an HTML file to visualize the parsed data.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="waybacktweets.api.visualize.HTMLTweetsVisualizer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.api.visualize.</span></span><span class="sig-name descname"><span class="pre">HTMLTweetsVisualizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">html_file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.visualize.HTMLTweetsVisualizer" title="Link to this definition">¶</a></dt>
+<dd><p>Class responsible for generating an HTML file to visualize the parsed data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json_content</strong> – The content of the JSON file.</p></li>
+<li><p><strong>html_file_path</strong> – The path where the HTML file will be saved.</p></li>
+<li><p><strong>username</strong> – The username associated with the tweets.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="waybacktweets.api.visualize.HTMLTweetsVisualizer.generate">
+<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#waybacktweets.api.visualize.HTMLTweetsVisualizer.generate" title="Link to this definition">¶</a></dt>
+<dd><p>Generates an HTML string that represents the parsed data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The generated HTML string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="waybacktweets.api.visualize.HTMLTweetsVisualizer.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html_content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#waybacktweets.api.visualize.HTMLTweetsVisualizer.save" title="Link to this definition">¶</a></dt>
+<dd><p>Saves the generated HTML string to a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>html_content</strong> – The HTML string to be saved.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -398,41 +459,46 @@ which is a common pattern in Twitter status URLs.</p>
   <h3>Contents</h3>
   <ul>
 <li><a class="reference internal" href="#">API</a><ul>
-<li><a class="reference internal" href="#module-waybacktweets.api.request_tweets">Request</a><ul>
-<li><a class="reference internal" href="#waybacktweets.api.request_tweets.WaybackTweets"><code class="docutils literal notranslate"><span class="pre">WaybackTweets</span></code></a><ul>
-<li><a class="reference internal" href="#waybacktweets.api.request_tweets.WaybackTweets.get"><code class="docutils literal notranslate"><span class="pre">WaybackTweets.get()</span></code></a></li>
+<li><a class="reference internal" href="#module-waybacktweets.config.config">Config</a><ul>
+<li><a class="reference internal" href="#waybacktweets.config.config.config"><code class="docutils literal notranslate"><span class="pre">config</span></code></a></li>
+<li><a class="reference internal" href="#waybacktweets.config.config.verbose"><code class="docutils literal notranslate"><span class="pre">verbose</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-waybacktweets.exceptions.exceptions">Exceptions</a><ul>
+<li><a class="reference internal" href="#waybacktweets.exceptions.exceptions.ReadTimeoutError"><code class="docutils literal notranslate"><span class="pre">ReadTimeoutError</span></code></a></li>
+<li><a class="reference internal" href="#waybacktweets.exceptions.exceptions.ConnectionError"><code class="docutils literal notranslate"><span class="pre">ConnectionError</span></code></a></li>
+<li><a class="reference internal" href="#waybacktweets.exceptions.exceptions.HTTPError"><code class="docutils literal notranslate"><span class="pre">HTTPError</span></code></a></li>
+<li><a class="reference internal" href="#waybacktweets.exceptions.exceptions.EmptyResponseError"><code class="docutils literal notranslate"><span class="pre">EmptyResponseError</span></code></a></li>
+<li><a class="reference internal" href="#waybacktweets.exceptions.exceptions.GetResponseError"><code class="docutils literal notranslate"><span class="pre">GetResponseError</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-waybacktweets.api.export">Export</a><ul>
+<li><a class="reference internal" href="#waybacktweets.api.export.TweetsExporter"><code class="docutils literal notranslate"><span class="pre">TweetsExporter</span></code></a><ul>
+<li><a class="reference internal" href="#waybacktweets.api.export.TweetsExporter.save_to_csv"><code class="docutils literal notranslate"><span class="pre">TweetsExporter.save_to_csv()</span></code></a></li>
+<li><a class="reference internal" href="#waybacktweets.api.export.TweetsExporter.save_to_html"><code class="docutils literal notranslate"><span class="pre">TweetsExporter.save_to_html()</span></code></a></li>
+<li><a class="reference internal" href="#waybacktweets.api.export.TweetsExporter.save_to_json"><code class="docutils literal notranslate"><span class="pre">TweetsExporter.save_to_json()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-waybacktweets.api.parse_tweets">Parse</a><ul>
-<li><a class="reference internal" href="#waybacktweets.api.parse_tweets.TweetsParser"><code class="docutils literal notranslate"><span class="pre">TweetsParser</span></code></a><ul>
-<li><a class="reference internal" href="#waybacktweets.api.parse_tweets.TweetsParser.parse"><code class="docutils literal notranslate"><span class="pre">TweetsParser.parse()</span></code></a></li>
+<li><a class="reference internal" href="#module-waybacktweets.api.parse">Parse</a><ul>
+<li><a class="reference internal" href="#waybacktweets.api.parse.TweetsParser"><code class="docutils literal notranslate"><span class="pre">TweetsParser</span></code></a><ul>
+<li><a class="reference internal" href="#waybacktweets.api.parse.TweetsParser.parse"><code class="docutils literal notranslate"><span class="pre">TweetsParser.parse()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#waybacktweets.api.parse_tweets.TwitterEmbed"><code class="docutils literal notranslate"><span class="pre">TwitterEmbed</span></code></a><ul>
-<li><a class="reference internal" href="#waybacktweets.api.parse_tweets.TwitterEmbed.embed"><code class="docutils literal notranslate"><span class="pre">TwitterEmbed.embed()</span></code></a></li>
+<li><a class="reference internal" href="#waybacktweets.api.parse.TwitterEmbed"><code class="docutils literal notranslate"><span class="pre">TwitterEmbed</span></code></a><ul>
+<li><a class="reference internal" href="#waybacktweets.api.parse.TwitterEmbed.embed"><code class="docutils literal notranslate"><span class="pre">TwitterEmbed.embed()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#waybacktweets.api.parse_tweets.JsonParser"><code class="docutils literal notranslate"><span class="pre">JsonParser</span></code></a><ul>
-<li><a class="reference internal" href="#waybacktweets.api.parse_tweets.JsonParser.parse"><code class="docutils literal notranslate"><span class="pre">JsonParser.parse()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#module-waybacktweets.api.export_tweets">Export</a><ul>
-<li><a class="reference internal" href="#waybacktweets.api.export_tweets.TweetsExporter"><code class="docutils literal notranslate"><span class="pre">TweetsExporter</span></code></a><ul>
-<li><a class="reference internal" href="#waybacktweets.api.export_tweets.TweetsExporter.save_to_csv"><code class="docutils literal notranslate"><span class="pre">TweetsExporter.save_to_csv()</span></code></a></li>
-<li><a class="reference internal" href="#waybacktweets.api.export_tweets.TweetsExporter.save_to_html"><code class="docutils literal notranslate"><span class="pre">TweetsExporter.save_to_html()</span></code></a></li>
-<li><a class="reference internal" href="#waybacktweets.api.export_tweets.TweetsExporter.save_to_json"><code class="docutils literal notranslate"><span class="pre">TweetsExporter.save_to_json()</span></code></a></li>
+<li><a class="reference internal" href="#waybacktweets.api.parse.JsonParser"><code class="docutils literal notranslate"><span class="pre">JsonParser</span></code></a><ul>
+<li><a class="reference internal" href="#waybacktweets.api.parse.JsonParser.parse"><code class="docutils literal notranslate"><span class="pre">JsonParser.parse()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-waybacktweets.api.viz_tweets">Visualizer</a><ul>
-<li><a class="reference internal" href="#waybacktweets.api.viz_tweets.HTMLTweetsVisualizer"><code class="docutils literal notranslate"><span class="pre">HTMLTweetsVisualizer</span></code></a><ul>
-<li><a class="reference internal" href="#waybacktweets.api.viz_tweets.HTMLTweetsVisualizer.generate"><code class="docutils literal notranslate"><span class="pre">HTMLTweetsVisualizer.generate()</span></code></a></li>
-<li><a class="reference internal" href="#waybacktweets.api.viz_tweets.HTMLTweetsVisualizer.save"><code class="docutils literal notranslate"><span class="pre">HTMLTweetsVisualizer.save()</span></code></a></li>
+<li><a class="reference internal" href="#module-waybacktweets.api.request">Request</a><ul>
+<li><a class="reference internal" href="#waybacktweets.api.request.WaybackTweets"><code class="docutils literal notranslate"><span class="pre">WaybackTweets</span></code></a><ul>
+<li><a class="reference internal" href="#waybacktweets.api.request.WaybackTweets.get"><code class="docutils literal notranslate"><span class="pre">WaybackTweets.get()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -446,6 +512,14 @@ which is a common pattern in Twitter status URLs.</p>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.get_response"><code class="docutils literal notranslate"><span class="pre">get_response()</span></code></a></li>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.is_tweet_url"><code class="docutils literal notranslate"><span class="pre">is_tweet_url()</span></code></a></li>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.semicolon_parser"><code class="docutils literal notranslate"><span class="pre">semicolon_parser()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-waybacktweets.api.visualize">Visualizer</a><ul>
+<li><a class="reference internal" href="#waybacktweets.api.visualize.HTMLTweetsVisualizer"><code class="docutils literal notranslate"><span class="pre">HTMLTweetsVisualizer</span></code></a><ul>
+<li><a class="reference internal" href="#waybacktweets.api.visualize.HTMLTweetsVisualizer.generate"><code class="docutils literal notranslate"><span class="pre">HTMLTweetsVisualizer.generate()</span></code></a></li>
+<li><a class="reference internal" href="#waybacktweets.api.visualize.HTMLTweetsVisualizer.save"><code class="docutils literal notranslate"><span class="pre">HTMLTweetsVisualizer.save()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

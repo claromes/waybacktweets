@@ -46,8 +46,8 @@
   <section id="exceptions">
 <h1>Exceptions<a class="headerlink" href="#exceptions" title="Link to this heading">¶</a></h1>
 <p>These are the most common errors and are handled by the <code class="docutils literal notranslate"><span class="pre">waybacktweets</span></code> package.</p>
-<section id="readtimeout">
-<h2>ReadTimeout<a class="headerlink" href="#readtimeout" title="Link to this heading">¶</a></h2>
+<section id="readtimeouterror">
+<h2>ReadTimeoutError<a class="headerlink" href="#readtimeouterror" title="Link to this heading">¶</a></h2>
 <p>This error occurs when a request to the web.archive.org server takes too long to respond. The server could be overloaded or there could be network issues.</p>
 <p>The output message from the package would be: <code class="docutils literal notranslate"><span class="pre">Connection</span> <span class="pre">to</span> <span class="pre">web.archive.org</span> <span class="pre">timed</span> <span class="pre">out.</span></code></p>
 </section>
@@ -62,6 +62,11 @@
 <h2>HTTPError<a class="headerlink" href="#httperror" title="Link to this heading">¶</a></h2>
 <p>This error occurs when the Internet Archive services are temporarily offline. This could be due to maintenance or server issues.</p>
 <p>The output message from the package would be: <code class="docutils literal notranslate"><span class="pre">Temporarily</span> <span class="pre">Offline:</span> <span class="pre">Internet</span> <span class="pre">Archive</span> <span class="pre">services</span> <span class="pre">are</span> <span class="pre">temporarily</span> <span class="pre">offline.</span> <span class="pre">Please</span> <span class="pre">check</span> <span class="pre">Internet</span> <span class="pre">Archive</span> <span class="pre">Twitter</span> <span class="pre">feed</span> <span class="pre">(https://twitter.com/internetarchive)</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">latest</span> <span class="pre">information.</span></code></p>
+</section>
+<section id="emptyresponseerror">
+<h2>EmptyResponseError<a class="headerlink" href="#emptyresponseerror" title="Link to this heading">¶</a></h2>
+<p>This exception raised for empty responses.</p>
+<p>The output message from the package would be: <code class="docutils literal notranslate"><span class="pre">No</span> <span class="pre">data</span> <span class="pre">was</span> <span class="pre">saved</span> <span class="pre">due</span> <span class="pre">to</span> <span class="pre">an</span> <span class="pre">empty</span> <span class="pre">response.</span></code></p>
 </section>
 </section>
 
@@ -83,9 +88,10 @@
   <h3>Contents</h3>
   <ul>
 <li><a class="reference internal" href="#">Exceptions</a><ul>
-<li><a class="reference internal" href="#readtimeout">ReadTimeout</a></li>
+<li><a class="reference internal" href="#readtimeouterror">ReadTimeoutError</a></li>
 <li><a class="reference internal" href="#connectionerror">ConnectionError</a></li>
 <li><a class="reference internal" href="#httperror">HTTPError</a></li>
+<li><a class="reference internal" href="#emptyresponseerror">EmptyResponseError</a></li>
 </ul>
 </li>
 </ul>

@@ -27,10 +27,11 @@ Brief explanation about the code under the Wayback Tweets directory:
 - ``assets``: Title and logo images
 - ``docs``: Documentation generated with Sphinx
 - ``waybacktweets/api``: Main package modules
-- ``waybacktweets/cli``: Command line Interface module
+- ``waybacktweets/config``: Global configuration module
+- ``waybacktweets/exceptions``: Wayback Tweets Exceptions
 - ``waybacktweets/utils``: Helper functions used in the package
 
 Sponsoring
------------
+------------
 
 You can also donate to the project's developer and maintainer, `Claromes <https://claromes.com>`_, via `GitHub Sponsor <https://github.com/sponsors/claromes>`_ or if you are interested in sponsoring the project you can contact via email at support at claromes dot com.

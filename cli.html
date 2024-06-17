@@ -57,8 +57,8 @@ performs necessary parsing, and saves the data.</p>
 </div>
 <p class="rubric">Options</p>
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-waybacktweets-collapse">
-<span class="sig-name descname"><span class="pre">--collapse</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;collapse&gt;</span></span><a class="headerlink" href="#cmdoption-waybacktweets-collapse" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object std" id="cmdoption-waybacktweets-c">
+<span id="cmdoption-waybacktweets-collapse"></span><span class="sig-name descname"><span class="pre">-c</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--collapse</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;collapse&gt;</span></span><a class="headerlink" href="#cmdoption-waybacktweets-c" title="Link to this definition">¶</a></dt>
 <dd><p>Collapse results based on a field, or a substring of a field. XX in the timestamp value ranges from 1 to 14, comparing the first XX digits of the timestamp field. It is recommended to use from 4 onwards, to compare at least by years.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Options<span class="colon">:</span></dt>
@@ -68,38 +68,44 @@ performs necessary parsing, and saves the data.</p>
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-waybacktweets-from">
-<span class="sig-name descname"><span class="pre">--from</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;DATE&gt;</span></span><a class="headerlink" href="#cmdoption-waybacktweets-from" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object std" id="cmdoption-waybacktweets-f">
+<span id="cmdoption-waybacktweets-from"></span><span class="sig-name descname"><span class="pre">-f</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--from</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;DATE&gt;</span></span><a class="headerlink" href="#cmdoption-waybacktweets-f" title="Link to this definition">¶</a></dt>
 <dd><p>Filtering by date range from this date. Format: YYYYmmdd</p>
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-waybacktweets-to">
-<span class="sig-name descname"><span class="pre">--to</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;DATE&gt;</span></span><a class="headerlink" href="#cmdoption-waybacktweets-to" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object std" id="cmdoption-waybacktweets-t">
+<span id="cmdoption-waybacktweets-to"></span><span class="sig-name descname"><span class="pre">-t</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--to</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;DATE&gt;</span></span><a class="headerlink" href="#cmdoption-waybacktweets-t" title="Link to this definition">¶</a></dt>
 <dd><p>Filtering by date range up to this date. Format: YYYYmmdd</p>
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-waybacktweets-limit">
-<span class="sig-name descname"><span class="pre">--limit</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;INTEGER&gt;</span></span><a class="headerlink" href="#cmdoption-waybacktweets-limit" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object std" id="cmdoption-waybacktweets-l">
+<span id="cmdoption-waybacktweets-limit"></span><span class="sig-name descname"><span class="pre">-l</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--limit</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;INTEGER&gt;</span></span><a class="headerlink" href="#cmdoption-waybacktweets-l" title="Link to this definition">¶</a></dt>
 <dd><p>Query result limits.</p>
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-waybacktweets-offset">
-<span class="sig-name descname"><span class="pre">--offset</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;INTEGER&gt;</span></span><a class="headerlink" href="#cmdoption-waybacktweets-offset" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object std" id="cmdoption-waybacktweets-o">
+<span id="cmdoption-waybacktweets-offset"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--offset</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;INTEGER&gt;</span></span><a class="headerlink" href="#cmdoption-waybacktweets-o" title="Link to this definition">¶</a></dt>
 <dd><p>Allows for a simple way to scroll through the results.</p>
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-waybacktweets-matchtype">
-<span class="sig-name descname"><span class="pre">--matchtype</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;matchtype&gt;</span></span><a class="headerlink" href="#cmdoption-waybacktweets-matchtype" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object std" id="cmdoption-waybacktweets-mt">
+<span id="cmdoption-waybacktweets-matchtype"></span><span class="sig-name descname"><span class="pre">-mt</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--matchtype</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;matchtype&gt;</span></span><a class="headerlink" href="#cmdoption-waybacktweets-mt" title="Link to this definition">¶</a></dt>
 <dd><p>Results matching a certain prefix, a certain host or all subdomains.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Options<span class="colon">:</span></dt>
 <dd class="field-odd"><p>exact | prefix | host | domain</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-waybacktweets-v">
+<span id="cmdoption-waybacktweets-verbose"></span><span class="sig-name descname"><span class="pre">-v</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--verbose</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-waybacktweets-v" title="Link to this definition">¶</a></dt>
+<dd><p>Shows the error log.</p>
 </dd></dl>
 
 <p class="rubric">Arguments</p>
