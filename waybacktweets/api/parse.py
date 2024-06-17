@@ -12,6 +12,7 @@ from rich import print as rprint
 from rich.progress import Progress
 
 from waybacktweets.config.config import config
+from waybacktweets.config.field_options import FIELD_OPTIONS
 from waybacktweets.exceptions.exceptions import (
     ConnectionError,
     GetResponseError,
@@ -167,6 +168,9 @@ class TweetsParser:
         username: str,
         field_options: List[str],
     ):
+        if not all(option in FIELD_OPTIONS for option in field_options):
+            raise ValueError("Some field options are not valid.")
+
         self.archived_tweets_response = archived_tweets_response
         self.username = username
         self.field_options = field_options

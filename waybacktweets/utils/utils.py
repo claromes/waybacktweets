@@ -114,21 +114,30 @@ def clean_wayback_machine_url(
 
 def check_pattern_tweet(tweet_url: str) -> str:
     """
-    Extracts the tweet ID from a tweet URL.
+    Extracts the URL from a tweet URL with patterns such as:
+
+    - Reply: /status//
+    - Link:  /status///
+    - Twimg: /status/https://pbs
 
     Args:
-        tweet_url (str): The tweet URL to extract the ID from.
+        tweet_url (str): The tweet URL to extract the URL from.
 
     Returns:
-        The extracted tweet ID.
+        Only the extracted URL from a tweet.
     """
-    pattern = re.compile(r'/status/"([^"]+)"')
+    patterns = [
+        re.compile(r'/status/"([^"]+)"'),
+        re.compile(r'/status/&quot;([^"]+)&quot;'),
+        re.compile(r'/status/%3B([^"]+)%3B'),
+    ]
 
-    match = pattern.search(tweet_url)
-    if match:
-        return match.group(1).lstrip("/")
-    else:
-        return tweet_url
+    for pattern in patterns:
+        match = pattern.search(tweet_url)
+        if match:
+            return match.group(1).lstrip("/")
+        else:
+            return tweet_url
 
 
 def delete_tweet_pathnames(tweet_url: str) -> str:

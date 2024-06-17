@@ -3,7 +3,7 @@
 Field Options
 ================
 
-The package saves in three formats: CSV, JSON, and HTML. The files have the following fields:
+The package performs several parses to facilitate the analysis of archived tweets and types of tweets. The fields below are available, which can be passed to the :ref:`parser` and :ref:`exporter`, in addition, the command line tool returns all these fields.
 
 - ``archived_urlkey``: (`str`) A canonical transformation of the URL you supplied, for example, ``org,eserver,tc)/``. Such keys are useful for indexing.
 
@@ -13,12 +13,9 @@ The package saves in three formats: CSV, JSON, and HTML. The files have the foll
 
 - ``archived_tweet_url``: (`str`) The original archived URL.
 
-- ``parsed_tweet_url``: (`str`) The original tweet URL after parsing. `Check the utility functions <api.html#module-waybacktweets.utils.utils>`_.
+- ``parsed_tweet_url``: (`str`) The original tweet URL after parsing. Old URLs were archived in a nested manner. The parsing applied here unnests these URLs, when necessary.  Check the :ref:`utils`.
 
-- ``parsed_archived_tweet_url``: (`str`) The original archived URL after parsing. `Check the utility functions <api.html#module-waybacktweets.utils.utils>`_.
-
-.. TODO: JSON Issue
-.. - ``parsed_tweet_text_mimetype_json``: (`str`) The tweet text extracted from the archived URL that has mimetype ``application/json``.
+- ``parsed_archived_tweet_url``: (`str`) The original archived URL after parsing. It is not guaranteed that this option will be archived, it is just a facilitator, as the originally archived URL does not always exist, due to changes in URLs and web services of the social network Twitter. Check the :ref:`utils`.
 
 - ``available_tweet_text``: (`str`) The tweet text extracted from the URL that is still available on the Twitter account.
 

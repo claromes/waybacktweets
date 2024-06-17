@@ -9,6 +9,8 @@ Request
 .. autoclass:: WaybackTweets
     :members:
 
+.. _parser:
+
 Parse
 ---------
 
@@ -23,6 +25,8 @@ Parse
 
 .. autoclass:: JsonParser
     :members:
+
+.. _exporter:
 
 Export
 ---------
@@ -41,6 +45,8 @@ Visualize
 .. autoclass:: HTMLTweetsVisualizer
     :members:
     :private-members:
+
+.. _utils:
 
 Utils
 -------
