@@ -6,6 +6,14 @@ from typing import Any, Dict, Optional
 
 from rich import print as rprint
 
+from waybacktweets.config.config import config
+from waybacktweets.exceptions.exceptions import (
+    ConnectionError,
+    EmptyResponseError,
+    GetResponseError,
+    HTTPError,
+    ReadTimeoutError,
+)
 from waybacktweets.utils.utils import get_response
 
 
@@ -76,19 +84,25 @@ class WaybackTweets:
         if self.matchtype:
             params["matchType"] = self.matchtype
 
-        response, error, error_type = get_response(url=url, params=params)
-
-        if response:
+        try:
+            response = get_response(url=url, params=params)
             return response.json()
-        elif error and error_type == "ReadTimeout":
-            rprint("[red]Connection to web.archive.org timed out.")
-        elif error and error_type == "ConnectionError":
-            rprint(
-                "[red]Failed to establish a new connection with web.archive.org. Max retries exceeded. Please wait a few minutes and try again."  # noqa: E501
-            )
-        elif error and error_type == "HTTPError":
-            rprint("[red]Connection to web.archive.org timed out.")
-        elif error and error_type:
-            rprint(
-                "[red]Temporarily Offline: Internet Archive services are temporarily offline. Please check Internet Archive Twitter feed (https://twitter.com/internetarchive) for the latest information."  # noqa: E501
-            )
+        except ReadTimeoutError:
+            if config.verbose:
+                rprint("[red]Connection to web.archive.org timed out.")
+        except ConnectionError:
+            if config.verbose:
+                rprint(
+                    "[red]Failed to establish a new connection with web.archive.org. Max retries exceeded. Please wait a few minutes and try again."  # noqa: E501
+                )
+        except HTTPError as e:
+            if config.verbose:
+                rprint(f"[red]HTTP error occurred: {str(e)}")
+        except EmptyResponseError:
+            if config.verbose:
+                rprint("[red]No data was saved due to an empty response.")
+        except GetResponseError as e:
+            if config.verbose:
+                rprint(f"[red]An error occurred: {str(e)}")
+
+        return None

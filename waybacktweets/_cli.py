@@ -11,6 +11,7 @@ from rich import print as rprint
 from waybacktweets.api.export_tweets import TweetsExporter
 from waybacktweets.api.parse_tweets import TweetsParser
 from waybacktweets.api.request_tweets import WaybackTweets
+from waybacktweets.config.config import config
 
 
 def parse_date(
@@ -40,12 +41,14 @@ def parse_date(
 @click.command()
 @click.argument("username", type=str)
 @click.option(
+    "-c",
     "--collapse",
     type=click.Choice(["urlkey", "digest", "timestamp:XX"], case_sensitive=False),
     default=None,
     help="Collapse results based on a field, or a substring of a field. XX in the timestamp value ranges from 1 to 14, comparing the first XX digits of the timestamp field. It is recommended to use from 4 onwards, to compare at least by years.",  # noqa: E501
 )
 @click.option(
+    "-f",
     "--from",
     "timestamp_from",
     type=click.UNPROCESSED,
@@ -55,6 +58,7 @@ def parse_date(
     help="Filtering by date range from this date. Format: YYYYmmdd",
 )
 @click.option(
+    "-t",
     "--to",
     "timestamp_to",
     type=click.UNPROCESSED,
@@ -64,9 +68,15 @@ def parse_date(
     help="Filtering by date range up to this date. Format: YYYYmmdd",
 )
 @click.option(
-    "--limit", type=int, metavar="INTEGER", default=None, help="Query result limits."
+    "-l",
+    "--limit",
+    type=int,
+    metavar="INTEGER",
+    default=None,
+    help="Query result limits.",
 )
 @click.option(
+    "-o",
     "--offset",
     type=int,
     metavar="INTEGER",
@@ -74,10 +84,19 @@ def parse_date(
     help="Allows for a simple way to scroll through the results.",
 )
 @click.option(
+    "-mt",
     "--matchtype",
     type=click.Choice(["exact", "prefix", "host", "domain"], case_sensitive=False),
     default=None,
     help="Results matching a certain prefix, a certain host or all subdomains.",  # noqa: E501
+)
+@click.option(
+    "-v",
+    "--verbose",
+    "verbose",
+    is_flag=True,
+    default=False,
+    help="Shows the error log.",
 )
 def main(
     username: str,
@@ -87,6 +106,7 @@ def main(
     limit: Optional[int],
     offset: Optional[int],
     matchtype: Optional[str],
+    verbose: Optional[bool],
 ) -> None:
     """
     Retrieves archived tweets CDX data from the Wayback Machine,
@@ -95,6 +115,8 @@ def main(
     USERNAME: The Twitter username without @.
     """
     try:
+        config.verbose = verbose
+
         api = WaybackTweets(
             username, collapse, timestamp_from, timestamp_to, limit, offset, matchtype
         )

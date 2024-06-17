@@ -6,6 +6,12 @@ import streamlit.components.v1 as components
 from waybacktweets.api.export_tweets import TweetsExporter
 from waybacktweets.api.parse_tweets import JsonParser, TweetsParser
 from waybacktweets.api.request_tweets import WaybackTweets
+from waybacktweets.config.config import config
+from waybacktweets.exceptions.exceptions import (
+    ConnectionError,
+    EmptyResponseError,
+    ReadTimeoutError,
+)
 from waybacktweets.utils.utils import (
     check_double_status,
     get_response,
@@ -93,6 +99,11 @@ if "archived_timestamp_filter" not in st.session_state:
     st.session_state.archived_timestamp_filter = (start_date, end_date)
 
 
+# Verbose mode configuration
+
+config.verbose = False
+
+
 # Pagination Settings
 
 
@@ -128,23 +139,24 @@ def next_page():
 def tweets_count(username, archived_timestamp_filter):
     url = f"https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{username}/status/*&output=json&from={archived_timestamp_filter[0]}&to={archived_timestamp_filter[1]}"  # noqa: E501
 
-    response, error, error_type = get_response(url=url)
+    try:
+        response = get_response(url=url)
 
-    if response.status_code == 200:
-        data = response.json()
-        if data and len(data) > 1:
-            total_tweets = len(data) - 1
-            return total_tweets
-        else:
-            return 0
-    elif error and error_type == "ReadTimeout":
+        if response.status_code == 200:
+            data = response.json()
+            if data and len(data) > 1:
+                total_tweets = len(data) - 1
+                return total_tweets
+            else:
+                return 0
+    except ReadTimeoutError:
+        st.error("Connection to web.archive.org timed out.")
+        st.stop()
+    except ConnectionError:
         st.error("Failed to establish a new connection with web.archive.org.")
         st.stop()
-    elif error and error_type == "ConnectionError":
-        st.error("Failed to establish a new connection with web.archive.org.")
-        st.stop()
-    elif error and error_type:
-        st.error(f"{error}")
+    except EmptyResponseError:
+        st.error("No data was saved due to an empty response.")
         st.stop()
 
 

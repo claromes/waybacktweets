@@ -11,6 +11,12 @@ from urllib.parse import unquote
 from rich import print as rprint
 from rich.progress import Progress
 
+from waybacktweets.config.config import config
+from waybacktweets.exceptions.exceptions import (
+    ConnectionError,
+    GetResponseError,
+    HTTPError,
+)
 from waybacktweets.utils.utils import (
     check_double_status,
     check_pattern_tweet,
@@ -50,53 +56,56 @@ class TwitterEmbed:
             availability statuses, and URLs, respectively. If no tweets are available,
             returns None.
         """
-        url = f"https://publish.twitter.com/oembed?url={self.tweet_url}"
-        response, error, error_type = get_response(url=url)
+        try:
+            url = f"https://publish.twitter.com/oembed?url={self.tweet_url}"
+            response = get_response(url=url)
+            if response:
+                json_response = response.json()
+                html = json_response["html"]
+                author_name = json_response["author_name"]
 
-        if response:
-            json_response = response.json()
-            html = json_response["html"]
-            author_name = json_response["author_name"]
+                regex = re.compile(
+                    r'<blockquote class="twitter-tweet"(?: [^>]+)?><p[^>]*>(.*?)<\/p>.*?&mdash; (.*?)<\/a>',  # noqa
+                    re.DOTALL,
+                )
+                regex_author = re.compile(r"^(.*?)\s*\(")
 
-            regex = re.compile(
-                r'<blockquote class="twitter-tweet"(?: [^>]+)?><p[^>]*>(.*?)<\/p>.*?&mdash; (.*?)<\/a>',  # noqa
-                re.DOTALL,
-            )
-            regex_author = re.compile(r"^(.*?)\s*\(")
+                matches_html = regex.findall(html)
 
-            matches_html = regex.findall(html)
+                tweet_content = []
+                user_info = []
+                is_RT = []
 
-            tweet_content = []
-            user_info = []
-            is_RT = []
+                for match in matches_html:
+                    tweet_content_match = re.sub(
+                        r"<a[^>]*>|<\/a>", "", match[0].strip()
+                    ).replace("<br>", "\n")
+                    user_info_match = re.sub(
+                        r"<a[^>]*>|<\/a>", "", match[1].strip()
+                    ).replace(")", "), ")
+                    match_author = regex_author.search(user_info_match)
+                    author_tweet = match_author.group(1) if match_author else ""
 
-            for match in matches_html:
-                tweet_content_match = re.sub(
-                    r"<a[^>]*>|<\/a>", "", match[0].strip()
-                ).replace("<br>", "\n")
-                user_info_match = re.sub(
-                    r"<a[^>]*>|<\/a>", "", match[1].strip()
-                ).replace(")", "), ")
-                match_author = regex_author.search(user_info_match)
-                author_tweet = match_author.group(1) if match_author else ""
+                    if tweet_content_match:
+                        tweet_content.append(tweet_content_match)
+                    if user_info_match:
+                        user_info.append(user_info_match)
+                        is_RT.append(author_name != author_tweet)
 
-                if tweet_content_match:
-                    tweet_content.append(tweet_content_match)
-                if user_info_match:
-                    user_info.append(user_info_match)
-                    is_RT.append(author_name != author_tweet)
+                return tweet_content, is_RT, user_info
+        except ConnectionError:
+            if config.verbose:
+                rprint("[yellow]Error parsing the tweet, but the CDX data was saved.")
+        except HTTPError:
+            if config.verbose:
+                rprint(
+                    f"[yellow]{self.tweet_url} not available on the user's account, but the CDX data was saved."  # noqa: E501
+                )
+        except GetResponseError as e:
+            if config.verbose:
+                rprint(f"[red]An error occurred: {str(e)}")
 
-            return tweet_content, is_RT, user_info
-        elif error and error_type == "ConnectionError":
-            rprint("[yellow]Error parsing the tweet, but the CDX data was saved.")
-        elif error and error_type == "HTTPError":
-            rprint(
-                f"[yellow]{self.tweet_url} not available on the user's account, but the CDX data was saved."  # noqa: E501
-            )
-            return None
-        elif error and error_type:
-            rprint(f"[red]{error}")
-            return None
+        return None
 
 
 # TODO: JSON Issue - Create separate function to handle JSON return without hitting rate limiting # noqa: E501
@@ -118,28 +127,31 @@ class JsonParser:
 
         :returns: The parsed tweet text.
         """
-        response, error, error_type = get_response(url=self.archived_tweet_url)
+        try:
+            response = get_response(url=self.archived_tweet_url)
 
-        if response:
-            json_data = response.json()
+            if response:
+                json_data = response.json()
 
-            if "data" in json_data:
-                return json_data["data"].get("text", json_data["data"])
+                if "data" in json_data:
+                    return json_data["data"].get("text", json_data["data"])
 
-            if "retweeted_status" in json_data:
-                return json_data["retweeted_status"].get(
-                    "text", json_data["retweeted_status"]
+                if "retweeted_status" in json_data:
+                    return json_data["retweeted_status"].get(
+                        "text", json_data["retweeted_status"]
+                    )
+
+                return json_data.get("text", json_data)
+        except ConnectionError:
+            if config.verbose:
+                rprint(
+                    f"[yellow]Connection error with {self.archived_tweet_url}. Max retries exceeded. Error parsing the JSON, but the CDX data was saved."  # noqa: E501
                 )
+        except GetResponseError as e:
+            if config.verbose:
+                rprint(f"[red]An error occurred: {str(e)}")
 
-            return json_data.get("text", json_data)
-        elif error and error_type == "ConnectionError":
-            rprint(
-                f"[yellow]Connection error with {self.archived_tweet_url}. Max retries exceeded. Error parsing the JSON, but the CDX data was saved."  # noqa: E501
-            )
-            return None
-        elif error and error_type:
-            rprint(f"[red]{error}")
-            return None
+        return None
 
 
 class TweetsParser:
@@ -252,6 +264,7 @@ class TweetsParser:
         Parses the archived tweets CDX data and structures it.
 
         :param print_progress: A boolean indicating whether to print progress or not.
+
         :returns: The parsed tweets data.
         """
         with ThreadPoolExecutor(max_workers=10) as executor:

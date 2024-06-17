@@ -1,20 +1,47 @@
 API
 ====
 
-Request
----------
+Config
+------------
 
-.. module:: waybacktweets.api.request_tweets
-
-.. autoclass:: WaybackTweets
+.. automodule:: waybacktweets.config.config
     :members:
 
+
+Exceptions
+------------
+
+.. automodule:: waybacktweets.exceptions.exceptions
+
+.. autoclass:: ReadTimeoutError
+    :members:
+
+.. autoclass:: ConnectionError
+    :members:
+
+.. autoclass:: HTTPError
+    :members:
+
+.. autoclass:: EmptyResponseError
+    :members:
+
+.. autoclass:: GetResponseError
+    :members:
+
+
+Export
+---------
+
+.. automodule:: waybacktweets.api.export_tweets
+
+.. autoclass:: TweetsExporter
+    :members:
 
 
 Parse
 ---------
 
-.. module:: waybacktweets.api.parse_tweets
+.. automodule:: waybacktweets.api.parse_tweets
 
 .. autoclass:: TweetsParser
     :members:
@@ -26,28 +53,19 @@ Parse
     :members:
 
 
-Export
+Request
 ---------
 
-.. module:: waybacktweets.api.export_tweets
+.. automodule:: waybacktweets.api.request_tweets
 
-.. autoclass:: TweetsExporter
-    :members:
-
-
-Visualizer
------------
-
-.. module:: waybacktweets.api.viz_tweets
-
-.. autoclass:: HTMLTweetsVisualizer
+.. autoclass:: WaybackTweets
     :members:
 
 
 Utils
 -------
 
-.. module:: waybacktweets.utils.utils
+.. automodule:: waybacktweets.utils.utils
 
 .. autofunction:: check_double_status
 .. autofunction:: check_pattern_tweet
@@ -57,3 +75,12 @@ Utils
 .. autofunction:: get_response
 .. autofunction:: is_tweet_url
 .. autofunction:: semicolon_parser
+
+
+Visualizer
+-----------
+
+.. automodule:: waybacktweets.api.viz_tweets
+
+.. autoclass:: HTMLTweetsVisualizer
+    :members:

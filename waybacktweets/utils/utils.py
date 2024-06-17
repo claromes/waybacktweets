@@ -9,19 +9,30 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
+from waybacktweets.exceptions.exceptions import (
+    ConnectionError,
+    EmptyResponseError,
+    GetResponseError,
+    HTTPError,
+    ReadTimeoutError,
+)
+
 
 def get_response(
     url: str, params: Optional[dict] = None
 ) -> Tuple[Optional[requests.Response], Optional[str], Optional[str]]:
     """
-    Sends a GET request to the specified URL and returns the response,
-    an error message if any, and the type of exception if any.
+    Sends a GET request to the specified URL and returns the response.
 
     :param url: The URL to send the GET request to.
     :param params: The parameters to include in the GET request.
 
-    :returns: A tuple containing the response from the server or None,
-              an error message or None, and the type of exception or None.
+    :returns: The response from the server.
+
+    :raises ReadTimeoutError: If a read timeout occurs.
+    :raises ConnectionError: If a connection error occurs.
+    :raises HTTPError: If an HTTP error occurs.
+    :raises EmptyResponseError: If the response is empty.
     """
     session = requests.Session()
     retry = Retry(connect=3, backoff_factor=0.3)
@@ -38,12 +49,16 @@ def get_response(
         response.raise_for_status()
 
         if not response or response.json() == []:
-            return None, "No data was saved due to an empty response.", None
-        return response, None, None
-    except requests.exceptions.RequestException as e:
-        return None, str(e), type(e).__name__
-    except Exception as e:
-        return None, str(e), type(e).__name__
+            raise EmptyResponseError("No data was saved due to an empty response.")
+        return response
+    except requests.exceptions.ReadTimeout:
+        raise ReadTimeoutError
+    except requests.exceptions.ConnectionError:
+        raise ConnectionError
+    except requests.exceptions.HTTPError:
+        raise HTTPError
+    except requests.exceptions.RequestException:
+        raise GetResponseError
 
 
 def clean_tweet_url(tweet_url: str, username: str) -> str:

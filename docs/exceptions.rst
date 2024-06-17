@@ -3,7 +3,7 @@ Exceptions
 
 These are the most common errors and are handled by the ``waybacktweets`` package.
 
-ReadTimeout
+ReadTimeoutError
 ----------------
 
 This error occurs when a request to the web.archive.org server takes too long to respond. The server could be overloaded or there could be network issues.
@@ -29,4 +29,9 @@ This error occurs when the Internet Archive services are temporarily offline. Th
 
 The output message from the package would be: ``Temporarily Offline: Internet Archive services are temporarily offline. Please check Internet Archive Twitter feed (https://twitter.com/internetarchive) for the latest information.``
 
+EmptyResponseError
+----------------------
 
+This exception raised for empty responses.
+
+The output message from the package would be: ``No data was saved due to an empty response.``
