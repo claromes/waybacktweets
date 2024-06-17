@@ -9,7 +9,7 @@ from typing import Any, Dict, List, Optional
 
 import pandas as pd
 
-from waybacktweets.api.viz_tweets import HTMLTweetsVisualizer
+from waybacktweets.api.visualize import HTMLTweetsVisualizer
 
 
 class TweetsExporter:

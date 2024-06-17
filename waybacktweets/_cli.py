@@ -8,9 +8,9 @@ from typing import Any, Optional
 import click
 from rich import print as rprint
 
-from waybacktweets.api.export_tweets import TweetsExporter
-from waybacktweets.api.parse_tweets import TweetsParser
-from waybacktweets.api.request_tweets import WaybackTweets
+from waybacktweets.api.export import TweetsExporter
+from waybacktweets.api.parse import TweetsParser
+from waybacktweets.api.request import WaybackTweets
 from waybacktweets.config.config import config
 
 

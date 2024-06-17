@@ -108,7 +108,6 @@ class TwitterEmbed:
         return None
 
 
-# TODO: JSON Issue - Create separate function to handle JSON return without hitting rate limiting # noqa: E501
 class JsonParser:
     """
     Class responsible for parsing tweets when the mimetype is application/json.\n
@@ -235,18 +234,6 @@ class TweetsParser:
         self._add_field("available_tweet_text", available_tweet_text)
         self._add_field("available_tweet_is_RT", available_tweet_is_RT)
         self._add_field("available_tweet_info", available_tweet_info)
-
-        # TODO: JSON Issue
-        # parsed_text_json = ""
-
-        # if response[3] == "application/json":
-        #     json_parser = JsonParser(encoded_parsed_archived_tweet)
-        #     text_json = json_parser.parse()
-
-        #     if text_json:
-        #         parsed_text_json = semicolon_parser(text_json)
-
-        # self._add_field("parsed_tweet_text_mimetype_json", parsed_text_json)
 
         self._add_field("archived_urlkey", response[0])
         self._add_field("archived_timestamp", response[1])

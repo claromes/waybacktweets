@@ -10,7 +10,7 @@ class _Config:
 
 config = _Config()
 """
-Configuration settings..
+Configuration settings.
 
 .. attribute:: verbose
 

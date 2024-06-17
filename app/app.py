@@ -3,9 +3,9 @@ import datetime
 import streamlit as st
 import streamlit.components.v1 as components
 
-from waybacktweets.api.export_tweets import TweetsExporter
-from waybacktweets.api.parse_tweets import JsonParser, TweetsParser
-from waybacktweets.api.request_tweets import WaybackTweets
+from waybacktweets.api.export import TweetsExporter
+from waybacktweets.api.parse import JsonParser, TweetsParser
+from waybacktweets.api.request import WaybackTweets
 from waybacktweets.config.config import config
 from waybacktweets.exceptions.exceptions import (
     ConnectionError,

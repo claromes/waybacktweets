@@ -32,7 +32,7 @@ Exceptions
 Export
 ---------
 
-.. automodule:: waybacktweets.api.export_tweets
+.. automodule:: waybacktweets.api.export
 
 .. autoclass:: TweetsExporter
     :members:
@@ -41,7 +41,7 @@ Export
 Parse
 ---------
 
-.. automodule:: waybacktweets.api.parse_tweets
+.. automodule:: waybacktweets.api.parse
 
 .. autoclass:: TweetsParser
     :members:
@@ -56,7 +56,7 @@ Parse
 Request
 ---------
 
-.. automodule:: waybacktweets.api.request_tweets
+.. automodule:: waybacktweets.api.request
 
 .. autoclass:: WaybackTweets
     :members:
@@ -80,7 +80,7 @@ Utils
 Visualizer
 -----------
 
-.. automodule:: waybacktweets.api.viz_tweets
+.. automodule:: waybacktweets.api.visualize
 
 .. autoclass:: HTMLTweetsVisualizer
     :members:
