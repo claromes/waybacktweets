@@ -1510,6 +1510,20 @@ standalone = ["Sphinx (>=5)"]
 test = ["pytest"]
 
 [[package]]
+name = "sphinxext-opengraph"
+version = "0.9.1"
+description = "Sphinx Extension to enable OGP support"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "sphinxext-opengraph-0.9.1.tar.gz", hash = "sha256:dd2868a1e7c9497977fbbf44cc0844a42af39ca65fe1bb0272518af225d06fc5"},
+    {file = "sphinxext_opengraph-0.9.1-py3-none-any.whl", hash = "sha256:b3b230cc6a5b5189139df937f0d9c7b23c7c204493b22646273687969dcb760e"},
+]
+
+[package.dependencies]
+sphinx = ">=4.0"
+
+[[package]]
 name = "streamlit"
 version = "1.35.0"
 description = "A faster way to build and share data apps"
@@ -1707,4 +1721,4 @@ watchmedo = ["PyYAML (>=3.10)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "37fcbc9255674bf67e65a2db35dbd71355fc97751141e739f31bb50fe708aa04"
+content-hash = "fcc3601115ffc7aa7fdbdf7b30d3b627108bfe4f0f6f8521fbc0a99e687befb2"

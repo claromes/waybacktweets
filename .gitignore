@@ -8,4 +8,5 @@ waybacktweets/config/__pycache__
 waybacktweets/exceptions/__pycache__
 waybacktweets/utils/__pycache__
 
+dist/
 docs/_build/
