@@ -26,6 +26,7 @@ classifiers = [
     "Topic :: Software Development",
     "Topic :: Utilities",
 ]
+exclude = ["app/**", "assets/**", "docs/**", ".streamlit/**"]
 
 [tool.poetry.urls]
 "Documentation" = "https://claromes.github.io/waybacktweets/"

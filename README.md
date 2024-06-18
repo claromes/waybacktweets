@@ -1,6 +1,6 @@
 # Wayback Tweets
 
-[![PyPI](https://img.shields.io/pypi/v/waybacktweets)](https://pypi.org/project/waybacktweets) [![docs](https://github.com/claromes/waybacktweets/actions/workflows/docs.yml/badge.svg)](https://github.com/claromes/waybacktweets/actions/workflows/documentation.yml) [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://waybacktweets.streamlit.app)
+[![PyPI](https://img.shields.io/pypi/v/waybacktweets)](https://pypi.org/project/waybacktweets) [![docs](https://github.com/claromes/waybacktweets/actions/workflows/docs.yml/badge.svg)](https://github.com/claromes/waybacktweets/actions/workflows/docs.yml) [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://waybacktweets.streamlit.app)
 
 Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing (see [Field Options](https://claromes.github.io/waybacktweets/field_options.html)), and saves the data in CSV, JSON, and HTML formats.
 
