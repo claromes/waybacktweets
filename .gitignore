@@ -10,3 +10,4 @@ waybacktweets/utils/__pycache__
 
 dist/
 docs/_build/
+!docs/_templates/**

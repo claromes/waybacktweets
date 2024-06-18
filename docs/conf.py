@@ -20,7 +20,6 @@ extensions = [
     "sphinx_new_tab_link",
     "sphinx_click.ext",
     "sphinx_autodoc_typehints",
-    "sphinxext.opengraph",
 ]
 
 templates_path = ["_templates"]
@@ -51,11 +50,3 @@ html_favicon = "../assets/parthenon.png"
 html_logo = "../assets/parthenon.png"
 html_title = f"Wayback Tweets Documentation ({version})"
 html_show_sourcelink = False
-
-# -- Options for Open Graph -------------------------------------------------
-
-ogp_site_url = "https://claromes.github.io/waybacktweets/"
-ogp_social_cards = {
-    "site_url": "claromes.github.io/waybacktweets",
-    "line_color": "#000000",
-}
