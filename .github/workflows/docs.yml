@@ -1,8 +1,6 @@
 name: docs
 
-on:
-  pull_request:
-    types: [closed]
+on: [push, pull_request, workflow_dispatch]
 
 permissions:
   contents: write
@@ -29,7 +27,7 @@ jobs:
           poetry run sphinx-build -b html . _build
           cp -r _build/* ../gh-pages/
       - name: Deploy documentation
-        if: ${{ github.event.pull_request.merged == true }}
+        if: ${{ github.event_name == 'push' }}
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
           branch: gh-pages
