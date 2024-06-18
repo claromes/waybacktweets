@@ -1,13 +1,38 @@
 [tool.poetry]
 name = "waybacktweets"
-version = "1.0"
-description = "Retrieves archived tweets' CDX data from the Wayback Machine"
+version = "1.0a1"
+description = "Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data."
 authors = ["Claromes <support@claromes.com>"]
-license = "GPL-3.0"
+license = "GPLv3"
 readme = "README.md"
+repository = "https://github.com/claromes/waybacktweets"
+documentation = "https://claromes.github.io/waybacktweets/"
+keywords = [
+    "twitter",
+    "tweet",
+    "internet-archive",
+    "wayback-machine",
+    "osint-tools",
+    "osint",
+    "command-line",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development",
+    "Topic :: Utilities",
+]
+
+[tool.poetry.urls]
+"Documentation" = "https://claromes.github.io/waybacktweets/"
+"Issue Tracker" = "https://github.com/claromes/waybacktweets/issues"
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.9.7 || >3.9.7,<4.0"
+python = "^3.11"
 requests = "^2.30.0"
 streamlit = "1.35.0"
 rich = "^13.6.0"

@@ -4,5 +4,3 @@ from waybacktweets.api.export import TweetsExporter
 from waybacktweets.api.parse import JsonParser, TweetsParser, TwitterEmbed
 from waybacktweets.api.request import WaybackTweets
 from waybacktweets.api.visualize import HTMLTweetsVisualizer
-
-__version__ = "1.0"

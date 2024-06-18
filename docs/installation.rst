@@ -39,10 +39,26 @@ From source
 
         poetry install
 
-    Run Streamlit App:
+    Run the CLI:
+
+    .. code-block:: shell
+
+        poetry run waybacktweets [SUBCOMMANDS]
+
+    Run the Streamlit App:
 
     .. code-block:: shell
 
         streamlit run app/app.py
+
+    Build the docs:
+
+    .. code-block:: shell
+
+        cd docs
+
+    .. code-block:: shell
+
+        make clean html
 
 `Read the Poetry CLI documentation <https://python-poetry.org/docs/cli/>`_.
