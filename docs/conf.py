@@ -22,7 +22,7 @@ extensions = [
     "sphinx_autodoc_typehints",
 ]
 
-templates_path = ["_templates"]
+templates_path = ["docs/_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 autodoc_typehints = "description"
 
