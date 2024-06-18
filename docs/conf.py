@@ -57,7 +57,6 @@ html_show_sourcelink = False
 # -- Options for Open Graph -------------------------------------------------
 
 ogp_site_url = "https://claromes.github.io/waybacktweets/"
-ogp_image = "./assets/parthenon.svg"
+ogp_image = "../assets/parthenon.svg"
 ogp_description_length = 300
-
 ogp_enable_meta_description = True
