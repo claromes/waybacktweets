@@ -1,5 +1,5 @@
 .. note::
-    The current version of the Web App is v0.4.3. Version 1.0 has not yet been implemented in the Streamlit Web App, as it is in the review and testing phase.
+    The current version of the Web App is 0.4.3. Version 1.0 has not yet been implemented in the Streamlit Web App, as it is in the review and testing phase.
 
 Web App
 =========
