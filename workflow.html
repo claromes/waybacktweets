@@ -17,7 +17,7 @@
     <script src="https://unpkg.com/d3/dist/d3.min.js"></script>
     <script>
                 window.addEventListener("load", function () {
-                  var svgs = d3.selectAll(".mermaid#id-27e37398-8812-40c0-92ef-381a25a403a5 svg");
+                  var svgs = d3.selectAll(".mermaid#id-99bb3258-1768-4723-9399-a97f10ee1065 svg");
                   svgs.each(function() {
                     var svg = d3.select(this);
                     svg.html("<g>" + svg.html() + "</g>");
@@ -33,7 +33,18 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Field Options" href="field_options.html" />
-    <link rel="prev" title="Quickstart" href="quickstart.html" /> 
+    <link rel="prev" title="Quickstart" href="quickstart.html" />
+ 
+    <meta name="description" content="Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data">
+
+    <meta property="og:title" content="Workflow" />
+    <meta property="og:description" content="Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data">
+    <meta property="og:image" content="https://claromes.github.io/waybacktweets/_static/assets/card.png" />
+
+    <meta name="twitter:title" content="Workflow">
+    <meta name="twitter:description" content="Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data">
+    <meta property="twitter:image" content="https://claromes.github.io/waybacktweets/_static/assets/card.png" />
+
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -65,7 +76,7 @@
 <p>The tool was written following a proposal not only to Retrieve data from archived tweets, but also to facilitate the reading of these tweets. Therefore, a flow is defined to obtain these results in the best possible way.</p>
 <p>Due to limitations of the Wayback CDX Server API, it is not always possible to parse the results with the mimetype <code class="docutils literal notranslate"><span class="pre">application/json</span></code>, regardless, the data in CDX format are saved.</p>
 <p>Use the mouse to zoom in and out the flowchart.</p>
-<div align="center" id="id-27e37398-8812-40c0-92ef-381a25a403a5" class="mermaid align-center">
+<div align="center" id="id-99bb3258-1768-4723-9399-a97f10ee1065" class="mermaid align-center">
             flowchart TB
    A[input Username]--&gt; B[(Wayback Machine)]
    B--&gt; B1[save Archived Tweets CDX data]
