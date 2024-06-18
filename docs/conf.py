@@ -27,7 +27,6 @@ templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 autodoc_typehints = "description"
 
-
 # -- Options for HTML output -------------------------------------------------
 
 html_theme = "flask"
@@ -48,15 +47,15 @@ html_sidebars = {
     "index": ["project.html", "localtoc.html", "searchbox.html"],
     "**": ["localtoc.html", "relations.html", "searchbox.html"],
 }
-html_favicon = "../assets/parthenon.svg"
-html_logo = "../assets/parthenon.svg"
+html_favicon = "../assets/parthenon.png"
+html_logo = "../assets/parthenon.png"
 html_title = f"Wayback Tweets Documentation ({version})"
 html_show_sourcelink = False
-
 
 # -- Options for Open Graph -------------------------------------------------
 
 ogp_site_url = "https://claromes.github.io/waybacktweets/"
-ogp_image = "../assets/parthenon.svg"
-ogp_description_length = 300
-ogp_enable_meta_description = True
+ogp_social_cards = {
+    "site_url": "claromes.github.io/waybacktweets",
+    "line_color": "#000000",
+}

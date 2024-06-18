@@ -20,7 +20,7 @@ from waybacktweets.utils.utils import (
 
 # Initial Settings
 
-LOGO = "assets/parthenon.svg"
+LOGO = "assets/parthenon.png"
 TITLE = "assets/waybacktweets.png"
 
 st.set_page_config(

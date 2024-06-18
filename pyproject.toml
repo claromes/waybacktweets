@@ -47,6 +47,7 @@ sphinx-new-tab-link = "^0.4.0"
 sphinx-click = "^6.0.0"
 sphinx-autodoc-typehints = "^2.1.1"
 sphinxext-opengraph = "^0.9.1"
+matplotlib = "^3.9.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.4.2"
