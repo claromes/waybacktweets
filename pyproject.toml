@@ -5,6 +5,7 @@ description = "Retrieves archived tweets CDX data from the Wayback Machine, perf
 authors = ["Claromes <support@claromes.com>"]
 license = "GPLv3"
 readme = "README.md"
+repository = "https://github.com/claromes/waybacktweets"
 keywords = [
     "twitter",
     "tweet",

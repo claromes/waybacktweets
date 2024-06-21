@@ -98,7 +98,7 @@ class TwitterEmbed:
         except HTTPError:
             if config.verbose:
                 rprint(
-                    f"[yellow]{self.tweet_url} not available on the user's account, but the CDX data was saved."  # noqa: E501
+                    f"[yellow]{self.tweet_url} not available on the user's Twitter account, but the CDX data was saved."  # noqa: E501
                 )
         except GetResponseError as e:
             if config.verbose:
