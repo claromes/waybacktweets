@@ -5,11 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>API &#8212; Wayback Tweets Documentation (1.0a1.x)</title>
+    <title>API &#8212; Wayback Tweets Documentation (1.0a2.x)</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
     <link rel="stylesheet" type="text/css" href="_static/flask.css?v=b87c8d14" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=d2f1d0ac" />
-    <script src="_static/documentation_options.js?v=036e6a88"></script>
+    <script src="_static/documentation_options.js?v=3496e0e2"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="icon" href="_static/parthenon.png"/>
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="cli.html" title="CLI"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Wayback Tweets Documentation (1.0a1.x)</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Wayback Tweets Documentation (1.0a2.x)</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">API</a></li> 
       </ul>
     </div>  
@@ -427,6 +427,22 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="waybacktweets.utils.utils.check_url_scheme">
+<span class="sig-prename descclassname"><span class="pre">waybacktweets.utils.utils.</span></span><span class="sig-name descname"><span class="pre">check_url_scheme</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.utils.utils.check_url_scheme" title="Link to this definition">¶</a></dt>
+<dd><p>Corrects the URL scheme if it contains more than two slashes following the scheme.</p>
+<p>This function uses a regular expression to find ‘http:’ or ‘https:’ followed by two or more slashes.
+It then replaces this with the scheme followed by exactly two slashes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>url</strong> (<em>str</em>) – The URL to be corrected.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The corrected URL.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="waybacktweets.utils.utils.clean_tweet_url">
 <span class="sig-prename descclassname"><span class="pre">waybacktweets.utils.utils.</span></span><span class="sig-name descname"><span class="pre">clean_tweet_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tweet_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.utils.utils.clean_tweet_url" title="Link to this definition">¶</a></dt>
 <dd><p>Cleans a tweet URL by ensuring it is associated with the correct username.</p>
@@ -543,6 +559,24 @@
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The string with semicolons replaced by %3B.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="waybacktweets.utils.utils.timestamp_parser">
+<span class="sig-prename descclassname"><span class="pre">waybacktweets.utils.utils.</span></span><span class="sig-name descname"><span class="pre">timestamp_parser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamp</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.utils.utils.timestamp_parser" title="Link to this definition">¶</a></dt>
+<dd><p>Parses a timestamp into a formatted string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>timestamp</strong> (<em>str</em>) – The timestamp string to parse.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>%M:%S”, or None if the
+timestamp could not be parsed.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The parsed timestamp in the format “%Y/%m/%d %H</p>
 </dd>
 </dl>
 </dd></dl>
@@ -672,12 +706,14 @@
 <li><a class="reference internal" href="#utils">Utils</a><ul>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.check_double_status"><code class="docutils literal notranslate"><span class="pre">check_double_status()</span></code></a></li>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.check_pattern_tweet"><code class="docutils literal notranslate"><span class="pre">check_pattern_tweet()</span></code></a></li>
+<li><a class="reference internal" href="#waybacktweets.utils.utils.check_url_scheme"><code class="docutils literal notranslate"><span class="pre">check_url_scheme()</span></code></a></li>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.clean_tweet_url"><code class="docutils literal notranslate"><span class="pre">clean_tweet_url()</span></code></a></li>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.clean_wayback_machine_url"><code class="docutils literal notranslate"><span class="pre">clean_wayback_machine_url()</span></code></a></li>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.delete_tweet_pathnames"><code class="docutils literal notranslate"><span class="pre">delete_tweet_pathnames()</span></code></a></li>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.get_response"><code class="docutils literal notranslate"><span class="pre">get_response()</span></code></a></li>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.is_tweet_url"><code class="docutils literal notranslate"><span class="pre">is_tweet_url()</span></code></a></li>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.semicolon_parser"><code class="docutils literal notranslate"><span class="pre">semicolon_parser()</span></code></a></li>
+<li><a class="reference internal" href="#waybacktweets.utils.utils.timestamp_parser"><code class="docutils literal notranslate"><span class="pre">timestamp_parser()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-waybacktweets.exceptions.exceptions">Exceptions</a><ul>
@@ -721,7 +757,7 @@
     </div>
   
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2023 - 2024, Claromes · Icon by The Doodle Library · Title font by Google, licensed under the Open Font License · Release: v1.0a1.
+    &#169; Copyright 2023 - 2024, Claromes · Icon by The Doodle Library · Title font by Google, licensed under the Open Font License · Release: v1.0a2.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
     </div>
   <script src="_static/version_warning_offset.js"></script>

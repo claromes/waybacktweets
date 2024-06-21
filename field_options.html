@@ -5,11 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Field Options &#8212; Wayback Tweets Documentation (1.0a1.x)</title>
+    <title>Field Options &#8212; Wayback Tweets Documentation (1.0a2.x)</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
     <link rel="stylesheet" type="text/css" href="_static/flask.css?v=b87c8d14" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=d2f1d0ac" />
-    <script src="_static/documentation_options.js?v=036e6a88"></script>
+    <script src="_static/documentation_options.js?v=3496e0e2"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="icon" href="_static/parthenon.png"/>
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="workflow.html" title="Workflow"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Wayback Tweets Documentation (1.0a1.x)</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Wayback Tweets Documentation (1.0a2.x)</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Field Options</a></li> 
       </ul>
     </div>  
@@ -59,11 +59,12 @@
 <p>The package performs several parses to facilitate the analysis of archived tweets and types of tweets. The fields below are available, which can be passed to the <a class="reference internal" href="api.html#parser"><span class="std std-ref">Parse</span></a> and <a class="reference internal" href="api.html#exporter"><span class="std std-ref">Export</span></a>, in addition, the command line tool returns all these fields.</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">archived_urlkey</span></code>: (<cite>str</cite>) A canonical transformation of the URL you supplied, for example, <code class="docutils literal notranslate"><span class="pre">org,eserver,tc)/</span></code>. Such keys are useful for indexing.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">archived_timestamp</span></code>: (<cite>datetime</cite>) A 14 digit date-time representation in the <code class="docutils literal notranslate"><span class="pre">YYYYMMDDhhmmss</span></code> format.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">archived_timestamp</span></code>: (<cite>str</cite>) A 14 digit date-time representation in the <code class="docutils literal notranslate"><span class="pre">YYYYMMDDhhmmss</span></code> format.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">parsed_archived_timestamp</span></code>: (<cite>str</cite>) The <code class="docutils literal notranslate"><span class="pre">archived_timestamp</span></code> in human-readable format.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">archived_tweet_url</span></code>: (<cite>str</cite>) The archived URL.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">parsed_archived_tweet_url</span></code>: (<cite>str</cite>) The archived URL after parsing. It is not guaranteed that this option will be archived, it is just a facilitator, as the originally archived URL does not always exist, due to changes in URLs and web services of the social network Twitter. Check the <a class="reference internal" href="api.html#utils"><span class="std std-ref">Utils</span></a>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">original_tweet_url</span></code>: (<cite>str</cite>) The original tweet URL.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">archived_tweet_url</span></code>: (<cite>str</cite>) The original archived URL.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">parsed_tweet_url</span></code>: (<cite>str</cite>) The original tweet URL after parsing. Old URLs were archived in a nested manner. The parsing applied here unnests these URLs, when necessary.  Check the <a class="reference internal" href="api.html#utils"><span class="std std-ref">Utils</span></a>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">parsed_archived_tweet_url</span></code>: (<cite>str</cite>) The original archived URL after parsing. It is not guaranteed that this option will be archived, it is just a facilitator, as the originally archived URL does not always exist, due to changes in URLs and web services of the social network Twitter. Check the <a class="reference internal" href="api.html#utils"><span class="std std-ref">Utils</span></a>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">available_tweet_text</span></code>: (<cite>str</cite>) The tweet text extracted from the URL that is still available on the Twitter account.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">available_tweet_is_RT</span></code>: (<cite>bool</cite>) Whether the tweet from the <code class="docutils literal notranslate"><span class="pre">available_tweet_text</span></code> field is a retweet or not.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">available_tweet_info</span></code>: (<cite>str</cite>) Name and date of the tweet from the <code class="docutils literal notranslate"><span class="pre">available_tweet_text</span></code> field.</p></li>
@@ -122,7 +123,7 @@
     </div>
   
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2023 - 2024, Claromes · Icon by The Doodle Library · Title font by Google, licensed under the Open Font License · Release: v1.0a1.
+    &#169; Copyright 2023 - 2024, Claromes · Icon by The Doodle Library · Title font by Google, licensed under the Open Font License · Release: v1.0a2.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
     </div>
   <script src="_static/version_warning_offset.js"></script>

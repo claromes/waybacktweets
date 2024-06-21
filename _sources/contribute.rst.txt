@@ -16,7 +16,7 @@ If you have Python skills, contribute to the `code <https://github.com/claromes/
 
 These are the prerequisites:
 
-- Python 3.11+
+- Python 3.10+
 - Poetry
 
 Install from the source, following the :ref:`installation` instructions.
