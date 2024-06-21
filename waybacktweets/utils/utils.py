@@ -2,7 +2,9 @@
 Utility functions for handling HTTP requests and manipulating URLs.
 """
 
+import html
 import re
+from datetime import datetime
 from typing import Optional, Tuple
 
 import requests
@@ -126,18 +128,24 @@ def check_pattern_tweet(tweet_url: str) -> str:
     Returns:
         Only the extracted URL from a tweet.
     """
-    patterns = [
-        re.compile(r'/status/"([^"]+)"'),
-        re.compile(r'/status/&quot;([^"]+)&quot;'),
-        re.compile(r'/status/%3B([^"]+)%3B'),
-    ]
+    pattern = r'/status/((?:"(.*?)"|&quot;(.*?)(?=&|$)|&quot%3B(.*?)(?=&|$)))'
+    match = re.search(pattern, tweet_url)
 
-    for pattern in patterns:
-        match = pattern.search(tweet_url)
-        if match:
-            return match.group(1).lstrip("/")
+    if match:
+        if match.group(2):
+            parsed_tweet_url = match.group(2)
+        elif match.group(3):
+            parsed_tweet_url = match.group(3)
+        elif match.group(4):
+            parsed_tweet_url = match.group(4)
         else:
-            return tweet_url
+            parsed_tweet_url = ""
+
+        parsed_tweet_url = html.unescape(parsed_tweet_url)
+
+        return parsed_tweet_url
+
+    return tweet_url
 
 
 def delete_tweet_pathnames(tweet_url: str) -> str:
@@ -213,3 +221,59 @@ def is_tweet_url(twitter_url: str) -> bool:
         return True
 
     return False
+
+
+def timestamp_parser(timestamp):
+    """
+    Parses a timestamp into a formatted string.
+
+    Args:
+        timestamp (str): The timestamp string to parse.
+
+    Returns:
+        The parsed timestamp in the format "%Y/%m/%d %H:%M:%S", or None if the
+        timestamp could not be parsed.
+    """
+    formats = [
+        "%Y",
+        "%Y%m",
+        "%Y%m%d",
+        "%Y%m%d%H",
+        "%Y%m%d%H%M",
+        "%Y%m%d%H%M%S",
+    ]
+
+    for fmt in formats:
+        try:
+            parsed_time = datetime.strptime(timestamp, fmt)
+
+            formatted_time = parsed_time.strftime("%Y/%m/%d %H:%M:%S")
+            return formatted_time
+        except ValueError:
+            continue
+
+    return None
+
+
+def check_url_scheme(url):
+    """
+    Corrects the URL scheme if it contains more than two slashes following the scheme.
+
+    This function uses a regular expression to find 'http:' or 'https:' followed by two or more slashes.
+    It then replaces this with the scheme followed by exactly two slashes.
+
+    Args:
+        url (str): The URL to be corrected.
+
+    Returns:
+        The corrected URL.
+    """  # noqa: E501
+    pattern = r"(http:|https:)(/{2,})"
+
+    def replace_function(match):
+        scheme = match.group(1)
+        return f"{scheme}//"
+
+    parsed_url = re.sub(pattern, replace_function, url)
+
+    return parsed_url

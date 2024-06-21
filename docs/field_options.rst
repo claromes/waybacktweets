@@ -7,15 +7,17 @@ The package performs several parses to facilitate the analysis of archived tweet
 
 - ``archived_urlkey``: (`str`) A canonical transformation of the URL you supplied, for example, ``org,eserver,tc)/``. Such keys are useful for indexing.
 
-- ``archived_timestamp``: (`datetime`) A 14 digit date-time representation in the ``YYYYMMDDhhmmss`` format.
+- ``archived_timestamp``: (`str`) A 14 digit date-time representation in the ``YYYYMMDDhhmmss`` format.
+
+- ``parsed_archived_timestamp``: (`str`) The ``archived_timestamp`` in human-readable format.
+
+- ``archived_tweet_url``: (`str`) The archived URL.
+
+- ``parsed_archived_tweet_url``: (`str`) The archived URL after parsing. It is not guaranteed that this option will be archived, it is just a facilitator, as the originally archived URL does not always exist, due to changes in URLs and web services of the social network Twitter. Check the :ref:`utils`.
 
 - ``original_tweet_url``: (`str`) The original tweet URL.
 
-- ``archived_tweet_url``: (`str`) The original archived URL.
-
 - ``parsed_tweet_url``: (`str`) The original tweet URL after parsing. Old URLs were archived in a nested manner. The parsing applied here unnests these URLs, when necessary.  Check the :ref:`utils`.
-
-- ``parsed_archived_tweet_url``: (`str`) The original archived URL after parsing. It is not guaranteed that this option will be archived, it is just a facilitator, as the originally archived URL does not always exist, due to changes in URLs and web services of the social network Twitter. Check the :ref:`utils`.
 
 - ``available_tweet_text``: (`str`) The tweet text extracted from the URL that is still available on the Twitter account.
 

@@ -128,10 +128,11 @@ def main(
             field_options = [
                 "archived_urlkey",
                 "archived_timestamp",
-                "original_tweet_url",
+                "parsed_archived_timestamp",
                 "archived_tweet_url",
-                "parsed_tweet_url",
                 "parsed_archived_tweet_url",
+                "original_tweet_url",
+                "parsed_tweet_url",
                 "available_tweet_text",
                 "available_tweet_is_RT",
                 "available_tweet_info",

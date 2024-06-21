@@ -21,11 +21,13 @@ from waybacktweets.exceptions.exceptions import (
 from waybacktweets.utils.utils import (
     check_double_status,
     check_pattern_tweet,
+    check_url_scheme,
     clean_tweet_url,
     delete_tweet_pathnames,
     get_response,
     is_tweet_url,
     semicolon_parser,
+    timestamp_parser,
 )
 
 
@@ -203,23 +205,26 @@ class TweetsParser:
         original_tweet = delete_tweet_pathnames(
             clean_tweet_url(cleaned_tweet, self.username)
         )
-        parsed_wayback_machine_url = (
-            f"https://web.archive.org/web/{response[1]}/{original_tweet}"
-        )
 
         double_status = check_double_status(wayback_machine_url, original_tweet)
 
         if double_status:
             original_tweet = delete_tweet_pathnames(
-                f"https://twitter.com/{original_tweet}"
+                f"https://twitter.com{original_tweet}"
             )
         elif "://" not in original_tweet:
             original_tweet = delete_tweet_pathnames(f"https://{original_tweet}")
 
-        encoded_tweet = semicolon_parser(response[2])
-        encoded_archived_tweet = semicolon_parser(wayback_machine_url)
-        encoded_parsed_tweet = semicolon_parser(original_tweet)
-        encoded_parsed_archived_tweet = semicolon_parser(parsed_wayback_machine_url)
+        parsed_wayback_machine_url = (
+            f"https://web.archive.org/web/{response[1]}/{original_tweet}"
+        )
+
+        encoded_archived_tweet = check_url_scheme(semicolon_parser(wayback_machine_url))
+        encoded_parsed_archived_tweet = check_url_scheme(
+            semicolon_parser(parsed_wayback_machine_url)
+        )
+        encoded_tweet = check_url_scheme(semicolon_parser(response[2]))
+        encoded_parsed_tweet = check_url_scheme(semicolon_parser(original_tweet))
 
         available_tweet_text = None
         available_tweet_is_RT = None
@@ -242,10 +247,11 @@ class TweetsParser:
 
         self._add_field("archived_urlkey", response[0])
         self._add_field("archived_timestamp", response[1])
-        self._add_field("original_tweet_url", encoded_tweet)
+        self._add_field("parsed_archived_timestamp", timestamp_parser(response[1]))
         self._add_field("archived_tweet_url", encoded_archived_tweet)
-        self._add_field("parsed_tweet_url", encoded_parsed_tweet)
         self._add_field("parsed_archived_tweet_url", encoded_parsed_archived_tweet)
+        self._add_field("original_tweet_url", encoded_tweet)
+        self._add_field("parsed_tweet_url", encoded_parsed_tweet)
         self._add_field("archived_mimetype", response[3])
         self._add_field("archived_statuscode", response[4])
         self._add_field("archived_digest", response[5])

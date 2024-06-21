@@ -55,12 +55,14 @@ Utils
 
 .. autofunction:: check_double_status
 .. autofunction:: check_pattern_tweet
+.. autofunction:: check_url_scheme
 .. autofunction:: clean_tweet_url
 .. autofunction:: clean_wayback_machine_url
 .. autofunction:: delete_tweet_pathnames
 .. autofunction:: get_response
 .. autofunction:: is_tweet_url
 .. autofunction:: semicolon_parser
+.. autofunction:: timestamp_parser
 
 Exceptions
 ------------

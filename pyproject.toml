@@ -1,12 +1,10 @@
 [tool.poetry]
 name = "waybacktweets"
-version = "1.0a1"
+version = "1.0a2"
 description = "Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data."
 authors = ["Claromes <support@claromes.com>"]
 license = "GPLv3"
 readme = "README.md"
-repository = "https://github.com/claromes/waybacktweets"
-documentation = "https://claromes.github.io/waybacktweets/"
 keywords = [
     "twitter",
     "tweet",
@@ -22,6 +20,7 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     "Natural Language :: English",
+    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Topic :: Software Development",
     "Topic :: Utilities",
@@ -29,13 +28,13 @@ classifiers = [
 exclude = ["app/**", "assets/**", "docs/**", ".streamlit/**"]
 
 [tool.poetry.urls]
+"Homepage" = "https://claromes.github.io/waybacktweets/"
 "Documentation" = "https://claromes.github.io/waybacktweets/"
 "Issue Tracker" = "https://github.com/claromes/waybacktweets/issues"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
 requests = "^2.30.0"
-streamlit = "1.35.0"
 rich = "^13.6.0"
 click = "^8.1.7"
 
@@ -48,6 +47,7 @@ sphinx-click = "^6.0.0"
 sphinx-autodoc-typehints = "^2.1.1"
 
 [tool.poetry.group.dev.dependencies]
+streamlit = "1.35.0"
 black = "^24.4.2"
 flake8 = "^7.0.0"
 isort = "^5.13.2"
