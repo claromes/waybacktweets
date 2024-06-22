@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 
 import streamlit as st
 import streamlit.components.v1 as components
@@ -7,21 +7,23 @@ from waybacktweets.api.export import TweetsExporter
 from waybacktweets.api.parse import JsonParser, TweetsParser
 from waybacktweets.api.request import WaybackTweets
 from waybacktweets.config.config import config
-from waybacktweets.exceptions.exceptions import (
-    ConnectionError,
-    EmptyResponseError,
-    ReadTimeoutError,
-)
-from waybacktweets.utils.utils import (
-    check_double_status,
-    get_response,
-    semicolon_parser,
-)
 
 # Initial Settings
 
 LOGO = "assets/parthenon.png"
 TITLE = "assets/waybacktweets.png"
+FIELD_OPTIONS = [
+    "parsed_archived_timestamp",
+    "archived_tweet_url",
+    "parsed_archived_tweet_url",
+    "original_tweet_url",
+    "parsed_tweet_url",
+    "available_tweet_text",
+    "available_tweet_is_RT",
+    "available_tweet_info",
+    "archived_mimetype",
+    "archived_statuscode",
+]
 
 st.set_page_config(
     page_title="Wayback Tweets",
@@ -35,7 +37,7 @@ st.set_page_config(
 
     The application is a prototype hosted on Streamlit Cloud, allowing users to apply filters and view tweets that lack the original URL. [Read more](https://claromes.github.io/waybacktweets/streamlit.html).
 
-    © 2023 - {datetime.datetime.now().year}, [Claromes](https://claromes.com) · Icon by The Doodle Library · Title font by Google, licensed under the Open Font License
+    © 2023 - {datetime.now().year}, [Claromes](https://claromes.com) · Icon by The Doodle Library · Title font by Google, licensed under the Open Font License
 
     ---
 """,  # noqa: E501
@@ -92,8 +94,8 @@ if "offset" not in st.session_state:
 if "count" not in st.session_state:
     st.session_state.count = False
 
-start_date = datetime.datetime(2006, 3, 1)
-end_date = datetime.datetime.now()
+start_date = datetime(2006, 1, 1)
+end_date = datetime.now()
 
 if "archived_timestamp_filter" not in st.session_state:
     st.session_state.archived_timestamp_filter = (start_date, end_date)
@@ -101,7 +103,7 @@ if "archived_timestamp_filter" not in st.session_state:
 
 # Verbose mode configuration
 
-config.verbose = False
+config.verbose = True
 
 
 # Pagination Settings
@@ -136,32 +138,77 @@ def next_page():
 
 
 @st.cache_data(ttl=1800, show_spinner=False)
-def tweets_count(username, archived_timestamp_filter):
-    url = f"https://web.archive.org/cdx/search/cdx?url=https://twitter.com/{username}/status/*&output=json&from={archived_timestamp_filter[0]}&to={archived_timestamp_filter[1]}"  # noqa: E501
+def wayback_tweets(
+    username,
+    collapse,
+    timestamp_from,
+    timestamp_to,
+    limit,
+    offset,
+    matchtype,
+):
+    response = WaybackTweets(
+        username,
+        collapse,
+        timestamp_from,
+        timestamp_to,
+        limit,
+        offset,
+        matchtype,
+    )
+    archived_tweets = response.get()
 
-    try:
-        response = get_response(url=url)
+    return archived_tweets
 
-        if response.status_code == 200:
-            data = response.json()
-            if data and len(data) > 1:
-                total_tweets = len(data) - 1
-                return total_tweets
-            else:
-                return 0
-    except ReadTimeoutError:
-        st.error("Connection to web.archive.org timed out.")
-        st.stop()
-    except ConnectionError:
-        st.error("Failed to establish a new connection with web.archive.org.")
-        st.stop()
-    except EmptyResponseError:
-        st.error("No data was saved due to an empty response.")
-        st.stop()
+
+@st.cache_data(ttl=1800, show_spinner=False)
+def tweets_parser(archived_tweets, field_options):
+    parser = TweetsParser(archived_tweets, username, field_options)
+    parsed_tweets = parser.parse()
+
+    return parsed_tweets
+
+
+@st.cache_data(ttl=1800, show_spinner=False)
+def tweets_exporter(parsed_tweets, username, field_options):
+    exporter = TweetsExporter(parsed_tweets, username, field_options)
+
+    df = exporter.dataframe
+
+    return df
+
+
+@st.cache_data(ttl=1800, show_spinner=False)
+def tweets_json_parser():
+    if archived_mimetype[i] == "application/json":
+        json_parser = JsonParser(parsed_archived_tweet_url[i])
+        text_json = json_parser.parse()
+
+        if text_json:
+            return text_json
+
+        return None
+
+
+def display_tweet_header():
+    header = st.markdown(
+        f"[**archived url ↗**]({archived_tweet_url[i]}) · [**tweet url ↗**]({original_tweet_url[i]}) · **mimetype:** {archived_mimetype[i]} · **archived timestamp:** {parsed_archived_timestamp[i]} · **archived status code:** {archived_statuscode[i]}"  # noqa: E501
+    )
+
+    return header
+
+
+def display_tweet_iframe():
+    tweet_iframe = components.iframe(
+        archived_tweet_url[i],
+        height=500,
+        scrolling=True,
+    )
+
+    return tweet_iframe
 
 
 # Interface Settings
-
 
 st.logo(LOGO)
 
@@ -188,8 +235,8 @@ st.caption(
 
 username = st.text_input("Username", placeholder="Without @")
 
-start_date = datetime.datetime(2006, 3, 1)
-end_date = datetime.datetime.now()
+start_date = datetime(2006, 1, 1)
+end_date = datetime.now()
 
 st.session_state.archived_timestamp_filter = st.date_input(
     "Tweets saved between",
@@ -206,7 +253,7 @@ not_available = st.checkbox(
 )
 
 unique = st.checkbox(
-    "Only unique URLs",
+    "Only unique Wayback Machine URLs",
     help="Filtering by the collapse option using the `urlkey` field and the URL Match Scope `prefix`",  # noqa: E501
 )
 
@@ -221,33 +268,17 @@ if username != st.session_state.current_username:
 if query or st.session_state.count:
     tweets_per_page = 25
 
-    st.session_state.count = tweets_count(
-        username, st.session_state.archived_timestamp_filter
-    )
+    collapse = None
+    matchType = None
 
-    # st.caption(
-    #     "The number of tweets per page is set to 25, and this is a fixed value due to the API rate limit."  # noqa: E501
-    # )
-    # st.write(f"**{st.session_state.count} URLs have been captured**")
-
-    if st.session_state.count:
-        if tweets_per_page > st.session_state.count:
-            tweets_per_page = st.session_state.count
+    if unique:
+        collapse = "urlkey"
+        matchType = "prefix"
 
     try:
-        # Tweet Listing Processing
-
-        progress = st.empty()
-
-        collapse = None
-        matchType = None
-        if unique:
-            collapse = "urlkey"
-            matchType = "prefix"
-
-        with st.spinner("Parsing..."):
-            response = WaybackTweets(
-                username,
+        with st.spinner("Waybacking..."):
+            wayback_tweets = wayback_tweets(
+                st.session_state.current_username,
                 collapse,
                 st.session_state.archived_timestamp_filter[0],
                 st.session_state.archived_timestamp_filter[1],
@@ -255,215 +286,173 @@ if query or st.session_state.count:
                 st.session_state.offset,
                 matchType,
             )
-            archived_tweets = response.get()
 
-            if archived_tweets:
-                field_options = [
-                    "archived_urlkey",
-                    "archived_timestamp",
-                    "original_tweet_url",
-                    "archived_tweet_url",
-                    "parsed_tweet_url",
-                    "parsed_archived_tweet_url",
-                    "available_tweet_text",
-                    "available_tweet_is_RT",
-                    "available_tweet_info",
-                    "archived_mimetype",
-                    "archived_statuscode",
-                ]
+            parsed_tweets = tweets_parser(wayback_tweets, FIELD_OPTIONS)
+            df = tweets_exporter(
+                parsed_tweets, st.session_state.current_username, FIELD_OPTIONS
+            )
 
-                parser = TweetsParser(archived_tweets, username, field_options)
-                parsed_tweets = parser.parse()
+            st.session_state.count = len(df)
 
-                exporter = TweetsExporter(parsed_tweets, username, field_options)
-                df = exporter.dataframe
+            # st.caption(
+            #     "The number of tweets per page is set to 25, and this is a fixed value due to the API rate limit."  # noqa: E501
+            # )
+            # st.write(f"**{st.session_state.count} URLs have been captured**")
 
-                archived_urlkey = df["archived_urlkey"]
-                archived_timestamp = df["archived_timestamp"]
-                original_tweet_url = df["original_tweet_url"]
-                archived_tweet_url = df["archived_tweet_url"]
-                parsed_tweet_url = df["parsed_tweet_url"]
-                parsed_archived_tweet_url = df["parsed_archived_tweet_url"]
-                available_tweet_text = df["available_tweet_text"]
-                available_tweet_is_RT = df["available_tweet_is_RT"]
-                available_tweet_info = df["available_tweet_info"]
-                archived_mimetype = df["archived_mimetype"]
-                archived_statuscode = df["archived_statuscode"]
+            if st.session_state.count:
+                if tweets_per_page > st.session_state.count:
+                    tweets_per_page = st.session_state.count
 
-                st.divider()
-                st.session_state.current_username = username
+            # Tweet Listing Processing
 
-                return_none_count = 0
+            progress = st.empty()
 
-                start_index = st.session_state.offset
-                end_index = min(st.session_state.count, start_index + tweets_per_page)
+            parsed_archived_timestamp = df["parsed_archived_timestamp"]
+            archived_tweet_url = df["archived_tweet_url"]
+            parsed_archived_tweet_url = df["parsed_archived_tweet_url"]
+            original_tweet_url = df["original_tweet_url"]
+            parsed_tweet_url = df["parsed_tweet_url"]
+            available_tweet_text = df["available_tweet_text"]
+            available_tweet_is_RT = df["available_tweet_is_RT"]
+            available_tweet_info = df["available_tweet_info"]
+            archived_mimetype = df["archived_mimetype"]
+            archived_statuscode = df["archived_statuscode"]
 
-                for i in range(tweets_per_page):
-                    try:
-                        if archived_mimetype[i] == "application/json":
-                            json_parser = JsonParser(parsed_archived_tweet_url[i])
-                            text_json = json_parser.parse()
+            st.divider()
+            st.session_state.current_username = username
 
-                            if text_json:
-                                parsed_text_json = semicolon_parser(text_json)
+            return_none_count = 0
 
-                        # Display all tweets
-                        if not not_available:
-                            # Display available tweets
-                            if available_tweet_text[i]:
-                                st.markdown(
-                                    f'[**archived url ↗**]({archived_tweet_url[i]}) · [**tweet url ↗**]({original_tweet_url[i]}) · **mimetype:** {archived_mimetype[i]} · **archived timestamp:** {datetime.datetime.strptime(str(archived_timestamp[i]), "%Y%m%d%H%M%S")} · **archived status code:** {archived_statuscode[i]}'  # noqa: E501
-                                )
+            start_index = st.session_state.offset
+            end_index = min(st.session_state.count, start_index + tweets_per_page)
 
-                                if available_tweet_is_RT[i]:
-                                    st.info("*Retweet*")
+            for i in range(tweets_per_page):
+                try:
+                    parsed_text_json = tweets_json_parser()
 
-                                st.write(available_tweet_text[i])
-                                st.write(f"**{available_tweet_info[i]}**")
+                    # Display all tweets
+                    if not not_available:
+                        # Display available tweets
+                        if available_tweet_text[i]:
+                            display_tweet_header()
 
-                                st.divider()
-                            # Display tweets not available with text/html, unk, warc/revisit mimetype or application/json mimetype without parsed JSON text # noqa: E501
-                            elif (
-                                archived_mimetype[i] != "application/json"
-                                and not available_tweet_text[i]
-                            ):
-                                st.markdown(
-                                    f'[**archived url ↗**]({archived_tweet_url[i]}) · [**tweet url ↗**]({original_tweet_url[i]}) · **mimetype:** {archived_mimetype[i]} · **archived timestamp:** {datetime.datetime.strptime(str(archived_timestamp[i]), "%Y%m%d%H%M%S")} · **archived status code:** {archived_statuscode[i]}'  # noqa: E501
-                                )
-                                if (
-                                    ".jpg" in original_tweet_url[i]
-                                    or ".png" in original_tweet_url[i]
-                                ) and (400 <= archived_statuscode[i] <= 511):
-                                    components.iframe(
-                                        archived_tweet_url[i],
-                                        height=500,
-                                        scrolling=True,
-                                    )
-                                elif "/status/" not in original_tweet_url[i]:
-                                    st.info(
-                                        "This isn't a status or is not available"  # noqa: E501
-                                    )
-                                elif (
-                                    check_double_status(
-                                        archived_tweet_url[i],
-                                        original_tweet_url[i],
-                                    )
-                                    or f"{st.session_state.current_username}"
-                                    not in original_tweet_url[i]
-                                ):
-                                    st.info(
-                                        f"Replying to {st.session_state.current_username}"  # noqa: E501
-                                    )
-                                else:
-                                    components.iframe(
-                                        archived_tweet_url[i],
-                                        height=500,
-                                        scrolling=True,
-                                    )
+                            if available_tweet_is_RT[i]:
+                                st.info("*Retweet*")
 
-                                st.divider()
-                            # Display tweets not available with application/json mimetype and parsed JSON text # noqa: E501
-                            elif (
-                                archived_mimetype[i] == "application/json"
-                                and not available_tweet_text[i]
-                            ):
-                                st.markdown(
-                                    f'[**archived url ↗**]({archived_tweet_url[i]}) · [**tweet url ↗**]({original_tweet_url[i]}) · **mimetype:** {archived_mimetype[i]} · **archived timestamp:** {datetime.datetime.strptime(str(archived_timestamp[i]), "%Y%m%d%H%M%S")} · **archived status code:** {archived_statuscode[i]}'  # noqa: E501
-                                )
-                                st.code(parsed_text_json)
+                            st.write(available_tweet_text[i])
+                            st.write(f"**{available_tweet_info[i]}**")
 
-                                st.divider()
-
-                        # Display only tweets not available
-                        if not_available:
-                            # Display tweets not available with text/html, unk, warc/revisit return # noqa: E501
+                            st.divider()
+                        # Display tweets not available with text/html, unk, warc/revisit mimetype or application/json mimetype without parsed JSON text # noqa: E501
+                        elif (
+                            archived_mimetype[i] != "application/json"
+                            and not available_tweet_text[i]
+                        ):
+                            display_tweet_header()
                             if (
-                                archived_mimetype[i] != "application/json"
-                                and not available_tweet_text[i]
-                            ):
-                                return_none_count += 1
-
-                                st.markdown(
-                                    f'[**archived url ↗**]({archived_tweet_url[i]}) · [**tweet url ↗**]({original_tweet_url[i]}) · **mimetype:** {archived_mimetype[i]} · **archived timestamp:** {datetime.datetime.strptime(str(archived_timestamp[i]), "%Y%m%d%H%M%S")} · **archived status code:** {archived_statuscode[i]}'  # noqa: E501
+                                ".jpg" in parsed_tweet_url[i]
+                                or ".png" in parsed_tweet_url[i]
+                            ) and (400 <= archived_statuscode[i] <= 511):
+                                display_tweet_iframe()
+                            elif "/status/" not in parsed_tweet_url[i]:
+                                st.info(
+                                    "This isn't a status or is not available"  # noqa: E501
                                 )
-                                if (
-                                    ".jpg" in original_tweet_url[i]
-                                    or ".png" in original_tweet_url[i]
-                                ) and (400 <= archived_statuscode[i] <= 511):
-                                    components.iframe(
-                                        archived_tweet_url[i],
-                                        height=500,
-                                        scrolling=True,
-                                    )
-                                elif "/status/" not in original_tweet_url[i]:
-                                    st.info(
-                                        "This isn't a status or is not available"  # noqa: E501
-                                    )
-                                elif (
-                                    check_double_status(
-                                        archived_tweet_url[i],
-                                        original_tweet_url[i],
-                                    )
-                                    or f"{st.session_state.current_username}"
-                                    not in original_tweet_url[i]
-                                ):
-                                    st.info(
-                                        f"Replying to {st.session_state.current_username}"  # noqa: E501
-                                    )
-                                else:
-                                    components.iframe(
-                                        archived_tweet_url[i],
-                                        height=500,
-                                        scrolling=True,
-                                    )
-
-                                st.divider()
-
-                            # Display tweets not available with application/json return # noqa: E501
                             elif (
-                                archived_mimetype[i] == "application/json"
-                                and not available_tweet_text[i]
+                                f"{st.session_state.current_username}"
+                                not in parsed_tweet_url[i]
                             ):
-                                return_none_count += 1
-
-                                st.markdown(
-                                    f'[**archived url ↗**]({archived_tweet_url[i]}) · [**tweet url ↗**]({original_tweet_url[i]}) · **mimetype:** {archived_mimetype[i]} · **archived timestamp:** {datetime.datetime.strptime(str(archived_timestamp[i]), "%Y%m%d%H%M%S")} · **archived status code:** {archived_statuscode[i]}'  # noqa: E501
+                                st.info(
+                                    f"Replying to {st.session_state.current_username}"  # noqa: E501
                                 )
-                                st.code(parsed_text_json)
+                            else:
+                                display_tweet_iframe()
 
-                                st.divider()
+                            st.divider()
+                        # Display tweets not available with application/json mimetype and parsed JSON text # noqa: E501
+                        elif (
+                            archived_mimetype[i] == "application/json"
+                            and not available_tweet_text[i]
+                        ):
+                            display_tweet_header()
+                            st.code(parsed_text_json)
 
-                            progress.write(
-                                f"{return_none_count} URLs have been captured in the range {start_index}-{end_index}"  # noqa: E501
-                            )
-                    except IndexError:
-                        if start_index <= 0:
-                            st.session_state.prev_disabled = True
-                        else:
-                            st.session_state.prev_disabled = False
+                            st.divider()
 
-                        st.session_state.next_disabled = True
+                    # Display only tweets not available
+                    if not_available:
+                        # Display tweets not available with text/html, unk, warc/revisit return # noqa: E501
+                        if (
+                            archived_mimetype[i] != "application/json"
+                            and not available_tweet_text[i]
+                        ):
+                            return_none_count += 1
+
+                            display_tweet_header()
+                            if (
+                                ".jpg" in parsed_tweet_url[i]
+                                or ".png" in parsed_tweet_url[i]
+                            ) and (400 <= archived_statuscode[i] <= 511):
+                                display_tweet_iframe()
+                            elif "/status/" not in parsed_tweet_url[i]:
+                                st.info(
+                                    "This isn't a status or is not available"  # noqa: E501
+                                )
+                            elif (
+                                f"{st.session_state.current_username}"
+                                not in parsed_tweet_url[i]
+                            ):
+                                st.info(
+                                    f"Replying to {st.session_state.current_username}"  # noqa: E501
+                                )
+                            else:
+                                display_tweet_iframe()
+
+                            st.divider()
+
+                        # Display tweets not available with application/json return # noqa: E501
+                        elif (
+                            archived_mimetype[i] == "application/json"
+                            and not available_tweet_text[i]
+                        ):
+                            return_none_count += 1
+
+                            display_tweet_header()
+                            st.code(parsed_text_json)
+
+                            st.divider()
+
+                        progress.write(
+                            f"{return_none_count} URLs have been captured in the range {start_index}-{end_index}"  # noqa: E501
+                        )
+                except IndexError:
+                    if start_index <= 0:
+                        st.session_state.prev_disabled = True
+                    else:
+                        st.session_state.prev_disabled = False
+
+                    st.session_state.next_disabled = True
 
             prev, _, next = st.columns([3, 4, 3])
 
-            prev.button(
-                "Previous",
-                disabled=st.session_state.prev_disabled,
-                key="prev_button_key",
-                on_click=prev_page,
-                type="primary",
-                use_container_width=True,
-            )
-            next.button(
-                "Next",
-                disabled=st.session_state.next_disabled,
-                key="next_button_key",
-                on_click=next_page,
-                type="primary",
-                use_container_width=True,
-            )
+        prev.button(
+            "Previous",
+            disabled=st.session_state.prev_disabled,
+            key="prev_button_key",
+            on_click=prev_page,
+            type="primary",
+            use_container_width=True,
+        )
+        next.button(
+            "Next",
+            disabled=st.session_state.next_disabled,
+            key="next_button_key",
+            on_click=next_page,
+            type="primary",
+            use_container_width=True,
+        )
 
-        if not archived_tweets:
+        if not wayback_tweets:
             st.error(
                 "Failed to establish a new connection with web.archive.org. Max retries exceeded. Please wait a few minutes and try again."  # noqa: E501
             )
