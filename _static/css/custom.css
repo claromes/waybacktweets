@@ -1,5 +1,10 @@
 body {
     font-family: Georgia, 'Times New Roman', Times, serif;
+    background-color: whitesmoke;
+}
+
+a:hover {
+    background-color: whitesmoke !important;
 }
 
 #cli #usage #waybacktweets h3,

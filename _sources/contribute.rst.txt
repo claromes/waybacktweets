@@ -23,9 +23,10 @@ Install from the source, following the :ref:`installation` instructions.
 
 Brief explanation about the code under the Wayback Tweets directory:
 
-- ``app``: Streamlit app
+- ``app``: Streamlit application code
 - ``assets``: Title and logo images
 - ``docs``: Documentation generated with Sphinx
+- ``legacy_app``: Legacy Streamlit application code
 - ``waybacktweets/api``: Main package modules
 - ``waybacktweets/config``: Global configuration module
 - ``waybacktweets/exceptions``: Wayback Tweets Exceptions

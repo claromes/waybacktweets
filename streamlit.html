@@ -5,17 +5,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Web App &#8212; Wayback Tweets Documentation (1.0a2.x)</title>
+    <title>Web App &#8212; Wayback Tweets Documentation (1.0a3.x)</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
     <link rel="stylesheet" type="text/css" href="_static/flask.css?v=b87c8d14" />
-    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=d2f1d0ac" />
-    <script src="_static/documentation_options.js?v=3496e0e2"></script>
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e14f3222" />
+    <script src="_static/documentation_options.js?v=90ee64fb"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="icon" href="_static/parthenon.png"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="API" href="api.html" />
+    <link rel="next" title="API" href="api.html" />
+    <link rel="prev" title="CLI" href="cli.html" />
  
     <meta name="description" content="Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data">
 
@@ -39,8 +40,11 @@
              >modules</a> |</li>
         <li class="right" >
           <a href="api.html" title="API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cli.html" title="CLI"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Wayback Tweets Documentation (1.0a2.x)</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Wayback Tweets Documentation (1.0a3.x)</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Web App</a></li> 
       </ul>
     </div>  
@@ -50,11 +54,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The current version of the Web App is 0.4.3. Version 1.0 has not yet been implemented in the Streamlit Web App, as it is in the review and testing phase.</p>
-</div>
-<section id="web-app">
+  <section id="web-app">
 <h1>Web App<a class="headerlink" href="#web-app" title="Link to this heading">¶</a></h1>
 <p>Aplication that displays multiple archived tweets on Wayback Machine to avoid opening each link manually. The application is a prototype written in Python with the Streamlit framework and hosted on Streamlit Cloud, allowing users to apply filters and view tweets that lack the original URL.</p>
 <p><a class="reference external" href="https://waybacktweets.streamlit.app" rel="noopener noreferrer" target="_blank">Open the application</a>.</p>
@@ -62,13 +62,11 @@
 <h2>Filters<a class="headerlink" href="#filters" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Filtering by date range: Using the <code class="docutils literal notranslate"><span class="pre">from</span></code> and <code class="docutils literal notranslate"><span class="pre">to</span></code> filters</p></li>
+<li><p>Limit: Query result limits.</p></li>
+<li><p>Offset: Allows for a simple way to scroll through the results.</p></li>
 <li><p>Only unavailable tweets: Checks if the archived URL still exists on Twitter (see the <a class="reference internal" href="workflow.html#flowchart"><span class="std std-ref">Workflow</span></a>)</p></li>
 <li><p>Only unique Wayback Machine URLs: Filtering by the collapse option using the <code class="docutils literal notranslate"><span class="pre">urlkey</span></code> field and the URL Match Scope <code class="docutils literal notranslate"><span class="pre">prefix</span></code></p></li>
 </ul>
-</section>
-<section id="pagination">
-<h2>Pagination<a class="headerlink" href="#pagination" title="Link to this heading">¶</a></h2>
-<p>Pagination allows viewing up to 25 tweets per page. This helps to avoid rate limiting from the API, for parsing returns with the mimetype <code class="docutils literal notranslate"><span class="pre">application/json</span></code>.</p>
 </section>
 <section id="community-comments">
 <h2>Community Comments<a class="headerlink" href="#community-comments" title="Link to this heading">¶</a></h2>
@@ -89,7 +87,11 @@
      <br>
      <li>"A tool to quickly view tweets saved on archive.org." <a href="https://irinatechtips.substack.com/p/irina_tech_tips-newsletter-3-2023#%C2%A7wayback-tweets" target="_blank">Irina_Tech_Tips Newsletter #3</a></li>
      <br>
- </ul><div class="admonition note">
+ </ul></section>
+<section id="legacy-app">
+<h2>Legacy App<a class="headerlink" href="#legacy-app" title="Link to this heading">¶</a></h2>
+<p>To access the legacy version (v0.4.3) of Wayback Tweets <a class="reference external" href="https://waybacktweets-legacy.streamlit.app" rel="noopener noreferrer" target="_blank">click here</a>.</p>
+<div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If the application is down, please check the <a class="reference external" href="https://www.streamlitstatus.com/" rel="noopener noreferrer" target="_blank">Streamlit Cloud Status</a>.</p>
 </div>
@@ -115,8 +117,8 @@
   <ul>
 <li><a class="reference internal" href="#">Web App</a><ul>
 <li><a class="reference internal" href="#filters">Filters</a></li>
-<li><a class="reference internal" href="#pagination">Pagination</a></li>
 <li><a class="reference internal" href="#community-comments">Community Comments</a></li>
+<li><a class="reference internal" href="#legacy-app">Legacy App</a></li>
 </ul>
 </li>
 </ul>
@@ -124,8 +126,8 @@
 <ul>
   <li><a href="index.html">Overview</a>
     <ul>
-          <li>Previous: <a href="api.html" title="previous chapter">API</a>
-          
+          <li>Previous: <a href="cli.html" title="previous chapter">CLI</a>
+          <li>Next: <a href="api.html" title="next chapter">API</a>
     </ul>
   </li>
 </ul>
@@ -145,7 +147,7 @@
     </div>
   
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2023 - 2024, Claromes · Icon by The Doodle Library · Title font by Google, licensed under the Open Font License · Release: v1.0a2.
+    &#169; Copyright 2023 - 2024, Claromes · Icon by The Doodle Library · Title font by Google, licensed under the Open Font License · Pre-release: v1.0a3.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
     </div>
   <script src="_static/version_warning_offset.js"></script>
