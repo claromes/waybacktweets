@@ -15,7 +15,7 @@ Filters
 
 - Only unavailable tweets: Checks if the archived URL still exists on Twitter (see the :ref:`flowchart`)
 
-- Only unique URLs: Filtering by the collapse option using the ``urlkey`` field and the URL Match Scope ``prefix``
+- Only unique Wayback Machine URLs: Filtering by the collapse option using the ``urlkey`` field and the URL Match Scope ``prefix``
 
 
 Pagination

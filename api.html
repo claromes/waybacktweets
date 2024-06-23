@@ -322,30 +322,30 @@
 <p>Generates an HTML file to visualize the parsed data.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="waybacktweets.api.visualize.HTMLTweetsVisualizer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.api.visualize.</span></span><span class="sig-name descname"><span class="pre">HTMLTweetsVisualizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">html_file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.visualize.HTMLTweetsVisualizer" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.api.visualize.</span></span><span class="sig-name descname"><span class="pre">HTMLTweetsVisualizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">html_file_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.visualize.HTMLTweetsVisualizer" title="Link to this definition">¶</a></dt>
 <dd><p>Class responsible for generating an HTML file to visualize the parsed data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>json_file_path</strong> (<em>str</em>) – The path of the JSON file.</p></li>
-<li><p><strong>html_file_path</strong> (<em>str</em>) – The path where the HTML file will be saved.</p></li>
 <li><p><strong>username</strong> (<em>str</em>) – The username associated with the tweets.</p></li>
+<li><p><strong>json_file_path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – The path of the JSON file or the JSON data itself.</p></li>
+<li><p><strong>html_file_path</strong> (<em>str</em><em>, </em><em>optional</em>) – The path where the HTML file will be saved.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="waybacktweets.api.visualize.HTMLTweetsVisualizer._json_loader">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_json_loader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.visualize.HTMLTweetsVisualizer._json_loader" title="Link to this definition">¶</a></dt>
-<dd><p>Reads and loads JSON data from a specified file path.</p>
+<dd><p>Reads and loads JSON data from a specified file path or JSON string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>json_file_path</strong> (<em>str</em>) – The path of the JSON file.</p>
+<dd class="field-odd"><p><strong>json_file_path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – The path of the JSON file or the JSON data itself.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]]</span></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The content of the JSON file.</p>
+<dd class="field-odd"><p>The content of the JSON file or data.</p>
 </dd>
 </dl>
 </dd></dl>
