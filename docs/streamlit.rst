@@ -1,6 +1,3 @@
-.. note::
-    The current version of the Web App is 0.4.3. Version 1.0 has not yet been implemented in the Streamlit Web App, as it is in the review and testing phase.
-
 Web App
 =========
 
@@ -13,15 +10,13 @@ Filters
 ----------
 - Filtering by date range: Using the ``from`` and ``to`` filters
 
+- Limit: Query result limits.
+
+- Offset: Allows for a simple way to scroll through the results.
+
 - Only unavailable tweets: Checks if the archived URL still exists on Twitter (see the :ref:`flowchart`)
 
 - Only unique Wayback Machine URLs: Filtering by the collapse option using the ``urlkey`` field and the URL Match Scope ``prefix``
-
-
-Pagination
-------------
-
-Pagination allows viewing up to 25 tweets per page. This helps to avoid rate limiting from the API, for parsing returns with the mimetype ``application/json``.
 
 
 Community Comments
@@ -47,6 +42,12 @@ Community Comments
         <li>"A tool to quickly view tweets saved on archive.org." <a href="https://irinatechtips.substack.com/p/irina_tech_tips-newsletter-3-2023#%C2%A7wayback-tweets" target="_blank">Irina_Tech_Tips Newsletter #3</a></li>
         <br>
     </ul>
+
+Legacy App
+-------------
+
+To access the legacy version (v0.4.3) of Wayback Tweets `click here <https://waybacktweets-legacy.streamlit.app>`_.
+
 
 .. note::
 

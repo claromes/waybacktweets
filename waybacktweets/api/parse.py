@@ -111,7 +111,7 @@ class JsonParser:
     """
     This class is responsible for parsing tweets when the mimetype is application/json.
 
-    Note: This class is in an experimental phase, but it is currently being used by the Streamlit Web App.
+    Note: This class is in an experimental phase.
 
     Args:
         archived_tweet_url (str): The URL of the archived tweet to be parsed.

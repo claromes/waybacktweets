@@ -3,12 +3,17 @@
 Wayback Tweets
 ================
 
-.. image:: ../assets/waybacktweets.png
+.. image:: ../assets/waybacktweets_title.png
+    :alt: Wayback Tweets
     :align: center
 
-Release: |release|
+Pre-release: |release|
 
 Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing (see :ref:`field_options`), and saves the data in CSV, JSON, and HTML formats.
+
+.. image:: ../assets/preview_image.jpg
+    :alt: Preview image
+    :align: center
 
 .. note::
     Intensive queries can lead to rate limiting, resulting in a temporary ban of a few minutes from web.archive.org.
@@ -36,6 +41,14 @@ Command-Line Interface
 
     cli
 
+Streamlit Web App
+-------------------
+
+.. toctree::
+    :maxdepth: 2
+
+    streamlit
+
 
 API Reference
 ---------------
@@ -44,15 +57,6 @@ API Reference
     :maxdepth: 2
 
     api
-
-
-Streamlit Web App
--------------------
-
-.. toctree::
-    :maxdepth: 2
-
-    streamlit
 
 
 Additional Information

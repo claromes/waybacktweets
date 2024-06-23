@@ -5,8 +5,6 @@ TODO
 
     <input type="checkbox">
 
-|uncheck| Review and publish the new version of the Streamlit Web App
-
 |uncheck| Unit Tests
 
 |uncheck| JSON Parser: Create a separate function to handle JSON return, apply JsonParser (``waybacktweets/api/parse.py:111``), and avoid rate limiting
