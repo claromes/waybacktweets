@@ -113,7 +113,7 @@ class TweetsExporter:
 
         html_file_path = f"{self.filename}.html"
 
-        html = HTMLTweetsVisualizer(json_file_path, html_file_path, self.username)
+        html = HTMLTweetsVisualizer(self.username, json_file_path, html_file_path)
 
         html_content = html.generate()
         html.save(html_content)

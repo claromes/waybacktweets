@@ -4,7 +4,7 @@ primaryColor = "black"
 secondaryBackgroundColor = "gainsboro"
 textColor = "black"
 backgroundColor = "whitesmoke"
-font = "sans serif"
+font = "serif"
 
 [client]
 toolbarMode = "minimal"

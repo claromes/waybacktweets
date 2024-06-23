@@ -58,12 +58,12 @@ class WaybackTweets:
         """  # noqa: E501
         url = "https://web.archive.org/cdx/search/cdx"
 
-        status_pathname = "status/*"
+        wildcard_pathname = "/*"
         if self.matchtype:
-            status_pathname = ""
+            wildcard_pathname = ""
 
         params = {
-            "url": f"https://twitter.com/{self.username}/{status_pathname}",
+            "url": f"https://twitter.com/{self.username}/status{wildcard_pathname}",
             "output": "json",
         }
 

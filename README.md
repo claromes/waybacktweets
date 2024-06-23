@@ -59,3 +59,6 @@ if archived_tweets:
 - Tristan Lee (Bellingcat's Data Scientist) for the idea of the application.
 - Jessica Smith (Snowflake's Marketing Specialist) and Streamlit/Snowflake teams for the additional server resources on Streamlit Cloud.
 - OSINT Community for recommending the application.
+
+> [!NOTE]
+> If the application is down, please check the [Streamlit Cloud Status](https://www.streamlitstatus.com/).
