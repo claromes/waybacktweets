@@ -23,7 +23,7 @@ min_date = datetime(2006, 1, 1)
 
 # ------ Verbose Mode Configuration ------ #
 
-config.verbose = True
+config.verbose = False
 
 # ------ Page Configuration ------ #
 
