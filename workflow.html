@@ -17,7 +17,7 @@
     <script src="https://unpkg.com/d3/dist/d3.min.js"></script>
     <script>
                 window.addEventListener("load", function () {
-                  var svgs = d3.selectAll(".mermaid#id-94a926ab-2034-4758-9c13-79ad1f84e133 svg");
+                  var svgs = d3.selectAll(".mermaid#id-b4a69039-7976-4802-89b8-7bb4cbf0c51b svg");
                   svgs.each(function() {
                     var svg = d3.select(this);
                     svg.html("<g>" + svg.html() + "</g>");
@@ -73,10 +73,10 @@
             
   <section id="workflow">
 <span id="flowchart"></span><h1>Workflow<a class="headerlink" href="#workflow" title="Link to this heading">¶</a></h1>
-<p>The tool was written following a proposal not only to Retrieve data from archived tweets, but also to facilitate the reading of these tweets. Therefore, a flow is defined to obtain these results in the best possible way.</p>
+<p>The tool was written following a proposal not only to retrieve data from archived tweets, but also to facilitate the reading of these tweets. Therefore, a flow is defined to obtain these results in the best possible way.</p>
 <p>Due to limitations of the Wayback CDX Server API, it is not always possible to parse the results with the mimetype <code class="docutils literal notranslate"><span class="pre">application/json</span></code>, regardless, the data in CDX format are saved.</p>
 <p>Use the mouse to zoom in and out the flowchart.</p>
-<div align="center" id="id-94a926ab-2034-4758-9c13-79ad1f84e133" class="mermaid align-center">
+<div align="center" id="id-b4a69039-7976-4802-89b8-7bb4cbf0c51b" class="mermaid align-center">
             flowchart TB
    A[input Username]--&gt; B[(Wayback Machine)]
    B--&gt; B1[save Archived Tweets CDX data]
@@ -85,7 +85,7 @@
    C--&gt; |4xx| E[return None]
    E--&gt; F{request Archived\nTweet URL}
    F--&gt; |4xx| G[return Only CDX data]
-   F--&gt; |2xx/3xx: application/json| J[return JSON text]
+   F--&gt; |TODO: 2xx/3xx: application/json| J[return JSON text]
    F--&gt; |2xx/3xx: text/html, warc/revisit, unk| K[return HTML iframe tag]
         </div>
         </section>

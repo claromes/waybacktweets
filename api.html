@@ -318,24 +318,24 @@
 <p>Generates an HTML file to visualize the parsed data.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="waybacktweets.api.visualize.HTMLTweetsVisualizer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.api.visualize.</span></span><span class="sig-name descname"><span class="pre">HTMLTweetsVisualizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">html_file_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.visualize.HTMLTweetsVisualizer" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.api.visualize.</span></span><span class="sig-name descname"><span class="pre">HTMLTweetsVisualizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">html_file_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.visualize.HTMLTweetsVisualizer" title="Link to this definition">¶</a></dt>
 <dd><p>Class responsible for generating an HTML file to visualize the parsed data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>username</strong> (<em>str</em>) – The username associated with the tweets.</p></li>
-<li><p><strong>json_file_path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – The path of the JSON file or the JSON data itself.</p></li>
+<li><p><strong>json_path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – The path of the JSON file or the JSON data itself.</p></li>
 <li><p><strong>html_file_path</strong> (<em>str</em><em>, </em><em>optional</em>) – The path where the HTML file will be saved.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="waybacktweets.api.visualize.HTMLTweetsVisualizer._json_loader">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_json_loader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.visualize.HTMLTweetsVisualizer._json_loader" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_json_loader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.visualize.HTMLTweetsVisualizer._json_loader" title="Link to this definition">¶</a></dt>
 <dd><p>Reads and loads JSON data from a specified file path or JSON string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>json_file_path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – The path of the JSON file or the JSON data itself.</p>
+<dd class="field-odd"><p><strong>json_path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – The path of the JSON file or the JSON data itself.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]]</span></p>
@@ -515,10 +515,10 @@ It then replaces this with the scheme followed by exactly two slashes.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="#waybacktweets.exceptions.exceptions.ReadTimeoutError" title="waybacktweets.exceptions.exceptions.ReadTimeoutError"><strong>ReadTimeoutError</strong></a> – If a read timeout occurs.</p></li>
-<li><p><a class="reference internal" href="#waybacktweets.exceptions.exceptions.ConnectionError" title="waybacktweets.exceptions.exceptions.ConnectionError"><strong>ConnectionError</strong></a> – If a connection error occurs.</p></li>
-<li><p><a class="reference internal" href="#waybacktweets.exceptions.exceptions.HTTPError" title="waybacktweets.exceptions.exceptions.HTTPError"><strong>HTTPError</strong></a> – If an HTTP error occurs.</p></li>
-<li><p><a class="reference internal" href="#waybacktweets.exceptions.exceptions.EmptyResponseError" title="waybacktweets.exceptions.exceptions.EmptyResponseError"><strong>EmptyResponseError</strong></a> – If the response is empty.</p></li>
+<li><p><strong>ReadTimeoutError</strong> – If a read timeout occurs.</p></li>
+<li><p><strong>ConnectionError</strong> – If a connection error occurs.</p></li>
+<li><p><strong>HTTPError</strong> – If an HTTP error occurs.</p></li>
+<li><p><strong>EmptyResponseError</strong> – If the response is empty.</p></li>
 </ul>
 </dd>
 </dl>
@@ -575,40 +575,6 @@ timestamp could not be parsed.</p>
 <dd class="field-odd"><p>The parsed timestamp in the format “%Y/%m/%d %H</p>
 </dd>
 </dl>
-</dd></dl>
-
-</section>
-<section id="module-waybacktweets.exceptions.exceptions">
-<span id="exceptions"></span><h2>Exceptions<a class="headerlink" href="#module-waybacktweets.exceptions.exceptions" title="Link to this heading">¶</a></h2>
-<p>Wayback Tweets Exceptions</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="waybacktweets.exceptions.exceptions.ReadTimeoutError">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.exceptions.exceptions.</span></span><span class="sig-name descname"><span class="pre">ReadTimeoutError</span></span><a class="headerlink" href="#waybacktweets.exceptions.exceptions.ReadTimeoutError" title="Link to this definition">¶</a></dt>
-<dd><p>Exception raised for read timeout errors.</p>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="waybacktweets.exceptions.exceptions.ConnectionError">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.exceptions.exceptions.</span></span><span class="sig-name descname"><span class="pre">ConnectionError</span></span><a class="headerlink" href="#waybacktweets.exceptions.exceptions.ConnectionError" title="Link to this definition">¶</a></dt>
-<dd><p>Exception raised for connection errors.</p>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="waybacktweets.exceptions.exceptions.HTTPError">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.exceptions.exceptions.</span></span><span class="sig-name descname"><span class="pre">HTTPError</span></span><a class="headerlink" href="#waybacktweets.exceptions.exceptions.HTTPError" title="Link to this definition">¶</a></dt>
-<dd><p>Exception raised for HTTP errors.</p>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="waybacktweets.exceptions.exceptions.EmptyResponseError">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.exceptions.exceptions.</span></span><span class="sig-name descname"><span class="pre">EmptyResponseError</span></span><a class="headerlink" href="#waybacktweets.exceptions.exceptions.EmptyResponseError" title="Link to this definition">¶</a></dt>
-<dd><p>Exception raised for empty responses.</p>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="waybacktweets.exceptions.exceptions.GetResponseError">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.exceptions.exceptions.</span></span><span class="sig-name descname"><span class="pre">GetResponseError</span></span><a class="headerlink" href="#waybacktweets.exceptions.exceptions.GetResponseError" title="Link to this definition">¶</a></dt>
-<dd><p>Base class for exceptions in get_response.</p>
 </dd></dl>
 
 </section>
@@ -710,14 +676,6 @@ timestamp could not be parsed.</p>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.is_tweet_url"><code class="docutils literal notranslate"><span class="pre">is_tweet_url()</span></code></a></li>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.semicolon_parser"><code class="docutils literal notranslate"><span class="pre">semicolon_parser()</span></code></a></li>
 <li><a class="reference internal" href="#waybacktweets.utils.utils.timestamp_parser"><code class="docutils literal notranslate"><span class="pre">timestamp_parser()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#module-waybacktweets.exceptions.exceptions">Exceptions</a><ul>
-<li><a class="reference internal" href="#waybacktweets.exceptions.exceptions.ReadTimeoutError"><code class="docutils literal notranslate"><span class="pre">ReadTimeoutError</span></code></a></li>
-<li><a class="reference internal" href="#waybacktweets.exceptions.exceptions.ConnectionError"><code class="docutils literal notranslate"><span class="pre">ConnectionError</span></code></a></li>
-<li><a class="reference internal" href="#waybacktweets.exceptions.exceptions.HTTPError"><code class="docutils literal notranslate"><span class="pre">HTTPError</span></code></a></li>
-<li><a class="reference internal" href="#waybacktweets.exceptions.exceptions.EmptyResponseError"><code class="docutils literal notranslate"><span class="pre">EmptyResponseError</span></code></a></li>
-<li><a class="reference internal" href="#waybacktweets.exceptions.exceptions.GetResponseError"><code class="docutils literal notranslate"><span class="pre">GetResponseError</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-waybacktweets.config.config">Config</a><ul>
