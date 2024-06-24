@@ -5,11 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Quickstart &#8212; Wayback Tweets Documentation (1.0a3.x)</title>
+    <title>Quickstart &#8212; Wayback Tweets Documentation (1.0a4.x)</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
     <link rel="stylesheet" type="text/css" href="_static/flask.css?v=b87c8d14" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e14f3222" />
-    <script src="_static/documentation_options.js?v=90ee64fb"></script>
+    <script src="_static/documentation_options.js?v=5b67f436"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="icon" href="_static/parthenon.png"/>
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="installation.html" title="Installation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Wayback Tweets Documentation (1.0a3.x)</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Wayback Tweets Documentation (1.0a4.x)</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Quickstart</a></li> 
       </ul>
     </div>  
@@ -58,15 +58,20 @@
 <h1>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading">¶</a></h1>
 <section id="cli">
 <h2>CLI<a class="headerlink" href="#cli" title="Link to this heading">¶</a></h2>
-<p>Using Wayback Tweets as a standalone command line tool</p>
+<p>Using Wayback Tweets as a standalone command line tool.</p>
 <p>waybacktweets [OPTIONS] USERNAME</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>waybacktweets<span class="w"> </span>--from<span class="w"> </span><span class="m">20150101</span><span class="w"> </span>--to<span class="w"> </span><span class="m">20191231</span><span class="w"> </span>--limit<span class="w"> </span><span class="m">250</span><span class="w"> </span>jack
 </pre></div>
 </div>
 </section>
+<section id="web-app">
+<h2>Web App<a class="headerlink" href="#web-app" title="Link to this heading">¶</a></h2>
+<p>Using Wayback Tweets as a Streamlit Web App.</p>
+<p><a class="reference external" href="https://waybacktweets.streamlit.app" rel="noopener noreferrer" target="_blank">Open the application</a>, a prototype written in Python with the Streamlit framework and hosted on Streamlit Cloud.</p>
+</section>
 <section id="module">
 <h2>Module<a class="headerlink" href="#module" title="Link to this heading">¶</a></h2>
-<p>Using Wayback Tweets as a Python Module</p>
+<p>Using Wayback Tweets as a Python Module.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">waybacktweets</span> <span class="kn">import</span> <span class="n">WaybackTweets</span><span class="p">,</span> <span class="n">TweetsParser</span><span class="p">,</span> <span class="n">TweetsExporter</span>
 
 <span class="n">USERNAME</span> <span class="o">=</span> <span class="s2">&quot;jack&quot;</span>
@@ -90,11 +95,6 @@
 </pre></div>
 </div>
 </section>
-<section id="web-app">
-<h2>Web App<a class="headerlink" href="#web-app" title="Link to this heading">¶</a></h2>
-<p>Using Wayback Tweets as a Streamlit Web App</p>
-<p><a class="reference external" href="https://waybacktweets.streamlit.app" rel="noopener noreferrer" target="_blank">Open the application</a>, a prototype written in Python with the Streamlit framework and hosted on Streamlit Cloud.</p>
-</section>
 </section>
 
 
@@ -116,8 +116,8 @@
   <ul>
 <li><a class="reference internal" href="#">Quickstart</a><ul>
 <li><a class="reference internal" href="#cli">CLI</a></li>
-<li><a class="reference internal" href="#module">Module</a></li>
 <li><a class="reference internal" href="#web-app">Web App</a></li>
+<li><a class="reference internal" href="#module">Module</a></li>
 </ul>
 </li>
 </ul>
@@ -146,7 +146,7 @@
     </div>
   
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2023 - 2024, Claromes · Icon by The Doodle Library · Title font by Google, licensed under the Open Font License · Pre-release: v1.0a3.
+    &#169; Copyright 2023 - 2024, Claromes · Icon by The Doodle Library · Title font by Google, licensed under the Open Font License · Pre-release: v1.0a4.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
     </div>
   <script src="_static/version_warning_offset.js"></script>
