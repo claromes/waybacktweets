@@ -7,7 +7,7 @@ TODO
 
 |uncheck| Unit Tests
 
-|uncheck| JSON Parser: Create a separate function to handle JSON return, apply JsonParser (``waybacktweets/api/parse.py:111``), and avoid rate limiting
+|uncheck| JSON Parser: Create a separate function to handle JSON return, apply JsonParser (``waybacktweets/api/parse.py:110``), and avoid rate limiting
 
 |uncheck| Download images when tweet URL has extensions like JPG or PNG
 

@@ -1,7 +1,7 @@
 Web App
 =========
 
-Aplication that displays multiple archived tweets on Wayback Machine to avoid opening each link manually. The application is a prototype written in Python with the Streamlit framework and hosted on Streamlit Cloud, allowing users to apply filters and view tweets that lack the original URL.
+The application is a prototype hosted on Streamlit Cloud, serving as an alternative to the command line tool.
 
 `Open the application <https://waybacktweets.streamlit.app>`_.
 

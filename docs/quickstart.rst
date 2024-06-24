@@ -4,7 +4,7 @@ Quickstart
 CLI
 -------------
 
-Using Wayback Tweets as a standalone command line tool
+Using Wayback Tweets as a standalone command line tool.
 
 waybacktweets [OPTIONS] USERNAME
 
@@ -12,11 +12,17 @@ waybacktweets [OPTIONS] USERNAME
 
     waybacktweets --from 20150101 --to 20191231 --limit 250 jack
 
+Web App
+-------------
+
+Using Wayback Tweets as a Streamlit Web App.
+
+`Open the application <https://waybacktweets.streamlit.app>`_, a prototype written in Python with the Streamlit framework and hosted on Streamlit Cloud.
 
 Module
 -------------
 
-Using Wayback Tweets as a Python Module
+Using Wayback Tweets as a Python Module.
 
 .. code-block:: python
 
@@ -40,10 +46,3 @@ Using Wayback Tweets as a Python Module
 
         exporter = TweetsExporter(parsed_tweets, USERNAME, field_options)
         exporter.save_to_csv()
-
-Web App
--------------
-
-Using Wayback Tweets as a Streamlit Web App
-
-`Open the application <https://waybacktweets.streamlit.app>`_, a prototype written in Python with the Streamlit framework and hosted on Streamlit Cloud.

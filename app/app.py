@@ -35,7 +35,7 @@ st.set_page_config(
         "About": f"""
     [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![License](https://img.shields.io/github/license/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/blob/main/LICENSE.md) [![Star](https://img.shields.io/github/stars/claromes/waybacktweets?style=social)](https://github.com/claromes/waybacktweets)
 
-    The application is a prototype hosted on Streamlit Cloud, allowing users to apply filters and download the data in different formats.
+    The application is a prototype hosted on Streamlit Cloud, serving as an alternative to the command line tool.
 
     © 2023 - {end_date.year}, [Claromes](https://claromes.com)
 
@@ -133,7 +133,9 @@ st.image(TITLE, use_column_width="never")
 st.caption(
     "[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![Star](https://img.shields.io/github/stars/claromes/waybacktweets?style=social)](https://github.com/claromes/waybacktweets)"  # noqa: E501
 )
-st.write("Retrieve archived tweets CDX data in CSV, JSON, and HTML formats.")
+st.write(
+    "Retrieves archived tweets CDX data in HTML (for easy viewing of the tweets using the `iframe` tag), CSV, and JSON formats."  # noqa: E501
+)
 
 st.write(
     "This application uses the Wayback Tweets Python package, which can be used as a module or as a standalone command line tool. [Read the documentation](https://claromes.github.io/waybacktweets)."  # noqa: E501

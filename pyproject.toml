@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "waybacktweets"
-version = "1.0a3"
+version = "1.0a4"
 description = "Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data."
 authors = ["Claromes <support@claromes.com>"]
 license = "GPLv3"

@@ -2,7 +2,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/waybacktweets)](https://pypi.org/project/waybacktweets) [![docs](https://github.com/claromes/waybacktweets/actions/workflows/docs.yml/badge.svg)](https://github.com/claromes/waybacktweets/actions/workflows/docs.yml) [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://waybacktweets.streamlit.app)
 
-Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing (see [Field Options](https://claromes.github.io/waybacktweets/field_options.html)), and saves the data in CSV, JSON, and HTML formats.
+Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing (see [Field Options](https://claromes.github.io/waybacktweets/field_options.html)), and saves the data in HTML (for easy viewing of the tweets using the `iframe` tag), CSV, and JSON formats.
 
 ## Installation
 
@@ -19,6 +19,10 @@ waybacktweets [OPTIONS] USERNAME
 ```shell
 waybacktweets --from 20150101 --to 20191231 --limit 250 jack
 ```
+
+### Using Wayback Tweets as a Web App
+
+[Open the application](https://waybacktweets.streamlit.app), a prototype written in Python with the Streamlit framework and hosted on Streamlit Cloud.
 
 ### Using Wayback Tweets as a Python Module
 
@@ -45,10 +49,6 @@ if archived_tweets:
     exporter.save_to_csv()
 ```
 
-### Using Wayback Tweets as a Web App
-
-[Open the application](https://waybacktweets.streamlit.app), a prototype written in Python with the Streamlit framework and hosted on Streamlit Cloud.
-
 ## Documentation
 
 - [Wayback Tweets documentation](https://claromes.github.io/waybacktweets)
@@ -61,4 +61,4 @@ if archived_tweets:
 - OSINT Community for recommending the application.
 
 > [!NOTE]
-> If the application is down, please check the [Streamlit Cloud Status](https://www.streamlitstatus.com/).
+> If the Streamlit application is down, please check the [Streamlit Cloud Status](https://www.streamlitstatus.com/).
