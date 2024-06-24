@@ -64,25 +64,6 @@ Utils
 .. autofunction:: semicolon_parser
 .. autofunction:: timestamp_parser
 
-Exceptions
-------------
-
-.. automodule:: waybacktweets.exceptions.exceptions
-
-.. autoclass:: ReadTimeoutError
-    :members:
-
-.. autoclass:: ConnectionError
-    :members:
-
-.. autoclass:: HTTPError
-    :members:
-
-.. autoclass:: EmptyResponseError
-    :members:
-
-.. autoclass:: GetResponseError
-    :members:
 
 Config
 ------------

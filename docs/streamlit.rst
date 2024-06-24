@@ -8,13 +8,12 @@ Aplication that displays multiple archived tweets on Wayback Machine to avoid op
 
 Filters
 ----------
+
 - Filtering by date range: Using the ``from`` and ``to`` filters
 
 - Limit: Query result limits.
 
 - Offset: Allows for a simple way to scroll through the results.
-
-- Only unavailable tweets: Checks if the archived URL still exists on Twitter (see the :ref:`flowchart`)
 
 - Only unique Wayback Machine URLs: Filtering by the collapse option using the ``urlkey`` field and the URL Match Scope ``prefix``
 
