@@ -141,7 +141,7 @@ st.write(
 )
 
 st.write(
-    "This application uses the Wayback Tweets Python package, which can be used either as a module or as a standalone command-line tool. [Read the documentation](https://claromes.github.io/waybacktweets) for more information.."  # noqa: E501
+    "This application uses the Wayback Tweets Python package, which can be used either as a module or as a standalone command-line tool. [Read the documentation](https://claromes.github.io/waybacktweets) for more information."  # noqa: E501
 )
 
 st.write(
@@ -248,7 +248,7 @@ if query or st.session_state.count:
 
             # -- HTML -- #
 
-            st.header("HTML", divider="gray")
+            st.header("HTML", divider="gray", anchor=False)
             st.write(
                 f"Visualize tweets more efficiently through `iframes`. Download the @{st.session_state.current_username}'s archived tweets in HTML."  # noqa: E501
             )
@@ -269,7 +269,7 @@ if query or st.session_state.count:
 
             # -- CSV -- #
 
-            st.header("CSV", divider="gray")
+            st.header("CSV", divider="gray", anchor=False)
             st.write(
                 "Check the data returned in the dataframe below and download the file."
             )
@@ -292,7 +292,7 @@ if query or st.session_state.count:
 
             # -- JSON -- #
 
-            st.header("JSON", divider="gray")
+            st.header("JSON", divider="gray", anchor=False)
             st.write(
                 "Check the data returned in JSON format below and download the file."
             )
