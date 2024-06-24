@@ -17,7 +17,7 @@ DOWNLOAD = "assets/download.svg"
 
 collapse = None
 matchtype = None
-start_date = datetime.now() - timedelta(days=365 * 2)
+start_date = datetime.now() - timedelta(days=30 * 6)
 end_date = datetime.now()
 min_date = datetime(2006, 1, 1)
 
@@ -126,7 +126,7 @@ def tweets_exporter(parsed_tweets, username, field_options):
 # ------ User Interface Settings ------ #
 
 st.info(
-    """🥳 [**Pre-release 1.0x: New Streamlit app, CLI and Python module**](https://claromes.github.io/waybacktweets)"""  # noqa: E501
+    "🥳 [**Pre-release 1.0a5: Python module, CLI, and new Streamlit app**](https://github.com/claromes/waybacktweets/releases/tag/v1.0a5)"  # noqa: E501
 )
 
 st.image(TITLE, use_column_width="never")
@@ -138,11 +138,11 @@ st.write(
 )
 
 st.write(
-    "This application uses the Wayback Tweets Python package, which can be used as a module or as a standalone command line tool. [Read the documentation](https://claromes.github.io/waybacktweets)."  # noqa: E501
+    "This application uses the Wayback Tweets Python package, which can be used either as a module or as a standalone command-line tool. [Read the documentation](https://claromes.github.io/waybacktweets) for more information.."  # noqa: E501
 )
 
 st.write(
-    "To access the legacy version of Wayback Tweets [click here](https://waybacktweets-legacy.streamlit.app)."  # noqa: E501
+    "To access the legacy version of Wayback Tweets, [click here](https://waybacktweets-legacy.streamlit.app)."  # noqa: E501
 )
 
 st.divider()
@@ -153,9 +153,6 @@ username = st.text_input("Username *", key="username", placeholder="Without @")
 
 with st.expander("Filtering"):
 
-    st.caption(
-        ":orange[A large date range takes a long time to process, and the app's resources may not be sufficient. Try to perform searches with smaller ranges to get faster results.]"  # noqa: E501
-    )
     st.session_state.archived_timestamp_filter = st.date_input(
         "Tweets saved between",
         (start_date, end_date),
@@ -163,6 +160,9 @@ with st.expander("Filtering"):
         end_date,
         format="YYYY/MM/DD",
         help="Using the `from` and `to` filters. Format: YYYY/MM/DD",
+    )
+    st.caption(
+        ":orange[note: large date range takes a long time to process, and the app's resources may not be sufficient. Try to perform searches with smaller ranges to get faster results.]"  # noqa: E501
     )
 
     col1, col2 = st.columns(2)
@@ -185,6 +185,9 @@ with st.expander("Filtering"):
         "Only unique Wayback Machine URLs",
         key="unique",
         help="Filtering by the collapse option using the `urlkey` field and the URL Match Scope `prefix`",  # noqa: E501
+    )
+    st.caption(
+        ":orange[note: according to the official documentation of the Wayback CDX Server API, the query to retrieve unique URLs may be slow at the moment.]"  # noqa: E501
     )
 
 
@@ -244,7 +247,7 @@ if query or st.session_state.count:
 
             st.header("HTML", divider="gray")
             st.write(
-                f"Visualize tweets more efficiently through iframes. Download the @{st.session_state.current_username}'s archived tweets in HTML."  # noqa: E501
+                f"Visualize tweets more efficiently through `iframes`. Download the @{st.session_state.current_username}'s archived tweets in HTML."  # noqa: E501
             )
 
             col5, col6 = st.columns([1, 18])
