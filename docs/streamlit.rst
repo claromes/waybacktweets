@@ -45,8 +45,7 @@ Community Comments
 Legacy App
 -------------
 
-To access the legacy version (v0.4.3) of Wayback Tweets `click here <https://waybacktweets-legacy.streamlit.app>`_.
-
+To access the legacy version of Wayback Tweets `click here <https://waybacktweets-legacy.streamlit.app>`_.
 
 .. note::
 
