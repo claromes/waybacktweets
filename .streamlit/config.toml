@@ -1,11 +1,13 @@
 [theme]
-base="light"
-primaryColor="#ab2e33"
-secondaryBackgroundColor="#efefef"
-textColor="#000000"
-backgroundColor="#f9f9f9"
-font="serif"
+base = "light"
+primaryColor = "black"
+secondaryBackgroundColor = "gainsboro"
+textColor = "black"
+backgroundColor = "whitesmoke"
+font = "serif"
 
 [client]
-displayEnabled=true
-toolbarMode="minimal"
+toolbarMode = "minimal"
+
+[server]
+port = 8501

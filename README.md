@@ -1,80 +1,58 @@
-# 🏛️ Wayback Tweets
+# Wayback Tweets
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://waybacktweets.streamlit.app) [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases)
+[![PyPI](https://img.shields.io/pypi/v/waybacktweets)](https://pypi.org/project/waybacktweets) [![docs](https://github.com/claromes/waybacktweets/actions/workflows/docs.yml/badge.svg)](https://github.com/claromes/waybacktweets/actions/workflows/docs.yml) [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://waybacktweets.streamlit.app)
 
-Tool that displays, via [Wayback CDX Server API](https://github.com/internetarchive/wayback/tree/master/wayback-cdx-server), multiple archived tweets on Wayback Machine to avoid opening each link manually. The application is a prototype written in Python with the Streamlit framework and hosted on Streamlit Cloud, allowing users to apply filters based on specific years and view tweets that lack the original URL.
+Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing (see [Field Options](https://claromes.github.io/waybacktweets/field_options.html)), and saves the data in HTML (for easy viewing of the tweets using the `iframe` tag), CSV, and JSON formats.
 
-## Community
+## Installation
 
-> "We're always delighted when we see our community members create tools for open source research." — [Bellingcat](https://twitter.com/bellingcat/status/1728085974138122604)
+```shell
+pip install waybacktweets
+```
 
-> "#myOSINTtip Clarissa Mendes launched a new tool for accessing old tweets via archive.org called the Wayback Tweets app. For those who love to look deeper at #osint tools, it is available on GitHub and uses the Wayback CDX Server API server (which is a hidden gem for accessing archive.org data!)" — [My OSINT Training](https://www.linkedin.com/posts/my-osint-training_myosinttip-osint-activity-7148425933324963841-0Q2n/)
+## Quickstart
 
-> "Original way to find deleted tweets." — [Henk Van Ess](https://twitter.com/henkvaness/status/1693298101765701676)
+### Using Wayback Tweets as a standalone command line tool
 
-> "This is an excellent tool to use now that most Twitter API-based tools have gone down with changes to the pricing structure over at X." — [The OSINT Newsletter - Issue #22](https://osintnewsletter.com/p/22#%C2%A7osint-community)
+waybacktweets [OPTIONS] USERNAME
 
-> "One of the keys to using the Wayback Machine effectively is knowing what it can and can’t archive. It can, and has, archived many, many Twitter accounts... Utilize fun tools such as Wayback Tweets to do so more effectively." — [Ari Ben Am](https://memeticwarfareweekly.substack.com/p/mww-paradise-by-the-telegram-dashboard)
+```shell
+waybacktweets --from 20150101 --to 20191231 --limit 250 jack
+```
 
-> "Want to see archived tweets on Wayback Machine in bulk? You can use Wayback Tweets." — [Daily OSINT](https://twitter.com/DailyOsint/status/1695065018662855102)
+### Using Wayback Tweets as a Web App
 
-> "Untuk mempermudah penelusuran arsip, gunakan Wayback Tweets." — [GIJN Indonesia](https://twitter.com/gijnIndonesia/status/1685912219408805888)
+[Open the application](https://waybacktweets.streamlit.app), a prototype written in Python with the Streamlit framework and hosted on Streamlit Cloud.
 
-> "A tool to quickly view tweets saved on archive.org." — [Irina_Tech_Tips Newsletter #3](https://irinatechtips.substack.com/p/irina_tech_tips-newsletter-3-2023#%C2%A7wayback-tweets)
+### Using Wayback Tweets as a Python Module
 
-## Development
+```python
+from waybacktweets import WaybackTweets, TweetsParser, TweetsExporter
 
-### Requirement
+USERNAME = "jack"
 
-- Python 3.8+
+api = WaybackTweets(USERNAME)
+archived_tweets = api.get()
 
-### Installation
+if archived_tweets:
+    field_options = [
+        "archived_timestamp",
+        "original_tweet_url",
+        "archived_tweet_url",
+        "archived_statuscode",
+    ]
 
-$ `git clone git@github.com:claromes/waybacktweets.git`
+    parser = TweetsParser(archived_tweets, USERNAME, field_options)
+    parsed_tweets = parser.parse()
 
-$ `cd waybacktweets`
+    exporter = TweetsExporter(parsed_tweets, USERNAME, field_options)
+    exporter.save_to_csv()
+```
 
-$ `pip install -r requirements.txt`
+## Documentation
 
-$ `streamlit run app.py`
-
-Streamlit will be served at http://localhost:8501
-
-### Changelog
-
-Check out the [releases](https://github.com/claromes/waybacktweets/releases).
-
-### Todo (2024 planning)
-
-- [ ] Code review
-- [ ] UX review (filter before requesting)
-- [ ] Add a calendar interface (Wayback Machine timestamp)
-- [ ] Prevent duplicate URLs/Review the "Unique tweets" option
-  - Counters
-  - Collapsing
-- [ ] Sorting in ascending and descending order
-- [ ] Download dataset
-- [ ] Fix `parse_links` exception
-- [ ] Update Streamlit version
-- [ ] Add metadata information
-- [ ] Parse MIME types: `warc/revisit`, `text/plain`, `application/http`
-- [ ] Documentation: Explain the mapping of archived URLs and the parsing process
-- [ ] Create CLI
-- [x] Pagination
-  - [x] Footer
-  - [x] Disabled/Empty states
-- [x] Feedback
-- [x] Review data cache
-- [x] Changelog
-- [x] Define range size by user
-- [x] Filter by period/datetime
-- [x] Add contributing guidelines
-
-## Contributing
-
-We welcome contributions from everyone, whether it's through bug reporting, feature suggestions or code contributions.
-
-If you need help, or have ideas on improving this app, please open a new issue or reach out to support@claromes.com.
+- [Wayback Tweets documentation](https://claromes.github.io/waybacktweets)
+- [Wayback CDX Server API (Beta) documentation](https://archive.org/developers/wayback-cdx-server.html)
 
 ## Acknowledgements
 
@@ -83,4 +61,4 @@ If you need help, or have ideas on improving this app, please open a new issue o
 - OSINT Community for recommending the application.
 
 > [!NOTE]
-> If the application is down, please check the [Streamlit Cloud Status](https://www.streamlitstatus.com/).
+> If the Streamlit application is down, please check the [Streamlit Cloud Status](https://www.streamlitstatus.com/).
