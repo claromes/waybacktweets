@@ -279,7 +279,8 @@ class TweetsParser:
                 task = None
                 if print_progress:
                     task = progress.add_task(
-                        f"Waybacking @{self.username} tweets\n", total=len(futures)
+                        f"Parsing @{self.username}'s archived tweets\n",
+                        total=len(futures),
                     )
 
                 for future in as_completed(futures):

@@ -97,23 +97,23 @@ class TweetsExporter:
         """
         Saves the DataFrame to a JSON file.
         """
-        json_file_path = f"{self.filename}.json"
-        self.dataframe.to_json(json_file_path, orient="records", lines=False)
+        json_path = f"{self.filename}.json"
+        self.dataframe.to_json(json_path, orient="records", lines=False)
 
-        print(f"Saved to {json_file_path}")
+        print(f"Saved to {json_path}")
 
     def save_to_html(self) -> None:
         """
         Saves the DataFrame to an HTML file.
         """
-        json_file_path = f"{self.filename}.json"
+        json_path = f"{self.filename}.json"
 
-        if not os.path.exists(json_file_path):
+        if not os.path.exists(json_path):
             self.save_to_json()
 
         html_file_path = f"{self.filename}.html"
 
-        html = HTMLTweetsVisualizer(self.username, json_file_path, html_file_path)
+        html = HTMLTweetsVisualizer(self.username, json_path, html_file_path)
 
         html_content = html.generate()
         html.save(html_content)

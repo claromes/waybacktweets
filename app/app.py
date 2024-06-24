@@ -1,5 +1,5 @@
 import base64
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import streamlit as st
 
@@ -13,13 +13,13 @@ from waybacktweets.config import FIELD_OPTIONS, config
 
 PAGE_ICON = "assets/parthenon.png"
 TITLE = "assets/waybacktweets.png"
-PREVIEW_IMAGE = "assets/preview_image.jpg"
 DOWNLOAD = "assets/download.svg"
 
 collapse = None
 matchtype = None
-start_date = datetime(2006, 1, 1)
+start_date = datetime.now() - timedelta(days=365 * 2)
 end_date = datetime.now()
+min_date = datetime(2006, 1, 1)
 
 # ------ Verbose Mode Configuration ------ #
 
@@ -81,7 +81,7 @@ st.html(
 # ------ Requestings ------ #
 
 
-@st.cache_data(ttl=600, show_spinner=True)
+@st.cache_data(ttl=600, show_spinner=False)
 def wayback_tweets(
     username,
     collapse,
@@ -105,7 +105,7 @@ def wayback_tweets(
     return archived_tweets
 
 
-@st.cache_data(ttl=600, show_spinner=True)
+@st.cache_data(ttl=600, show_spinner=False)
 def tweets_parser(archived_tweets, username, field_options):
     parser = TweetsParser(archived_tweets, username, field_options)
     parsed_tweets = parser.parse()
@@ -113,7 +113,7 @@ def tweets_parser(archived_tweets, username, field_options):
     return parsed_tweets
 
 
-@st.cache_data(ttl=600, show_spinner=True)
+@st.cache_data(ttl=600, show_spinner=False)
 def tweets_exporter(parsed_tweets, username, field_options):
     exporter = TweetsExporter(parsed_tweets, username, field_options)
 
@@ -135,11 +135,11 @@ st.caption(
 )
 st.write("Retrieve archived tweets CDX data in CSV, JSON, and HTML formats.")
 
-st.caption(
+st.write(
     "This application uses the Wayback Tweets Python package, which can be used as a module or as a standalone command line tool. [Read the documentation](https://claromes.github.io/waybacktweets)."  # noqa: E501
 )
 
-st.caption(
+st.write(
     "To access the legacy version of Wayback Tweets [click here](https://waybacktweets-legacy.streamlit.app)."  # noqa: E501
 )
 
@@ -150,13 +150,14 @@ st.divider()
 username = st.text_input("Username *", key="username", placeholder="Without @")
 
 with st.expander("Filtering"):
-    start_date = datetime(2006, 1, 1)
-    end_date = datetime.now()
 
+    st.caption(
+        ":orange[A large date range takes a long time to process, and the app's resources may not be sufficient. Try to perform searches with smaller ranges to get faster results.]"  # noqa: E501
+    )
     st.session_state.archived_timestamp_filter = st.date_input(
         "Tweets saved between",
         (start_date, end_date),
-        start_date,
+        min_date,
         end_date,
         format="YYYY/MM/DD",
         help="Using the `from` and `to` filters. Format: YYYY/MM/DD",
@@ -178,21 +179,11 @@ with st.expander("Filtering"):
             help="Allows for a simple way to scroll through the results",
         )
 
-    col3, col4 = st.columns(2)
-
-    with col3:
-        not_available = st.checkbox(
-            "Only tweets not available",
-            key="not_available",
-            help="Checks if the archived URL still exists on Twitter",
-        )
-
-    with col4:
-        unique = st.checkbox(
-            "Only unique Wayback Machine URLs",
-            key="unique",
-            help="Filtering by the collapse option using the `urlkey` field and the URL Match Scope `prefix`",  # noqa: E501
-        )
+    unique = st.checkbox(
+        "Only unique Wayback Machine URLs",
+        key="unique",
+        help="Filtering by the collapse option using the `urlkey` field and the URL Match Scope `prefix`",  # noqa: E501
+    )
 
 
 query = st.button("Query", type="primary", use_container_width=True)
@@ -208,102 +199,111 @@ if query or st.session_state.count:
         matchtype = "prefix"
 
     try:
-        wayback_tweets = wayback_tweets(
-            st.session_state.current_username,
-            collapse,
-            st.session_state.archived_timestamp_filter[0],
-            st.session_state.archived_timestamp_filter[1],
-            limit,
-            offset,
-            matchtype,
-        )
+        with st.spinner(
+            f"Waybacking @{st.session_state.current_username}'s archived tweets"
+        ):
+            wayback_tweets = wayback_tweets(
+                st.session_state.current_username,
+                collapse,
+                st.session_state.archived_timestamp_filter[0],
+                st.session_state.archived_timestamp_filter[1],
+                limit,
+                offset,
+                matchtype,
+            )
 
         if not wayback_tweets:
             st.error("No data was saved due to an empty response.")
             st.stop()
 
-        parsed_tweets = tweets_parser(
-            wayback_tweets, st.session_state.current_username, FIELD_OPTIONS
-        )
+        with st.spinner(
+            f"Parsing @{st.session_state.current_username}'s archived tweets"
+        ):
+            parsed_tweets = tweets_parser(
+                wayback_tweets, st.session_state.current_username, FIELD_OPTIONS
+            )
 
-        df, file_name = tweets_exporter(
-            parsed_tweets, st.session_state.current_username, FIELD_OPTIONS
-        )
+            df, file_name = tweets_exporter(
+                parsed_tweets, st.session_state.current_username, FIELD_OPTIONS
+            )
 
         csv_data = df.to_csv(index=False)
         json_data = df.to_json(orient="records", lines=False)
         html = HTMLTweetsVisualizer(username, json_data)
         html_content = html.generate()
 
-        st.session_state.count = len(df)
-        st.write(f"**{st.session_state.count} URLs have been captured**")
+        # -- Rendering -- #
 
-        # -- HTML -- #
+        if csv_data and json_data and html_content:
+            st.session_state.count = len(df)
+            st.write(f"**{st.session_state.count} URLs have been captured**")
 
-        st.header("HTML", divider="gray")
-        st.write(
-            f"Visualize tweets more efficiently through iframes. Download the @{st.session_state.current_username}'s archived tweets in HTML."  # noqa: E501
-        )
+            # -- HTML -- #
 
-        col5, col6 = st.columns([1, 18])
-
-        with col5:
-            st.image(DOWNLOAD, width=22)
-
-        with col6:
-            b64_html = base64.b64encode(html_content.encode()).decode()
-            href_html = f"data:text/html;base64,{b64_html}"
-
-            st.markdown(
-                f'<a href="{href_html}" download="{file_name}.html" title="Download {file_name}.html">{file_name}.html</a>',  # noqa: E501
-                unsafe_allow_html=True,
+            st.header("HTML", divider="gray")
+            st.write(
+                f"Visualize tweets more efficiently through iframes. Download the @{st.session_state.current_username}'s archived tweets in HTML."  # noqa: E501
             )
 
-        st.image(PREVIEW_IMAGE, "Preview image")
+            col5, col6 = st.columns([1, 18])
 
-        # -- CSV -- #
+            with col5:
+                st.image(DOWNLOAD, width=22)
 
-        st.header("CSV", divider="gray")
-        st.write(
-            "Check the data returned in the dataframe below and download the file."
-        )
+            with col6:
+                b64_html = base64.b64encode(html_content.encode()).decode()
+                href_html = f"data:text/html;base64,{b64_html}"
 
-        col7, col8 = st.columns([1, 18])
+                st.markdown(
+                    f'<a href="{href_html}" download="{file_name}.html" title="Download {file_name}.html">{file_name}.html</a>',  # noqa: E501
+                    unsafe_allow_html=True,
+                )
 
-        with col7:
-            st.image(DOWNLOAD, width=22)
+            # -- CSV -- #
 
-        with col8:
-            b64_csv = base64.b64encode(csv_data.encode()).decode()
-            href_csv = f"data:file/csv;base64,{b64_csv}"
-
-            st.markdown(
-                f'<a href="{href_csv}" download="{file_name}.csv" title="Download {file_name}.csv">{file_name}.csv</a>',  # noqa: E501
-                unsafe_allow_html=True,
+            st.header("CSV", divider="gray")
+            st.write(
+                "Check the data returned in the dataframe below and download the file."
             )
 
-        st.dataframe(df, use_container_width=True)
+            col7, col8 = st.columns([1, 18])
 
-        # -- JSON -- #
+            with col7:
+                st.image(DOWNLOAD, width=22)
 
-        st.header("JSON", divider="gray")
-        st.write("Check the data returned in JSON format below and download the file.")
+            with col8:
+                b64_csv = base64.b64encode(csv_data.encode()).decode()
+                href_csv = f"data:file/csv;base64,{b64_csv}"
 
-        col9, col10 = st.columns([1, 18])
+                st.markdown(
+                    f'<a href="{href_csv}" download="{file_name}.csv" title="Download {file_name}.csv">{file_name}.csv</a>',  # noqa: E501
+                    unsafe_allow_html=True,
+                )
 
-        with col9:
-            st.image(DOWNLOAD, width=22)
+            st.dataframe(df, use_container_width=True)
 
-        with col10:
-            b64_json = base64.b64encode(json_data.encode()).decode()
-            href_json = f"data:file/json;base64,{b64_json}"
+            # -- JSON -- #
 
-            st.markdown(
-                f'<a href="{href_json}" download="{file_name}.json" title="Download {file_name}.json">{file_name}.json</a>',  # noqa: E501
-                unsafe_allow_html=True,
+            st.header("JSON", divider="gray")
+            st.write(
+                "Check the data returned in JSON format below and download the file."
             )
 
-        st.json(json_data, expanded=False)
+            col9, col10 = st.columns([1, 18])
+
+            with col9:
+                st.image(DOWNLOAD, width=22)
+
+            with col10:
+                b64_json = base64.b64encode(json_data.encode()).decode()
+                href_json = f"data:file/json;base64,{b64_json}"
+
+                st.markdown(
+                    f'<a href="{href_json}" download="{file_name}.json" title="Download {file_name}.json">{file_name}.json</a>',  # noqa: E501
+                    unsafe_allow_html=True,
+                )
+
+            st.json(json_data, expanded=False)
     except TypeError as e:
         st.error(
             f"""

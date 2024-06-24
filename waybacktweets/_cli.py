@@ -121,7 +121,7 @@ def main(
             username, collapse, timestamp_from, timestamp_to, limit, offset, matchtype
         )
 
-        print("Making a request to the Internet Archive...")
+        print(f"Waybacking @{username}'s archived tweets...")
         archived_tweets = api.get()
 
         if archived_tweets:

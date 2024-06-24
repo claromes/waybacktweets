@@ -16,36 +16,36 @@ class HTMLTweetsVisualizer:
 
     Args:
         username (str): The username associated with the tweets.
-        json_file_path (Union[str, List[str]]): The path of the JSON file or the JSON data itself.
+        json_path (Union[str, List[str]]): The path of the JSON file or the JSON data itself.
         html_file_path (str, optional): The path where the HTML file will be saved.
     """
 
     def __init__(
         self,
         username: str,
-        json_file_path: Union[str, List[str]],
+        json_path: Union[str, List[str]],
         html_file_path: str = None,
     ):
         self.username = username
-        self.json_file_path = self._json_loader(json_file_path)
+        self.json_path = self._json_loader(json_path)
         self.html_file_path = html_file_path
 
     @staticmethod
-    def _json_loader(json_file_path: Union[str, List[str]]) -> List[Dict[str, Any]]:
+    def _json_loader(json_path: Union[str, List[str]]) -> List[Dict[str, Any]]:
         """
         Reads and loads JSON data from a specified file path or JSON string.
 
         Args:
-            json_file_path (Union[str, List[str]]): The path of the JSON file or the JSON data itself.
+            json_path (Union[str, List[str]]): The path of the JSON file or the JSON data itself.
 
         Returns:
             The content of the JSON file or data.
         """
-        if os.path.isfile(json_file_path):
-            with open(json_file_path, "r", encoding="utf-8") as f:
+        if os.path.isfile(json_path):
+            with open(json_path, "r", encoding="utf-8") as f:
                 return json.load(f)
 
-        return json.loads(json_file_path)
+        return json.loads(json_path)
 
     def generate(self) -> str:
         """
@@ -104,7 +104,7 @@ class HTMLTweetsVisualizer:
         html += f"<h1>@{self.username}'s archived tweets</h1>\n"
         html += '<div class="container">\n'
 
-        for index, tweet in enumerate(self.json_file_path):
+        for index, tweet in enumerate(self.json_path):
             html += '<div class="tweet">\n'
 
             if not tweet["available_tweet_text"]:
@@ -114,10 +114,6 @@ class HTMLTweetsVisualizer:
                     "Original Tweet": tweet["original_tweet_url"],
                     "Parsed Tweet": tweet["parsed_tweet_url"],
                 }
-
-                html += f'<p class="source">{tweet["original_tweet_url"]}</p>\n'
-                html += f'<p class="source">{tweet["archived_mimetype"]}</p>\n'
-                html += "<br>\n"
 
                 for key, value in iframe_src.items():
                     key_cleaned = key.replace(" ", "_")
@@ -155,6 +151,12 @@ class HTMLTweetsVisualizer:
                 html += f'<p><strong class="content">Available Tweet Username:</strong> {tweet["available_tweet_info"]}</p>\n'
 
             html += "<br>\n"
+            html += f'<p><strong>Archived Tweet:</strong> {tweet["archived_tweet_url"]}</p>\n'
+            html += f'<p><strong>Parsed Archived Tweet:</strong> {tweet["parsed_archived_tweet_url"]}</p>\n'
+            html += f'<p><strong>Original Tweet:</strong> {tweet["original_tweet_url"]}</p>\n'
+            html += (
+                f'<p><strong>Parsed Tweet:</strong> {tweet["parsed_tweet_url"]}</p>\n'
+            )
             html += f'<p><strong>Archived URL Key:</strong> {tweet["archived_urlkey"]}</p>\n'
             html += f'<p><strong>Archived Timestamp:</strong> {timestamp_parser(tweet["archived_timestamp"])} ({tweet["archived_timestamp"]})</p>\n'
             html += f'<p><strong>Archived mimetype:</strong> {tweet["archived_mimetype"]}</p>\n'
