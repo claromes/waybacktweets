@@ -74,6 +74,9 @@ st.html(
         button[data-testid="StyledFullScreenButton"] {
             display: none;
         }
+        div[class="st-emotion-cache-1v0mbdj e115fcil1"] {
+            max-width: 100%;
+        }
     </style>
     """
 )
