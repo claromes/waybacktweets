@@ -25,6 +25,7 @@ User Guide
     quickstart
     workflow
     field_options
+    outputs
     exceptions
     contribute
     todo

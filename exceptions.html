@@ -16,7 +16,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Contribute" href="contribute.html" />
-    <link rel="prev" title="Field Options" href="field_options.html" />
+    <link rel="prev" title="Outputs" href="outputs.html" />
  
     <meta name="description" content="Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data">
 
@@ -42,7 +42,7 @@
           <a href="contribute.html" title="Contribute"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="field_options.html" title="Field Options"
+          <a href="outputs.html" title="Outputs"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">Wayback Tweets Documentation (1.0a3.x)</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Exceptions</a></li> 
@@ -79,6 +79,11 @@
 <p>This exception raised for empty responses.</p>
 <p>The output message from the package would be: <code class="docutils literal notranslate"><span class="pre">No</span> <span class="pre">data</span> <span class="pre">was</span> <span class="pre">saved</span> <span class="pre">due</span> <span class="pre">to</span> <span class="pre">an</span> <span class="pre">empty</span> <span class="pre">response.</span></code></p>
 </section>
+<section id="warning">
+<h2>Warning<a class="headerlink" href="#warning" title="Link to this heading">¶</a></h2>
+<p>It is possible to encounter the following warning when running the <code class="docutils literal notranslate"><span class="pre">TweetsParser</span></code> class (<a class="reference internal" href="api.html#parser"><span class="std std-ref">Parse</span></a>): <code class="docutils literal notranslate"><span class="pre">&lt;TWEET_URL&gt;</span> <span class="pre">not</span> <span class="pre">available</span> <span class="pre">on</span> <span class="pre">the</span> <span class="pre">user's</span> <span class="pre">Twitter</span> <span class="pre">account,</span> <span class="pre">but</span> <span class="pre">the</span> <span class="pre">CDX</span> <span class="pre">data</span> <span class="pre">was</span> <span class="pre">saved.</span></code></p>
+<p>This occurs when the original tweet is no longer available on Twitter and has possibly been deleted.</p>
+</section>
 </section>
 
 
@@ -103,6 +108,7 @@
 <li><a class="reference internal" href="#connectionerror">ConnectionError</a></li>
 <li><a class="reference internal" href="#httperror">HTTPError</a></li>
 <li><a class="reference internal" href="#emptyresponseerror">EmptyResponseError</a></li>
+<li><a class="reference internal" href="#warning">Warning</a></li>
 </ul>
 </li>
 </ul>
@@ -110,7 +116,7 @@
 <ul>
   <li><a href="index.html">Overview</a>
     <ul>
-          <li>Previous: <a href="field_options.html" title="previous chapter">Field Options</a>
+          <li>Previous: <a href="outputs.html" title="previous chapter">Outputs</a>
           <li>Next: <a href="contribute.html" title="next chapter">Contribute</a>
     </ul>
   </li>

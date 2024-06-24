@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Field Options &#8212; Wayback Tweets Documentation (1.0a3.x)</title>
+    <title>Outputs &#8212; Wayback Tweets Documentation (1.0a3.x)</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
     <link rel="stylesheet" type="text/css" href="_static/flask.css?v=b87c8d14" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e14f3222" />
@@ -15,16 +15,16 @@
     <link rel="icon" href="_static/parthenon.png"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Outputs" href="outputs.html" />
-    <link rel="prev" title="Workflow" href="workflow.html" />
+    <link rel="next" title="Exceptions" href="exceptions.html" />
+    <link rel="prev" title="Field Options" href="field_options.html" />
  
     <meta name="description" content="Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data">
 
-    <meta property="og:title" content="Field Options" />
+    <meta property="og:title" content="Outputs" />
     <meta property="og:description" content="Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data">
     <meta property="og:image" content="https://claromes.github.io/waybacktweets/_static/card.png" />
 
-    <meta name="twitter:title" content="Field Options">
+    <meta name="twitter:title" content="Outputs">
     <meta name="twitter:description" content="Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data">
     <meta property="twitter:image" content="https://claromes.github.io/waybacktweets/_static/card.png" />
 
@@ -39,13 +39,13 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="outputs.html" title="Outputs"
+          <a href="exceptions.html" title="Exceptions"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="workflow.html" title="Workflow"
+          <a href="field_options.html" title="Field Options"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">Wayback Tweets Documentation (1.0a3.x)</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Field Options</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Outputs</a></li> 
       </ul>
     </div>  
 
@@ -54,34 +54,28 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="field-options">
-<span id="id1"></span><h1>Field Options<a class="headerlink" href="#field-options" title="Link to this heading">¶</a></h1>
-<p>The package performs several parses to facilitate the analysis of archived tweets and types of tweets. The fields below are available, which can be passed to the <a class="reference internal" href="api.html#parser"><span class="std std-ref">Parse</span></a> and <a class="reference internal" href="api.html#exporter"><span class="std std-ref">Export</span></a>, in addition, the command line tool returns all these fields.</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">archived_urlkey</span></code>: (<cite>str</cite>) A canonical transformation of the URL you supplied, for example, <code class="docutils literal notranslate"><span class="pre">org,eserver,tc)/</span></code>. Such keys are useful for indexing.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">archived_timestamp</span></code>: (<cite>str</cite>) A 14 digit date-time representation in the <code class="docutils literal notranslate"><span class="pre">YYYYMMDDhhmmss</span></code> format.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">parsed_archived_timestamp</span></code>: (<cite>str</cite>) The <code class="docutils literal notranslate"><span class="pre">archived_timestamp</span></code> in human-readable format.</p></li>
+  <section id="outputs">
+<h1>Outputs<a class="headerlink" href="#outputs" title="Link to this heading">¶</a></h1>
+<p>It is possible to save the CDX data in three formats. In the command line tool, these three formats are saved automatically.</p>
+<section id="html">
+<h2>HTML<a class="headerlink" href="#html" title="Link to this heading">¶</a></h2>
+<p>This format allows for easy viewing of the archived tweets, through the use of the <code class="docutils literal notranslate"><span class="pre">iframe</span></code> tag. Each tweet contains four viewing options, which render when clicking on the accordion:</p>
+<ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">archived_tweet_url</span></code>: (<cite>str</cite>) The archived URL.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">parsed_archived_tweet_url</span></code>: (<cite>str</cite>) The archived URL after parsing. It is not guaranteed that this option will be archived, it is just a facilitator, as the originally archived URL does not always exist, due to changes in URLs and web services of the social network Twitter. Check the <a class="reference internal" href="api.html#utils"><span class="std std-ref">Utils</span></a>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">original_tweet_url</span></code>: (<cite>str</cite>) The original tweet URL.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">parsed_tweet_url</span></code>: (<cite>str</cite>) The original tweet URL after parsing. Old URLs were archived in a nested manner. The parsing applied here unnests these URLs, when necessary.  Check the <a class="reference internal" href="api.html#utils"><span class="std std-ref">Utils</span></a>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">available_tweet_text</span></code>: (<cite>str</cite>) The tweet text extracted from the URL that is still available on the Twitter account.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">available_tweet_is_RT</span></code>: (<cite>bool</cite>) Whether the tweet from the <code class="docutils literal notranslate"><span class="pre">available_tweet_text</span></code> field is a retweet or not.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">available_tweet_info</span></code>: (<cite>str</cite>) Name and date of the tweet from the <code class="docutils literal notranslate"><span class="pre">available_tweet_text</span></code> field.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">archived_mimetype</span></code>: (<cite>str</cite>) The mimetype of the archived content, which can be one of these:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">text/html</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">warc/revisit</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">application/json</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">unk</span></code></p></li>
 </ul>
-</div></blockquote>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">archived_statuscode</span></code>: (<cite>str</cite>) The HTTP status code of the snapshot. If the mimetype is <code class="docutils literal notranslate"><span class="pre">warc/revisit</span></code>, the value returned for the <code class="docutils literal notranslate"><span class="pre">statuscode</span></code> key can be blank, but the actual value is the same as that of any other entry that has the same <code class="docutils literal notranslate"><span class="pre">digest</span></code> as this entry. If the mimetype is <code class="docutils literal notranslate"><span class="pre">application/json</span></code>, the value is usually empty or <code class="docutils literal notranslate"><span class="pre">-</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">archived_digest</span></code>: (<cite>str</cite>) The <code class="docutils literal notranslate"><span class="pre">SHA1</span></code> hash digest of the content, excluding the headers. It’s usually a base-32-encoded string.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">archived_length</span></code>: (<cite>int</cite>) The compressed byte size of the corresponding WARC record, which includes WARC headers, HTTP headers, and content payload.</p></li>
-</ul>
+<p>Additionally, other fields are displayed.</p>
+</section>
+<section id="csv">
+<h2>CSV<a class="headerlink" href="#csv" title="Link to this heading">¶</a></h2>
+<p>Option to analyze the CDX data in comma-separated values.</p>
+</section>
+<section id="json">
+<h2>JSON<a class="headerlink" href="#json" title="Link to this heading">¶</a></h2>
+<p>Option to analyze the data in JavaScript Object Notation.</p>
+</section>
 </section>
 
 
@@ -98,12 +92,22 @@
               <img class="logo" src="_static/parthenon.png" alt="Logo"/>
             </a></p>
   
+
+  <h3>Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">Outputs</a><ul>
+<li><a class="reference internal" href="#html">HTML</a></li>
+<li><a class="reference internal" href="#csv">CSV</a></li>
+<li><a class="reference internal" href="#json">JSON</a></li>
+</ul>
+</li>
+</ul>
 <h3>Navigation</h3>
 <ul>
   <li><a href="index.html">Overview</a>
     <ul>
-          <li>Previous: <a href="workflow.html" title="previous chapter">Workflow</a>
-          <li>Next: <a href="outputs.html" title="next chapter">Outputs</a>
+          <li>Previous: <a href="field_options.html" title="previous chapter">Field Options</a>
+          <li>Next: <a href="exceptions.html" title="next chapter">Exceptions</a>
     </ul>
   </li>
 </ul>
