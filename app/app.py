@@ -2,6 +2,7 @@ import base64
 from datetime import datetime, timedelta
 
 import streamlit as st
+import streamlit.components.v1 as components
 
 from waybacktweets.api.export import TweetsExporter
 from waybacktweets.api.parse import TweetsParser
@@ -45,7 +46,7 @@ st.set_page_config(
     },
 )
 
-# ------ Set States ------ #
+# ------ Set States and Params ------ #
 
 if "current_username" not in st.session_state:
     st.session_state.current_username = ""
@@ -55,6 +56,21 @@ if "count" not in st.session_state:
 
 if "archived_timestamp_filter" not in st.session_state:
     st.session_state.archived_timestamp_filter = (start_date, end_date)
+
+if "username_value" not in st.session_state:
+    st.session_state.username_value = ""
+
+if "expanded_value" not in st.session_state:
+    st.session_state.expanded_value = False
+
+if "query" not in st.session_state:
+    st.session_state.query = False
+
+if "update_component" not in st.session_state:
+    st.session_state.update_component = 0
+
+if "username" not in st.query_params:
+    st.query_params["username"] = ""
 
 # ------ Add Custom CSS Style ------ #
 
@@ -126,10 +142,34 @@ def tweets_exporter(parsed_tweets, username, field_options):
     return df, file_name
 
 
+# ------ Custom JavaScript ------ #
+
+
+def scroll_page():
+    js = f"""
+    <script>
+        window.parent.document.querySelector('section.main').scrollTo(700, 700);
+        let update_component = {st.session_state.update_component} // Force component update to generate scroll
+    </script>
+    """  # noqa: E501
+
+    components.html(js, width=0, height=0)
+
+
+# ------ Query Param ------ #
+
+if st.query_params.username != "":
+    st.session_state.username_value = st.query_params.username
+    st.session_state.expanded_value = True
+    st.session_state.query = True
+
+    st.session_state.update_component += 1
+    scroll_page()
+
 # ------ User Interface Settings ------ #
 
 st.info(
-    "🥳 [**Pre-release 1.0a5: Python module, CLI, and new Streamlit app**](https://github.com/claromes/waybacktweets/releases/tag/v1.0a5)"  # noqa: E501
+    "🥳 [**Pre-release 1.0x: Python module, CLI, and new Streamlit app**](https://github.com/claromes/waybacktweets/releases)"  # noqa: E501
 )
 
 st.image(TITLE, use_column_width="never")
@@ -152,9 +192,14 @@ st.divider()
 
 # -- Filters -- #
 
-username = st.text_input("Username *", key="username", placeholder="Without @")
+username = st.text_input(
+    "Username *",
+    value=st.session_state.username_value,
+    key="username",
+    placeholder="Without @",
+)
 
-with st.expander("Filtering"):
+with st.expander("Filtering", expanded=st.session_state.expanded_value):
 
     st.session_state.archived_timestamp_filter = st.date_input(
         "Tweets saved between",
@@ -196,12 +241,16 @@ with st.expander("Filtering"):
 
 query = st.button("Query", type="primary", use_container_width=True)
 
+if st.query_params.username == "":
+    st.query_params.clear()
+    st.session_state.query = query
+
 # ------ Results ------ #
 
 if username != st.session_state.current_username:
     st.session_state.current_username = username
 
-if query or st.session_state.count:
+if st.session_state.query or st.session_state.count:
     if unique:
         collapse = "urlkey"
         matchtype = "prefix"
