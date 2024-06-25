@@ -45,7 +45,7 @@ st.set_page_config(
     },
 )
 
-# ------ Set States ------ #
+# ------ Set States and Params ------ #
 
 if "current_username" not in st.session_state:
     st.session_state.current_username = ""
@@ -55,6 +55,15 @@ if "count" not in st.session_state:
 
 if "archived_timestamp_filter" not in st.session_state:
     st.session_state.archived_timestamp_filter = (start_date, end_date)
+
+if "username_param" not in st.session_state:
+    st.session_state.username_param = ""
+
+if "expanded_param" not in st.session_state:
+    st.session_state.expanded_param = False
+
+if "username" not in st.query_params:
+    st.query_params["username"] = ""
 
 # ------ Add Custom CSS Style ------ #
 
@@ -126,6 +135,15 @@ def tweets_exporter(parsed_tweets, username, field_options):
     return df, file_name
 
 
+# ------Query Params ------ #
+
+if st.query_params.username != "":
+    st.session_state.username_param = st.query_params.username
+    st.session_state.expanded_param = True
+
+if st.query_params.username == "":
+    st.query_params.clear()
+
 # ------ User Interface Settings ------ #
 
 st.info(
@@ -152,9 +170,14 @@ st.divider()
 
 # -- Filters -- #
 
-username = st.text_input("Username *", key="username", placeholder="Without @")
+username = st.text_input(
+    "Username *",
+    value=st.session_state.username_param,
+    key="username",
+    placeholder="Without @",
+)
 
-with st.expander("Filtering"):
+with st.expander("Filtering", expanded=st.session_state.expanded_param):
 
     st.session_state.archived_timestamp_filter = st.date_input(
         "Tweets saved between",
