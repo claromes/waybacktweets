@@ -18,6 +18,16 @@ Filters
 - Only unique Wayback Machine URLs: Filtering by the collapse option using the ``urlkey`` field and the URL Match Scope ``prefix``
 
 
+Username Query Parameter
+--------------------------
+
+An alternative way to access the application is by using the ``username`` query parameter. This allows for automatic configuration of the Username input and automatically searches. Additionally, when the ``username`` parameter is sent, the accordion with the filters will already be open.
+
+Example URL format:
+
+``https://waybacktweets.streamlit.app?username=<USERNAME>``
+
+
 Community Comments
 --------------------
 
