@@ -11,6 +11,9 @@ Pre-release: |release|
 
 Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing (see :ref:`field_options`), and saves the data in HTML (for easy viewing of the tweets using the ``iframe`` tag), CSV, and JSON formats.
 
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.12528448.svg
+  :target: https://doi.org/10.5281/zenodo.12528448
+
 .. note::
     Intensive queries can lead to rate limiting, resulting in a temporary ban of a few minutes from web.archive.org.
 
