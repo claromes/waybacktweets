@@ -14,11 +14,7 @@ st.set_page_config(
     layout="centered",
     menu_items={
         "About": """
-        ## 🏛️ Wayback Tweets
-
-        Tool that displays, via Wayback CDX Server API, multiple archived tweets on Wayback Machine to avoid opening each link manually. Users can apply filters based on specific years and view tweets that do not have the original URL available.
-
-        This tool is a prototype, please feel free to send your [feedbacks](https://github.com/claromes/waybacktweets/issues). Created by [@claromes](https://claromes.com).
+        This is the legacy application of [Wayback Tweets](https://waybacktweets.streamlit.app/).
 
         -------
         """,  # noqa: E501
@@ -386,7 +382,7 @@ def next_page():
 
 # UI
 st.title(
-    "Wayback Tweets [![Star](https://img.shields.io/github/stars/claromes/waybacktweets?style=social)](https://github.com/claromes/waybacktweets)",  # noqa: E501
+    "Wayback Tweets",  # noqa: E501
     anchor=False,
     help="v0.4.3",
 )

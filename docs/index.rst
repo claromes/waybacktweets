@@ -9,10 +9,11 @@ Wayback Tweets
 
 Pre-release: |release|
 
-Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing (see :ref:`field_options`), and saves the data in HTML (for easy viewing of the tweets using the ``iframe`` tag), CSV, and JSON formats.
+Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing (see :ref:`field_options`), and saves the data in HTML, for easy viewing of the tweets using the iframe tags, CSV, and JSON formats.
 
-.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.12528448.svg
-  :target: https://doi.org/10.5281/zenodo.12528448
+.. image:: https://img.shields.io/badge/Donate-via%20Sponsors-ff69b4.svg?logo=github
+  :target: https://github.com/sponsors/claromes
+  :alt: GitHub Sponsors
 
 .. note::
     Intensive queries can lead to rate limiting, resulting in a temporary ban of a few minutes from web.archive.org.
@@ -30,6 +31,7 @@ User Guide
     field_options
     outputs
     exceptions
+    handson
     contribute
     todo
 
