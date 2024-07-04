@@ -13,7 +13,7 @@ authors:
     email: support@claromes.com
 identifiers:
   - type: doi
-    value: 10.5281/zenodo.12528448
+    value: 10.5281/zenodo.12528447
     description: The concept DOI of the work.
   - type: url
     value: "https://pypi.org/project/waybacktweets/"

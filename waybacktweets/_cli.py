@@ -97,7 +97,7 @@ def _parse_date(
     "verbose",
     is_flag=True,
     default=False,
-    help="Shows the error log.",
+    help="Shows the log.",
 )
 def main(
     username: str,

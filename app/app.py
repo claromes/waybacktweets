@@ -34,7 +34,7 @@ st.set_page_config(
     layout="centered",
     menu_items={
         "About": f"""
-    [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![License](https://img.shields.io/github/license/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/blob/main/LICENSE.md) [![Star](https://img.shields.io/github/stars/claromes/waybacktweets?style=social)](https://github.com/claromes/waybacktweets)
+    [![License](https://img.shields.io/github/license/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/blob/main/LICENSE.md)
 
     The application is a prototype hosted on Streamlit Cloud, serving as an alternative to the command line tool.
 
@@ -168,16 +168,12 @@ if st.query_params.username != "":
 
 # ------ User Interface Settings ------ #
 
-st.info(
-    "🥳 [**Pre-release 1.0x: Python module, CLI, and new Streamlit app**](https://github.com/claromes/waybacktweets/releases)"  # noqa: E501
-)
-
 st.image(TITLE, use_column_width="never")
 st.caption(
-    "[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![Star](https://img.shields.io/github/stars/claromes/waybacktweets?style=social)](https://github.com/claromes/waybacktweets)"  # noqa: E501
+    "[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![sponsor](https://img.shields.io/badge/Donate-via%20Sponsors-ff69b4.svg?logo=github)](https://github.com/sponsors/claromes)"  # noqa: E501
 )
 st.write(
-    "Retrieves archived tweets CDX data in HTML (for easy viewing of the tweets using the `iframe` tag), CSV, and JSON formats."  # noqa: E501
+    "Retrieves archived tweets CDX data in HTML (for easy viewing of the tweets using the iframe tag), CSV, and JSON formats."  # noqa: E501
 )
 
 st.write(
@@ -291,15 +287,15 @@ if st.session_state.query or st.session_state.count:
 
         # -- Rendering -- #
 
-        if csv_data and json_data and html_content:
-            st.session_state.count = len(df)
-            st.write(f"**{st.session_state.count} URLs have been captured**")
+        st.session_state.count = len(df)
+        st.write(f"**{st.session_state.count} URLs have been captured**")
 
-            # -- HTML -- #
+        tab1, tab2, tab3 = st.tabs(["HTML", "CSV", "JSON"])
 
-            st.header("HTML", divider="gray", anchor=False)
+        # -- HTML -- #
+        with tab1:
             st.write(
-                f"Visualize tweets more efficiently through `iframes`. Download the @{st.session_state.current_username}'s archived tweets in HTML."  # noqa: E501
+                f"Visualize tweets more efficiently through iframe tags. Download the @{st.session_state.current_username}'s archived tweets in HTML."  # noqa: E501
             )
 
             col5, col6 = st.columns([1, 18])
@@ -317,8 +313,7 @@ if st.session_state.query or st.session_state.count:
                 )
 
             # -- CSV -- #
-
-            st.header("CSV", divider="gray", anchor=False)
+        with tab2:
             st.write(
                 "Check the data returned in the dataframe below and download the file."
             )
@@ -340,8 +335,7 @@ if st.session_state.query or st.session_state.count:
             st.dataframe(df, use_container_width=True)
 
             # -- JSON -- #
-
-            st.header("JSON", divider="gray", anchor=False)
+        with tab3:
             st.write(
                 "Check the data returned in JSON format below and download the file."
             )

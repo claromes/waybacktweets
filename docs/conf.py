@@ -20,6 +20,7 @@ extensions = [
     "sphinx_new_tab_link",
     "sphinx_click.ext",
     "sphinx_autodoc_typehints",
+    "sphinxcontrib.youtube",
 ]
 
 templates_path = ["_templates"]
