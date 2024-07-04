@@ -19,7 +19,7 @@ These are the prerequisites:
 - Python 3.10+
 - Poetry
 
-Install from the source, following the :ref:`installation` instructions.
+Install from the source, following the :ref:`installation_from_source` instructions.
 
 Brief explanation about the code under the Wayback Tweets directory:
 

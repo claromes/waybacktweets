@@ -5,11 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Installation &#8212; Wayback Tweets Documentation (1.0a6.x)</title>
+    <title>Installation &#8212; Wayback Tweets Documentation (1.0a7.x)</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
     <link rel="stylesheet" type="text/css" href="_static/flask.css?v=b87c8d14" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e14f3222" />
-    <script src="_static/documentation_options.js?v=c8e7fa45"></script>
+    <script src="_static/documentation_options.js?v=6c9f7e5c"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="icon" href="_static/parthenon.png"/>
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="index.html" title="Wayback Tweets"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Wayback Tweets Documentation (1.0a6.x)</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Wayback Tweets Documentation (1.0a7.x)</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Installation</a></li> 
       </ul>
     </div>  
@@ -55,7 +55,8 @@
           <div class="body" role="main">
             
   <section id="installation">
-<span id="id1"></span><h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h1>
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h1>
+<p><strong>It is compatible with Python versions 3.10 and above.</strong></p>
 <section id="using-pip">
 <h2>Using pip<a class="headerlink" href="#using-pip" title="Link to this heading">¶</a></h2>
 <blockquote>
@@ -64,34 +65,50 @@
 </div>
 </div></blockquote>
 </section>
-<section id="from-source">
-<h2>From source<a class="headerlink" href="#from-source" title="Link to this heading">¶</a></h2>
+<section id="using-poetry">
+<h2>Using Poetry<a class="headerlink" href="#using-poetry" title="Link to this heading">¶</a></h2>
 <blockquote>
-<div><p>Clone the repository:</p>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>add<span class="w"> </span>waybacktweets
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<section id="from-source">
+<span id="installation-from-source"></span><h2>From source<a class="headerlink" href="#from-source" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><p><strong>Clone the repository:</strong></p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:claromes/waybacktweets.git
 </pre></div>
 </div>
-<p>Change directory:</p>
+<p><strong>Change directory:</strong></p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>waybacktweets
 </pre></div>
 </div>
-<p>Install poetry, if you haven’t already:</p>
+<p><strong>Install Poetry, if you haven’t already:</strong></p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>poetry
 </pre></div>
 </div>
-<p>Install the dependencies:</p>
+<p><strong>Install the dependencies:</strong></p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>install
 </pre></div>
 </div>
-<p>Run the CLI:</p>
+<p><strong>Install the pre-commit:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>run<span class="w"> </span>pre-commit<span class="w"> </span>install
+</pre></div>
+</div>
+<p><strong>Run the CLI:</strong></p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>run<span class="w"> </span>waybacktweets<span class="w"> </span><span class="o">[</span>SUBCOMMANDS<span class="o">]</span>
 </pre></div>
 </div>
-<p>Run the Streamlit App:</p>
+<p><strong>Starts a new shell and activates the virtual environment:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>shell
+</pre></div>
+</div>
+<p><strong>Run the Streamlit App:</strong></p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>streamlit<span class="w"> </span>run<span class="w"> </span>app/app.py
 </pre></div>
 </div>
-<p>Build the docs:</p>
+<p><strong>Build the docs:</strong></p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>docs
 </pre></div>
 </div>
@@ -122,6 +139,7 @@
   <ul>
 <li><a class="reference internal" href="#">Installation</a><ul>
 <li><a class="reference internal" href="#using-pip">Using pip</a></li>
+<li><a class="reference internal" href="#using-poetry">Using Poetry</a></li>
 <li><a class="reference internal" href="#from-source">From source</a></li>
 </ul>
 </li>
@@ -151,7 +169,7 @@
     </div>
   
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2023 - 2024, Claromes · Icon by The Doodle Library · Title font by Google, licensed under the Open Font License · Pre-release: v1.0a6.
+    &#169; Copyright 2023 - 2024, Claromes · Icon by The Doodle Library · Title font by Google, licensed under the Open Font License · Pre-release: v1.0a7.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
     </div>
   <script src="_static/version_warning_offset.js"></script>
