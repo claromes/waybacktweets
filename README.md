@@ -1,6 +1,6 @@
 # Wayback Tweets
 
-[![PyPI](https://img.shields.io/pypi/v/waybacktweets)](https://pypi.org/project/waybacktweets) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.12528447.svg)](https://doi.org/10.5281/zenodo.12528447) [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://waybacktweets.streamlit.app) [![Open In Collab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1zRqi6uTMiGi5z8GQ-PC0tbpCJWULCqMO?usp=sharing)
+[![PyPI](https://img.shields.io/pypi/v/waybacktweets)](https://pypi.org/project/waybacktweets) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.12528447.svg)](https://doi.org/10.5281/zenodo.12528447) [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://waybacktweets.streamlit.app) [![Open In Collab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1tnaM3rMWpoSHBZ4P_6iHFPjraWRQ3OGe?usp=sharing)
 
 
 Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing (see [Field Options](https://claromes.github.io/waybacktweets/field_options.html)), and saves the data in HTML, for easy viewing of the tweets using the iframe tags, CSV, and JSON formats.
