@@ -6,7 +6,7 @@ Hands-On Examples
    This notebook demonstrates how to fetch, parse, and export archived tweets for a specific user using the ``waybacktweets`` library.
 
    .. image:: https://colab.research.google.com/assets/colab-badge.svg
-      :target: https://colab.research.google.com/drive/1zRqi6uTMiGi5z8GQ-PC0tbpCJWULCqMO?usp=sharing
+      :target: https://colab.research.google.com/drive/1tnaM3rMWpoSHBZ4P_6iHFPjraWRQ3OGe?usp=sharing
       :alt: Open In Collab
 
 .. raw:: html
