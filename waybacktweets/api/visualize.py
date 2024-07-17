@@ -131,7 +131,7 @@ class HTMLTweetsVisualizer:
                         html += '<div class="accordion-content">\n'
 
                         html += f'<div id="loading_{index}_{key_cleaned}" class="loading">Loading...</div>\n'
-                        html += f'<iframe id="iframe_{index}_{key_cleaned}" frameborder="0" scrolling="auto" loading="lazy" style="display: none;" onload="document.getElementById(\'loading_{index}_{key_cleaned}\').style.display=\'none\'; this.style.display=\'block\';"></iframe>\n'
+                        html += f'<iframe id="iframe_{index}_{key_cleaned}" height="600" width="600" frameborder="0" scrolling="auto" style="display: none;" onload="document.getElementById(\'loading_{index}_{key_cleaned}\').style.display=\'none\'; this.style.display=\'block\';"></iframe>\n'
                         html += "</div>\n"
                         html += "</div>\n"
 
