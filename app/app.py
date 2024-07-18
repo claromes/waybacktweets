@@ -251,6 +251,13 @@ if st.session_state.query or st.session_state.count:
         collapse = "urlkey"
         matchtype = "prefix"
 
+    start_timestamp = None
+    end_timestamp = None
+
+    if st.session_state.archived_timestamp_filter:
+        start_timestamp = st.session_state.archived_timestamp_filter[0]
+        end_timestamp = st.session_state.archived_timestamp_filter[1]
+
     try:
         with st.spinner(
             f"Waybacking @{st.session_state.current_username}'s archived tweets"
@@ -258,8 +265,8 @@ if st.session_state.query or st.session_state.count:
             wayback_tweets = wayback_tweets(
                 st.session_state.current_username,
                 collapse,
-                st.session_state.archived_timestamp_filter[0],
-                st.session_state.archived_timestamp_filter[1],
+                start_timestamp,
+                end_timestamp,
                 limit,
                 offset,
                 matchtype,

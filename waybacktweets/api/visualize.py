@@ -114,12 +114,12 @@ class HTMLTweetsVisualizer:
                 tweet = self.json_path[index]
                 html += '<div class="tweet">\n'
 
-                if not tweet["available_tweet_text"]:
+                if not tweet.get("available_tweet_text"):
                     iframe_src = {
-                        "Archived Tweet": tweet["archived_tweet_url"],
-                        "Parsed Archived Tweet": tweet["parsed_archived_tweet_url"],
-                        "Original Tweet": tweet["original_tweet_url"],
-                        "Parsed Tweet": tweet["parsed_tweet_url"],
+                        "Archived Tweet": tweet.get("archived_tweet_url"),
+                        "Parsed Archived Tweet": tweet.get("parsed_archived_tweet_url"),
+                        "Original Tweet": tweet.get("original_tweet_url"),
+                        "Parsed Tweet": tweet.get("parsed_tweet_url"),
                     }
 
                     for key, value in iframe_src.items():
@@ -131,7 +131,7 @@ class HTMLTweetsVisualizer:
                         html += '<div class="accordion-content">\n'
 
                         html += f'<div id="loading_{index}_{key_cleaned}" class="loading">Loading...</div>\n'
-                        html += f'<iframe id="iframe_{index}_{key_cleaned}" frameborder="0" scrolling="auto" loading="lazy" style="display: none;" onload="document.getElementById(\'loading_{index}_{key_cleaned}\').style.display=\'none\'; this.style.display=\'block\';"></iframe>\n'
+                        html += f'<iframe id="iframe_{index}_{key_cleaned}" height="600" width="600" frameborder="0" scrolling="auto" style="display: none;" onload="document.getElementById(\'loading_{index}_{key_cleaned}\').style.display=\'none\'; this.style.display=\'block\';"></iframe>\n'
                         html += "</div>\n"
                         html += "</div>\n"
 
@@ -149,25 +149,23 @@ class HTMLTweetsVisualizer:
                             index=index, url=value, key_cleaned=key_cleaned
                         )
 
-                if tweet["available_tweet_text"]:
+                if tweet.get("available_tweet_text"):
                     html += "<br>\n"
-                    html += f'<p><strong class="content">Available Tweet Content:</strong> {tweet["available_tweet_text"]}</p>\n'
-                    html += f'<p><strong class="content">Available Tweet Is Retweet:</strong> {tweet["available_tweet_is_RT"]}</p>\n'
-                    html += f'<p><strong class="content">Available Tweet Username:</strong> {tweet["available_tweet_info"]}</p>\n'
+                    html += f'<p><strong class="content">Available Tweet Content:</strong> {tweet.get("available_tweet_text")}</p>\n'
+                    html += f'<p><strong class="content">Available Tweet Is Retweet:</strong> {tweet.get("available_tweet_is_RT")}</p>\n'
+                    html += f'<p><strong class="content">Available Tweet Username:</strong> {tweet.get("available_tweet_info")}</p>\n'
 
                 html += "<br>\n"
-                html += f'<p><strong>Archived Tweet:</strong> <a href="{tweet["archived_tweet_url"]}" target="_blank">{tweet["archived_tweet_url"]}</a></p>\n'
-                html += f'<p><strong>Parsed Archived Tweet:</strong> <a href="{tweet["parsed_archived_tweet_url"]}" target="_blank">{tweet["parsed_archived_tweet_url"]}</a></p>\n'
-                html += f'<p><strong>Original Tweet:</strong> <a href="{tweet["original_tweet_url"]}" target="_blank">{tweet["original_tweet_url"]}</a></p>\n'
-                html += f'<p><strong>Parsed Tweet:</strong> <a href="{tweet["parsed_tweet_url"]}" target="_blank">{tweet["parsed_tweet_url"]}</a></p>\n'
-                html += f'<p><strong>Archived URL Key:</strong> {tweet["archived_urlkey"]}</p>\n'
-                html += f'<p><strong>Archived Timestamp:</strong> {timestamp_parser(tweet["archived_timestamp"])} ({tweet["archived_timestamp"]})</p>\n'
-                html += f'<p><strong>Archived mimetype:</strong> {tweet["archived_mimetype"]}</p>\n'
-                html += f'<p><strong>Archived Statuscode:</strong> {tweet["archived_statuscode"]}</p>\n'
-                html += (
-                    f'<p><strong>Archived Digest:</strong> {tweet["archived_digest"]}\n'
-                )
-                html += f'<p><strong>Archived Length:</strong> {tweet["archived_length"]}</p>\n'
+                html += f'<p><strong>Archived Tweet:</strong> <a href="{tweet.get("archived_tweet_url")}" target="_blank">{tweet.get("archived_tweet_url")}</a></p>\n'
+                html += f'<p><strong>Parsed Archived Tweet:</strong> <a href="{tweet.get("parsed_archived_tweet_url")}" target="_blank">{tweet.get("parsed_archived_tweet_url")}</a></p>\n'
+                html += f'<p><strong>Original Tweet:</strong> <a href="{tweet.get("original_tweet_url")}" target="_blank">{tweet.get("original_tweet_url")}</a></p>\n'
+                html += f'<p><strong>Parsed Tweet:</strong> <a href="{tweet.get("parsed_tweet_url")}" target="_blank">{tweet.get("parsed_tweet_url")}</a></p>\n'
+                html += f'<p><strong>Archived URL Key:</strong> {tweet.get("archived_urlkey")}</p>\n'
+                html += f'<p><strong>Archived Timestamp:</strong> {timestamp_parser(tweet.get("archived_timestamp"))} ({tweet.get("archived_timestamp")})</p>\n'
+                html += f'<p><strong>Archived mimetype:</strong> {tweet.get("archived_mimetype")}</p>\n'
+                html += f'<p><strong>Archived Statuscode:</strong> {tweet.get("archived_statuscode")}</p>\n'
+                html += f'<p><strong>Archived Digest:</strong> {tweet.get("archived_digest")}\n'
+                html += f'<p><strong>Archived Length:</strong> {tweet.get("archived_length")}</p>\n'
                 html += "</div>\n"
 
             html += "</div>\n</div>\n"  # Closes the page div and the container
