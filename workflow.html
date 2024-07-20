@@ -17,7 +17,7 @@
     <script src="https://unpkg.com/d3/dist/d3.min.js"></script>
     <script>
                 window.addEventListener("load", function () {
-                  var svgs = d3.selectAll(".mermaid#id-d4abb843-905e-4bac-a40e-6255dadc289b svg");
+                  var svgs = d3.selectAll(".mermaid#id-66840ab1-854b-4550-9ac3-ed0127cdc38e svg");
                   svgs.each(function() {
                     var svg = d3.select(this);
                     svg.html("<g>" + svg.html() + "</g>");
@@ -76,7 +76,7 @@
 <p>The tool was written following a proposal not only to retrieve data from archived tweets, but also to facilitate the reading of these tweets. Therefore, a flow is defined to obtain these results in the best possible way.</p>
 <p>Due to limitations of the Wayback CDX Server API, it is not always possible to parse the results with the mimetype <code class="docutils literal notranslate"><span class="pre">application/json</span></code>, regardless, the data in CDX format are saved.</p>
 <p>Use the mouse to zoom in and out the flowchart.</p>
-<div align="center" id="id-d4abb843-905e-4bac-a40e-6255dadc289b" class="mermaid align-center">
+<div align="center" id="id-66840ab1-854b-4550-9ac3-ed0127cdc38e" class="mermaid align-center">
             flowchart TB
    A[input Username]--&gt; B[(Wayback Machine)]
    B--&gt; B1[save Archived Tweets CDX data]
