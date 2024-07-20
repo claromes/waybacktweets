@@ -11,9 +11,9 @@ Pre-release: |release|
 
 Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing (see :ref:`field_options`), and saves the data in HTML, for easy viewing of the tweets using the iframe tags, CSV, and JSON formats.
 
-.. image:: https://img.shields.io/badge/Donate-via%20Sponsors-ff69b4.svg?logo=github
+.. image:: https://img.shields.io/badge/donate-via%20sponsors-ff69b4.svg?logo=github
   :target: https://github.com/sponsors/claromes
-  :alt: GitHub Sponsors
+  :alt: sponsors
 
 .. note::
     Intensive queries can lead to rate limiting, resulting in a temporary ban of a few minutes from web.archive.org.

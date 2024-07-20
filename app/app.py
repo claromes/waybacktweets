@@ -170,14 +170,14 @@ if st.query_params.username != "":
 
 st.image(TITLE, use_column_width="never")
 st.caption(
-    "[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![sponsor](https://img.shields.io/badge/Donate-via%20Sponsors-ff69b4.svg?logo=github)](https://github.com/sponsors/claromes)"  # noqa: E501
+    "[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![read the documentation](https://img.shields.io/badge/read_the-documentation-0a507a?logo=sphinx)](https://claromes.github.io/waybacktweets) [![sponsors](https://img.shields.io/badge/donate-via%20sponsors-ff69b4.svg?logo=github)](https://github.com/sponsors/claromes)"  # noqa: E501
 )
 st.write(
-    "Retrieves archived tweets CDX data in HTML (for easy viewing of the tweets using the iframe tag), CSV, and JSON formats."  # noqa: E501
+    "Retrieves archived tweets CDX data in HTML (for easy viewing of the tweets), CSV, and JSON formats."  # noqa: E501
 )
 
 st.write(
-    "This application uses the Wayback Tweets Python package, which can be used either as a module or as a standalone command-line tool. [Read the documentation](https://claromes.github.io/waybacktweets) for more information."  # noqa: E501
+    "For better performance, use the CLI version, available on [PyPI](https://pypi.org/project/waybacktweets)."  # noqa: E501
 )
 
 st.write(
@@ -246,17 +246,10 @@ if st.query_params.username == "":
 if username != st.session_state.current_username:
     st.session_state.current_username = username
 
-if st.session_state.query or st.session_state.count:
+if (st.session_state.query and username) or st.session_state.count:
     if unique:
         collapse = "urlkey"
         matchtype = "prefix"
-
-    start_timestamp = None
-    end_timestamp = None
-
-    if st.session_state.archived_timestamp_filter:
-        start_timestamp = st.session_state.archived_timestamp_filter[0]
-        end_timestamp = st.session_state.archived_timestamp_filter[1]
 
     try:
         with st.spinner(
@@ -265,8 +258,8 @@ if st.session_state.query or st.session_state.count:
             wayback_tweets = wayback_tweets(
                 st.session_state.current_username,
                 collapse,
-                start_timestamp,
-                end_timestamp,
+                st.session_state.archived_timestamp_filter[0],
+                st.session_state.archived_timestamp_filter[1],
                 limit,
                 offset,
                 matchtype,
@@ -369,6 +362,9 @@ if st.session_state.query or st.session_state.count:
 
         If the problem persists [open an issue](https://github.com/claromes/waybacktweets/issues)."""  # noqa: E501
         )
+        st.stop()
+    except IndexError:
+        st.error("Please check if you have entered a date range in the filter.")
         st.stop()
     except Exception as e:
         st.error(str(e))
