@@ -18,7 +18,7 @@ DOWNLOAD = "assets/download.svg"
 
 collapse = None
 matchtype = None
-start_date = datetime.now() - timedelta(days=30 * 6)
+start_date = datetime.now() - timedelta(days=365)
 end_date = datetime.now()
 min_date = datetime(2006, 1, 1)
 
@@ -55,7 +55,7 @@ if "count" not in st.session_state:
     st.session_state.count = False
 
 if "archived_timestamp_filter" not in st.session_state:
-    st.session_state.archived_timestamp_filter = (start_date, end_date)
+    st.session_state.archived_timestamp_filter = None
 
 if "username_value" not in st.session_state:
     st.session_state.username_value = ""
@@ -124,7 +124,6 @@ def wayback_tweets(
     return archived_tweets
 
 
-@st.cache_data(ttl=600, show_spinner=False)
 def tweets_parser(archived_tweets, username, field_options):
     parser = TweetsParser(archived_tweets, username, field_options)
     parsed_tweets = parser.parse()
@@ -132,7 +131,6 @@ def tweets_parser(archived_tweets, username, field_options):
     return parsed_tweets
 
 
-@st.cache_data(ttl=600, show_spinner=False)
 def tweets_exporter(parsed_tweets, username, field_options):
     exporter = TweetsExporter(parsed_tweets, username, field_options)
 
@@ -197,33 +195,32 @@ username = st.text_input(
 
 with st.expander("Filtering", expanded=st.session_state.expanded_value):
 
-    st.session_state.archived_timestamp_filter = st.date_input(
-        "Tweets saved between",
-        (start_date, end_date),
-        min_date,
-        end_date,
-        format="YYYY/MM/DD",
-        help="Using the `from` and `to` filters. Format: YYYY/MM/DD",
-    )
-    st.caption(
-        ":orange[note: large date range takes a long time to process, and the app's resources may not be sufficient. Try to perform searches with smaller ranges to get faster results.]"  # noqa: E501
-    )
-
     col1, col2 = st.columns(2)
 
     with col1:
-        limit = st.text_input(
+        limit = st.number_input(
             "Limit",
+            value=500,
+            max_value=500,
             key="limit",
-            help="Query result limits",
+            help="Query result limits. A maximum of 500 tweets per search to enhance the tool's performance",  # noqa: E501
         )
 
     with col2:
         offset = st.text_input(
             "Offset",
             key="offset",
-            help="Allows for a simple way to scroll through the results",
+            help="Enables efficient pagination. For instance, after retrieving an initial batch of 500 tweets, setting an offset of 500 fetches the next batch from 501 to 1000",  # noqa: E501
         )
+
+    st.session_state.archived_timestamp_filter = st.date_input(
+        "Tweets saved between",
+        None,
+        min_date,
+        end_date,
+        format="YYYY/MM/DD",
+        help="Using the `from` and `to` filters. Format: YYYY/MM/DD",
+    )
 
     unique = st.checkbox(
         "Only unique Wayback Machine URLs",
@@ -251,6 +248,13 @@ if (st.session_state.query and username) or st.session_state.count:
         collapse = "urlkey"
         matchtype = "prefix"
 
+    archived_timestamp_from = None
+    archived_timestamp_to = None
+
+    if st.session_state.archived_timestamp_filter:
+        archived_timestamp_from = st.session_state.archived_timestamp_filter[0]
+        archived_timestamp_to = st.session_state.archived_timestamp_filter[1]
+
     try:
         with st.spinner(
             f"Waybacking @{st.session_state.current_username}'s archived tweets"
@@ -258,8 +262,8 @@ if (st.session_state.query and username) or st.session_state.count:
             wayback_tweets = wayback_tweets(
                 st.session_state.current_username,
                 collapse,
-                st.session_state.archived_timestamp_filter[0],
-                st.session_state.archived_timestamp_filter[1],
+                archived_timestamp_from,
+                archived_timestamp_to,
                 limit,
                 offset,
                 matchtype,
