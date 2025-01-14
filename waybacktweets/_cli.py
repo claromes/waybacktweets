@@ -39,7 +39,7 @@ def _parse_date(
         raise click.BadParameter("Date must be in format YYYYmmdd")
 
 
-@click.command()
+@click.command(context_settings={"help_option_names": ["-h", "--help"]})
 @click.argument("username", type=str)
 @click.option(
     "-c",
