@@ -77,12 +77,11 @@ def _parse_date(
     help="Query result limits.",
 )
 @click.option(
-    "-o",
-    "--offset",
-    type=int,
-    metavar="INTEGER",
+    "-rk",
+    "--resumption_key",
+    type=str,
     default=None,
-    help="Allows for a simple way to scroll through the results.",
+    help="Allows for a simple way to scroll through the results. Key to continue the query from the end of the previous query.",  # noqa: E501
 )
 @click.option(
     "-mt",
@@ -105,7 +104,7 @@ def main(
     timestamp_from: Optional[str],
     timestamp_to: Optional[str],
     limit: Optional[int],
-    offset: Optional[int],
+    resumption_key: Optional[str],
     matchtype: Optional[str],
     verbose: Optional[bool],
 ) -> None:
@@ -118,7 +117,13 @@ def main(
         config.verbose = verbose
 
         api = WaybackTweets(
-            username, collapse, timestamp_from, timestamp_to, limit, offset, matchtype
+            username,
+            collapse,
+            timestamp_from,
+            timestamp_to,
+            limit,
+            resumption_key,
+            matchtype,
         )
 
         print(f"Waybacking @{username}'s archived tweets...")
@@ -140,6 +145,7 @@ def main(
                 "archived_statuscode",
                 "archived_digest",
                 "archived_length",
+                "resumption_key",
             ]
 
             parser = TweetsParser(archived_tweets, username, field_options)

@@ -178,6 +178,33 @@ class TweetsParser:
         self.field_options = field_options
         self.parsed_tweets = {option: [] for option in self.field_options}
 
+        if "resumption_key" not in self.parsed_tweets:
+            self.parsed_tweets["resumption_key"] = []
+
+        self._add_resumption_key()
+
+    def _add_resumption_key(self):
+        """Adds the resumption key from the last archived tweet response to the parsed tweets.
+
+        This method extracts the resumption key from the last item in the archived tweets response list
+        and appends it to the 'resumption_key' field in the parsed tweets dictionary. It also prints
+        the resumption key with instructions on how to use it with the 'limit' option for continuing
+        the query from the end of the previous query.
+
+        Raises:
+            ValueError: If the list of archived tweet responses is empty.
+
+        """  # noqa: E501
+        if not self.archived_tweets_response:
+            raise ValueError("The list of archived tweet responses is empty.")
+
+        resumption_key = self.archived_tweets_response[-1][0]
+        self.parsed_tweets["resumption_key"].append(resumption_key)
+
+        rprint(
+            f'[blue]\nResumption Key: [bold]{resumption_key}[/bold]\nIf you are using the "limit" option, use this key in the "resumption_key" option and continue the query from the end of the previous query.\n'  # noqa: E501
+        )
+
     def _add_field(self, key: str, value: Any) -> None:
         """
         Appends a value to a list in the parsed data structure.
@@ -286,6 +313,8 @@ class TweetsParser:
                 for future in as_completed(futures):
                     try:
                         future.result()
+                    except IndexError:
+                        pass
                     except Exception as e:
                         rprint(f"[red]{e}")
 
