@@ -202,7 +202,7 @@ class TweetsParser:
         self.parsed_tweets["resumption_key"].append(resumption_key)
 
         rprint(
-            f'[blue]\nResumption Key: [bold]{resumption_key}[/bold]\nIf you are using the "limit" option, use this key in the "resumption_key" option and continue the query from the end of the previous query.\n'  # noqa: E501
+            f'[blue]\nResumption Key: [bold]{resumption_key}[/bold]\nIf you are using the "limit" (--limit, -l) option and your query is too long, use this key in the "resumption key" (--resumption_key, -rk) option to continue the query from where the previous one ended.\n'  # noqa: E501
         )
 
     def _add_field(self, key: str, value: Any) -> None:
