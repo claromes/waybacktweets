@@ -57,7 +57,7 @@
 <p>Requests data from the Wayback Machine API.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="waybacktweets.api.request.WaybackTweets">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.api.request.</span></span><span class="sig-name descname"><span class="pre">WaybackTweets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collapse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp_from</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp_to</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matchtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.request.WaybackTweets" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">waybacktweets.api.request.</span></span><span class="sig-name descname"><span class="pre">WaybackTweets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collapse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp_from</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp_to</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resumption_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matchtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.request.WaybackTweets" title="Link to this definition">¶</a></dt>
 <dd><p>Class responsible for requesting data from the Wayback CDX Server API.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -67,7 +67,7 @@
 <li><p><strong>timestamp_from</strong> (<em>str</em><em>, </em><em>optional</em>) – The timestamp to start retrieving tweets from.</p></li>
 <li><p><strong>timestamp_to</strong> (<em>str</em><em>, </em><em>optional</em>) – The timestamp to stop retrieving tweets at.</p></li>
 <li><p><strong>limit</strong> (<em>int</em><em>, </em><em>optional</em>) – The maximum number of results to return.</p></li>
-<li><p><strong>offset</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of lines to skip in the results.</p></li>
+<li><p><strong>resumption_key</strong> (<em>int</em><em>, </em><em>optional</em>) – Key to continue the query from the end of the previous query.</p></li>
 <li><p><strong>matchtype</strong> (<em>str</em><em>, </em><em>optional</em>) – Results matching a certain prefix, a certain host or all subdomains.</p></li>
 </ul>
 </dd>
@@ -118,6 +118,21 @@
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="waybacktweets.api.parse.TweetsParser._add_resumption_key">
+<span class="sig-name descname"><span class="pre">_add_resumption_key</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#waybacktweets.api.parse.TweetsParser._add_resumption_key" title="Link to this definition">¶</a></dt>
+<dd><p>Adds the resumption key from the last archived tweet response to the parsed tweets.</p>
+<p>This method extracts the resumption key from the last item in the archived tweets response list
+and appends it to the ‘resumption_key’ field in the parsed tweets dictionary. It also prints
+the resumption key with instructions on how to use it with the ‘limit’ option for continuing
+the query from the end of the previous query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If the list of archived tweet responses is empty.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -630,6 +645,7 @@ timestamp could not be parsed.</p>
 <li><a class="reference internal" href="#module-waybacktweets.api.parse">Parse</a><ul>
 <li><a class="reference internal" href="#waybacktweets.api.parse.TweetsParser"><code class="docutils literal notranslate"><span class="pre">TweetsParser</span></code></a><ul>
 <li><a class="reference internal" href="#waybacktweets.api.parse.TweetsParser._add_field"><code class="docutils literal notranslate"><span class="pre">TweetsParser._add_field()</span></code></a></li>
+<li><a class="reference internal" href="#waybacktweets.api.parse.TweetsParser._add_resumption_key"><code class="docutils literal notranslate"><span class="pre">TweetsParser._add_resumption_key()</span></code></a></li>
 <li><a class="reference internal" href="#waybacktweets.api.parse.TweetsParser._process_response"><code class="docutils literal notranslate"><span class="pre">TweetsParser._process_response()</span></code></a></li>
 <li><a class="reference internal" href="#waybacktweets.api.parse.TweetsParser.parse"><code class="docutils literal notranslate"><span class="pre">TweetsParser.parse()</span></code></a></li>
 </ul>
