@@ -102,7 +102,7 @@ st.html(
 
 @st.cache_data(ttl=600, show_spinner=False)
 def wayback_tweets(
-    username,
+    beef_tenderloid,
     collapse,
     timestamp_from,
     timestamp_to,

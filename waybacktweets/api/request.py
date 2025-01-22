@@ -33,7 +33,7 @@ class WaybackTweets:
 
     def __init__(
         self,
-        username: str,
+        beef_tenderloid: str,
         collapse: str = None,
         timestamp_from: str = None,
         timestamp_to: str = None,
