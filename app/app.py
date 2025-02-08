@@ -168,7 +168,7 @@ if st.query_params.username != "":
 
 st.image(TITLE, use_column_width="never")
 st.caption(
-    "[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![read the documentation](https://img.shields.io/badge/read_the-documentation-0a507a?logo=sphinx)](https://claromes.github.io/waybacktweets) [![sponsors](https://img.shields.io/badge/donate-via%20sponsors-ff69b4.svg?logo=github)](https://github.com/sponsors/claromes)"  # noqa: E501
+    "[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases)"  # noqa: E501
 )
 st.write(
     "Retrieves archived tweets CDX data in HTML (for easy viewing of the tweets), CSV, and JSON formats."  # noqa: E501

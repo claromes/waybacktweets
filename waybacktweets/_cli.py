@@ -41,7 +41,14 @@ def _parse_date(
 
 @click.command(
     context_settings={"help_option_names": ["-h", "--help"]},
-    epilog="Check out our docs at https://claromes.github.io/waybacktweets for more details",  # noqa: E501
+    epilog="""
+Examples:\n
+    Retrieve all tweets: waybacktweets jack\n\n
+    With options and verbose output: waybacktweets --from 20200305 --to 20231231 --limit 300 --verbose jack\n\n
+
+Documentation:\n
+    https://claromes.github.io/waybacktweets/
+    """,  # noqa: E501
 )
 @click.argument("username", type=str)
 @click.option(
@@ -112,10 +119,8 @@ def main(
     verbose: Optional[bool],
 ) -> None:
     """
-    Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data.
-
     USERNAME: The Twitter username without @
-    """  # noqa: E501
+    """
     try:
         config.verbose = verbose
 
