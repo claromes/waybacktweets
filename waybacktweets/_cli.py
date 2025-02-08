@@ -39,7 +39,10 @@ def _parse_date(
         raise click.BadParameter("Date must be in format YYYYmmdd")
 
 
-@click.command(context_settings={"help_option_names": ["-h", "--help"]})
+@click.command(
+    context_settings={"help_option_names": ["-h", "--help"]},
+    epilog="Check out our docs at https://claromes.github.io/waybacktweets for more details",  # noqa: E501
+)
 @click.argument("username", type=str)
 @click.option(
     "-c",
@@ -111,7 +114,7 @@ def main(
     """
     Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data.
 
-    USERNAME: The Twitter username without @.
+    USERNAME: The Twitter username without @
     """  # noqa: E501
     try:
         config.verbose = verbose
@@ -158,7 +161,3 @@ def main(
             exporter.save_to_html()
     except Exception as e:
         rprint(f"[red]{e}")
-    finally:
-        rprint(
-            "[yellow]\nNeed help? Read the docs: https://claromes.github.io/waybacktweets"  # noqa: E501
-        )

@@ -16,7 +16,7 @@ class _Config:
         verbose (bool): Determines if verbose logging should be enabled.
     """
 
-    verbose: bool = True
+    verbose: bool = False
 
 
 config = _Config()

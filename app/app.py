@@ -274,7 +274,7 @@ if (st.session_state.query and username) or st.session_state.count:
             st.stop()
 
         with st.spinner(
-            f"Parsing @{st.session_state.current_username}'s archived tweets"
+            f"Parsing the archived tweets of @{st.session_state.current_username}"
         ):
             parsed_tweets = tweets_parser(
                 wayback_tweets, st.session_state.current_username, FIELD_OPTIONS

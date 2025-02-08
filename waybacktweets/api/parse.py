@@ -201,10 +201,6 @@ class TweetsParser:
         resumption_key = self.archived_tweets_response[-1][0]
         self.parsed_tweets["resumption_key"].append(resumption_key)
 
-        rprint(
-            f'[blue]\nResumption Key: [bold]{resumption_key}[/bold]\nIf you are using the "limit" (--limit, -l) option and your query is too long, use this key in the "resumption key" (--resumption_key, -rk) option to continue the query from where the previous one ended.\n'  # noqa: E501
-        )
-
     def _add_field(self, key: str, value: Any) -> None:
         """
         Appends a value to a list in the parsed data structure.
@@ -306,7 +302,7 @@ class TweetsParser:
                 task = None
                 if print_progress:
                     task = progress.add_task(
-                        f"Parsing @{self.username}'s archived tweets\n",
+                        f"Parsing the archived tweets of @{self.username}\n",
                         total=len(futures),
                     )
 
@@ -320,5 +316,9 @@ class TweetsParser:
 
                     if print_progress:
                         progress.update(task, advance=1)
+
+            rprint(
+                f"[blue]Resumption Key: [bold]{self.archived_tweets_response[-1][0]}[/bold]\nUse the Resumption Key (--resumption_key, -rk) option to continue the query from where the previous one ended. This allows you to break a large query into smaller queries more efficiently.[/blue]\n"  # noqa: E501
+            )
 
             return self.parsed_tweets
