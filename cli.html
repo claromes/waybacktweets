@@ -60,8 +60,7 @@
 <h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
 <section id="waybacktweets">
 <h3>waybacktweets<a class="headerlink" href="#waybacktweets" title="Link to this heading">¶</a></h3>
-<p>Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data.</p>
-<p>USERNAME: The Twitter username without &#64;.</p>
+<p>USERNAME: The Twitter username without &#64;</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>waybacktweets<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>USERNAME
 </pre></div>
 </div>
@@ -125,6 +124,15 @@
 <dd><p>Required argument</p>
 </dd></dl>
 
+<p>Examples:</p>
+<blockquote>
+<div><p>Retrieve all tweets: waybacktweets jack</p>
+<p>With options and verbose output: waybacktweets –from 20200305 –to 20231231 –limit 300 –verbose jack</p>
+</div></blockquote>
+<p>Documentation:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://claromes.github.io/waybacktweets/" rel="noopener noreferrer" target="_blank">https://claromes.github.io/waybacktweets/</a></p>
+</div></blockquote>
 </section>
 </section>
 <section id="collapsing">
