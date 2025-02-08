@@ -257,7 +257,7 @@ if (st.session_state.query and username) or st.session_state.count:
 
     try:
         with st.spinner(
-            f"Waybacking @{st.session_state.current_username}'s archived tweets"
+            f"Retrieving the archived tweets of @{st.session_state.current_username}..."
         ):
             wayback_tweets = wayback_tweets(
                 st.session_state.current_username,

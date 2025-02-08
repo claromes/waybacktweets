@@ -126,7 +126,7 @@ def main(
             matchtype,
         )
 
-        print(f"Waybacking @{username}'s archived tweets...")
+        print(f"Retrieving the archived tweets of @{username}...")
         archived_tweets = api.get()
 
         if archived_tweets:
