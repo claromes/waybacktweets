@@ -60,7 +60,8 @@
 <h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
 <section id="waybacktweets">
 <h3>waybacktweets<a class="headerlink" href="#waybacktweets" title="Link to this heading">¶</a></h3>
-<p>USERNAME: The Twitter username without &#64;</p>
+<p>Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data.</p>
+<p>USERNAME: The Twitter username without &#64;.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>waybacktweets<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>USERNAME
 </pre></div>
 </div>
@@ -95,9 +96,9 @@
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-waybacktweets-rk">
-<span id="cmdoption-waybacktweets-resumption_key"></span><span class="sig-name descname"><span class="pre">-rk</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--resumption_key</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;resumption_key&gt;</span></span><a class="headerlink" href="#cmdoption-waybacktweets-rk" title="Link to this definition">¶</a></dt>
-<dd><p>Allows for a simple way to scroll through the results. Key to continue the query from the end of the previous query.</p>
+<dt class="sig sig-object std" id="cmdoption-waybacktweets-o">
+<span id="cmdoption-waybacktweets-offset"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--offset</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;INTEGER&gt;</span></span><a class="headerlink" href="#cmdoption-waybacktweets-o" title="Link to this definition">¶</a></dt>
+<dd><p>Allows for a simple way to scroll through the results.</p>
 </dd></dl>
 
 <dl class="std option">
@@ -124,15 +125,6 @@
 <dd><p>Required argument</p>
 </dd></dl>
 
-<p>Examples:</p>
-<blockquote>
-<div><p>Retrieve all tweets: waybacktweets jack</p>
-<p>With options and verbose output: waybacktweets –from 20200305 –to 20231231 –limit 300 –verbose jack</p>
-</div></blockquote>
-<p>Documentation:</p>
-<blockquote>
-<div><p><a class="reference external" href="https://claromes.github.io/waybacktweets/" rel="noopener noreferrer" target="_blank">https://claromes.github.io/waybacktweets/</a></p>
-</div></blockquote>
 </section>
 </section>
 <section id="collapsing">

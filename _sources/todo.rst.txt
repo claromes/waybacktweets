@@ -15,4 +15,4 @@ TODO
 
 |uncheck| Mapping and parsing of other Twitter-related URLs
 
-|uncheck| Download snapshots from https://archive.today
+|uncheck| Develop a scraper to download snapshots from https://archive.today
