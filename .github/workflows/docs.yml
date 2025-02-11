@@ -7,6 +7,7 @@ permissions:
 
 jobs:
   docs:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,7 +28,7 @@ jobs:
           poetry run sphinx-build -b html . _build
           cp -r _build/* ../gh-pages/
       - name: Deploy documentation
-        if: ${{ github.event_name == 'push' }}
+        if: github.event_name == 'push'
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
           branch: gh-pages
