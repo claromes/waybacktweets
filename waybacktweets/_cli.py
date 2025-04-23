@@ -3,6 +3,7 @@ CLI functions for retrieving archived tweets.
 """
 
 from datetime import datetime
+from importlib.metadata import version
 from typing import Any, Optional
 
 import click
@@ -12,6 +13,8 @@ from waybacktweets.api.export import TweetsExporter
 from waybacktweets.api.parse import TweetsParser
 from waybacktweets.api.request import WaybackTweets
 from waybacktweets.config.config import config
+
+PACKAGE_NAME = "waybacktweets"
 
 
 def _parse_date(
@@ -108,6 +111,7 @@ Documentation:\n
     default=False,
     help="Shows the log.",
 )
+@click.version_option(version=version(PACKAGE_NAME), prog_name=PACKAGE_NAME)
 def main(
     username: str,
     collapse: Optional[str],
