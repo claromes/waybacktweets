@@ -1,6 +1,16 @@
 Hands-On Examples
 ====================
 
+- **Tutorials**
+
+   - `Wayback Tweets: Archive Tweets Retrieval <https://medium.com/@CyberRaya/wayback-tweets-archive-tweets-retrieval-582eb9be3334>`_ by CyberRaya, via Medium
+
+   - Using Wayback Tweets to retrieve old tweets by Jey Zeta, in Spanish
+
+      ..  youtube:: qy3wOnUxe6A
+         :width: 100%
+
+
 - **Notebook**
 
    This notebook demonstrates how to fetch, parse, and export archived tweets for a specific user using the ``waybacktweets`` library.
@@ -10,13 +20,3 @@ Hands-On Examples
       :alt: Open In Collab
 
 .. raw:: html
-
-   <br>
-   <br>
-
-- **Video**
-
-   Demonstration of how to use Wayback Tweets and other tools to retrieve tweets (in Spanish)
-
-   ..  youtube:: qy3wOnUxe6A
-      :width: 100%
