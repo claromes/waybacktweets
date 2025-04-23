@@ -40,7 +40,6 @@ From source
 
         pip install poetry
 
-
     **Install the dependencies:**
 
     .. code-block:: shell
@@ -59,17 +58,19 @@ From source
 
         poetry run waybacktweets [SUBCOMMANDS]
 
-    **Starts a new shell and activates the virtual environment:**
-
-    .. code-block:: shell
-
-        poetry shell
-
     **Run the Streamlit App:**
 
-    .. code-block:: shell
+    - Starts a new shell and activates the virtual environment:
 
-        streamlit run app/app.py
+        .. code-block:: shell
+
+            poetry shell
+
+    - Run the Streamlit:
+
+        .. code-block:: shell
+
+            streamlit run app/app.py
 
     **Build the docs:**
 

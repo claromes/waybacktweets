@@ -13,7 +13,7 @@ Filters
 
 - Limit: Query result limits.
 
-- Offset: Allows for a simple way to scroll through the results.
+- Resumption Key: Allows for a simple way to scroll through the results. Key to continue the query from the end of the previous query.
 
 - Only unique Wayback Machine URLs: Filtering by the collapse option using the ``urlkey`` field and the URL Match Scope ``prefix``
 
