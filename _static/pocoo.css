@@ -2,6 +2,11 @@
 
 /* -- page layout --------------------------------------------------- */
 
+html {
+  scroll-padding-top: calc(30px + 1em);
+  /* see .version-warning selector for banner positioning */
+}
+
 body {
   font-family: 'Garamond', 'Georgia', serif;
   font-size: 17px;
@@ -136,19 +141,9 @@ div.sphinxsidebar #searchbox input[type=submit] {
   border-left-width: 0;
 }
 
-/* -- versions ------------------------------------------------------ */
-
-div.sphinxsidebar ul.versions a.current {
-  font-style: italic;
-  border-bottom: 1px solid #000;
-  color: #000;
-}
-
-div.sphinxsidebar ul.versions span.note {
-  color: #999;
-}
-
 /* -- version warning ----------------------------------------------- */
+
+/* see html selector for scroll offset */
 
 p.version-warning {
   top: 10px;
@@ -467,11 +462,6 @@ table.footnote td {
 
   div.sphinxsidebar p.logo {
     display: none;
-  }
-
-  div.sphinxsidebar ul.versions a.current {
-    border-bottom-color: #fff;
-    color: #fff;
   }
 
   div.footer {
