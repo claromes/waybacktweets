@@ -138,7 +138,7 @@ def main(
             matchtype,
         )
 
-        print(f"Retrieving the archived tweets of @{username}...")
+        print("Retrieving...")
         archived_tweets = api.get()
 
         if archived_tweets:

@@ -3,7 +3,6 @@ Exports the parsed archived tweets.
 """
 
 import datetime
-import os
 import re
 from typing import Any, Dict, List, Optional
 
@@ -93,6 +92,17 @@ class TweetsExporter:
 
         print(f"Saved to {csv_file_path}")
 
+    def generate_json(self) -> str:
+        """
+        Generates JSON data from the DataFrame (without saving to a file).
+
+        Returns:
+            The JSON-formatted string of the DataFrame.
+        """
+
+        json_data = self.dataframe.to_json(orient="records", lines=False)
+        return json_data
+
     def save_to_json(self) -> None:
         """
         Saves the DataFrame to a JSON file.
@@ -106,14 +116,11 @@ class TweetsExporter:
         """
         Saves the DataFrame to an HTML file.
         """
-        json_path = f"{self.filename}.json"
-
-        if not os.path.exists(json_path):
-            self.save_to_json()
+        json_data = self.generate_json()
 
         html_file_path = f"{self.filename}.html"
 
-        html = HTMLTweetsVisualizer(self.username, json_path, html_file_path)
+        html = HTMLTweetsVisualizer(self.username, json_data, html_file_path)
 
         html_content = html.generate()
         html.save(html_content)

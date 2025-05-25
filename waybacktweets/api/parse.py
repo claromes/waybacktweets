@@ -173,13 +173,11 @@ class TweetsParser:
         if not all(option in FIELD_OPTIONS for option in field_options):
             raise ValueError("Some field options are not valid.")
 
-        self.archived_tweets_response = archived_tweets_response
+        self.archived_tweets_response = archived_tweets_response[0]
         self.username = username
         self.field_options = field_options
         self.parsed_tweets = {option: [] for option in self.field_options}
-
-        if "resumption_key" not in self.parsed_tweets:
-            self.parsed_tweets["resumption_key"] = []
+        self.show_resume_key = archived_tweets_response[1]["show_resume_key"]
 
         self._add_resumption_key()
 
@@ -198,8 +196,12 @@ class TweetsParser:
         if not self.archived_tweets_response:
             raise ValueError("The list of archived tweet responses is empty.")
 
-        resumption_key = self.archived_tweets_response[-1][0]
-        self.parsed_tweets["resumption_key"].append(resumption_key)
+        resumption_key = (
+            self.archived_tweets_response[-1][0] if self.show_resume_key else None
+        )
+        if self.show_resume_key and "resumption_key" in self.parsed_tweets:
+            self.parsed_tweets["resumption_key"] = []
+            self.parsed_tweets["resumption_key"].append(resumption_key)
 
     def _add_field(self, key: str, value: Any) -> None:
         """
@@ -317,8 +319,9 @@ class TweetsParser:
                     if print_progress:
                         progress.update(task, advance=1)
 
-            rprint(
-                f"[blue]Resumption Key: [bold]{self.archived_tweets_response[-1][0]}[/bold]\nUse the Resumption Key (--resumption_key, -rk) option to continue the query from where the previous one ended. This allows you to break a large query into smaller queries more efficiently.[/blue]\n"  # noqa: E501
-            )
+            if self.show_resume_key:
+                rprint(
+                    f'[blue]Resumption Key: [bold]{self.archived_tweets_response[-1][0]}[/bold][/blue]\nUse this Resumption Key option (--resumption_key in the CLI or "resumption_key" in field_options via the API) to continue the query from where the previous one left off. This allows you to split a large query into smaller, more efficient ones.\n'  # noqa: E501
+                )
 
             return self.parsed_tweets

@@ -58,13 +58,13 @@ class WaybackTweets:
         """  # noqa: E501
         url = "https://web.archive.org/cdx/search/cdx"
 
-        wildcard_pathname = "/*"
-        if self.matchtype:
-            wildcard_pathname = ""
+        wildcard_pathname = "" if self.matchtype else "/*"
+
+        show_resume_key = bool(self.limit)
 
         params = {
             "url": f"https://twitter.com/{self.username}/status{wildcard_pathname}",
-            "showResumeKey": "true",
+            "showResumeKey": show_resume_key,
             "output": "json",
         }
 
@@ -88,7 +88,7 @@ class WaybackTweets:
 
         try:
             response = get_response(url=url, params=params)
-            return response.json()
+            return response.json(), {"show_resume_key": show_resume_key}
         except ReadTimeoutError:
             if config.verbose:
                 rprint("[red]Connection to web.archive.org timed out.")

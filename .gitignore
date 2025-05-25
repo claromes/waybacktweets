@@ -1,6 +1,9 @@
 *.csv
 *.json
 *.html
+*.txt
+
+test.py
 
 waybacktweets/__pycache__
 waybacktweets/api/__pycache__

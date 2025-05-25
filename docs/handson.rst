@@ -19,4 +19,3 @@ Hands-On Examples
       :target: https://colab.research.google.com/drive/1tnaM3rMWpoSHBZ4P_6iHFPjraWRQ3OGe?usp=sharing
       :alt: Open In Collab
 
-.. raw:: html

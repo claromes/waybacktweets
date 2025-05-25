@@ -66,7 +66,7 @@ class HTMLTweetsVisualizer:
         html += (
             '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
         )
-        html += f"<title>@{self.username}'s archived tweets</title>\n"
+        html += f"<title>Wayback Tweets from @{self.username}</title>\n"
 
         # Adds styling
         html += "<style>\n"
@@ -78,7 +78,7 @@ class HTMLTweetsVisualizer:
         html += ".content { color: #000000; }\n"
         html += ".source { font-size: 12px; text-align: center; }\n"
         html += ".tweet a:hover { text-decoration: underline; }\n"
-        html += "h1, h3 { text-align: center; }\n"
+        html += "h1, h3, .note { text-align: center; }\n"
         html += "iframe { width: 600px; height: 600px; }\n"
         html += "input { position: absolute; opacity: 0; z-index: -1; }\n"
         html += ".accordion { margin: 10px; border-radius: 5px; overflow: hidden; box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.4); }\n"
@@ -95,7 +95,10 @@ class HTMLTweetsVisualizer:
 
         html += "</head>\n<body>\n"
 
-        html += f"<h1>@{self.username}'s archived tweets</h1>\n"
+        html += f"<h1>Archived tweets of @{self.username}</h1>\n"
+        html += (
+            '<p class="note">The iframes (accordions) are best viewed in Firefox.</p>\n'
+        )
 
         html += (
             '<p id="loading_first_page">Building pagination with JavaScript...</p>\n'
@@ -122,7 +125,9 @@ class HTMLTweetsVisualizer:
                         "Parsed Tweet": tweet.get("parsed_tweet_url"),
                     }
 
-                    for key, value in iframe_src.items():
+                    for key, value in (
+                        (k, v) for k, v in iframe_src.items() if v is not None
+                    ):
                         key_cleaned = key.replace(" ", "_")
 
                         html += '<div class="accordion">\n'

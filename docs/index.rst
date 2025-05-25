@@ -39,15 +39,6 @@ Command-Line Interface
 
     cli
 
-Streamlit Web App
--------------------
-
-.. toctree::
-    :maxdepth: 2
-
-    streamlit
-
-
 API Reference
 ---------------
 
@@ -56,6 +47,13 @@ API Reference
 
     api
 
+Streamlit Web App
+-------------------
+
+.. toctree::
+    :maxdepth: 2
+
+    streamlit
 
 Additional Information
 -----------------------
