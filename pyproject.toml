@@ -7,14 +7,13 @@ license = "GPLv3"
 readme = "README.md"
 repository = "https://github.com/claromes/waybacktweets"
 keywords = [
-    "twitter",
+    "Twitter",
     "X",
     "tweet",
-    "internet-archive",
-    "wayback-machine",
-    "osint-tools",
-    "osint",
-    "command-line",
+    "Internet Archive",
+    "Wayback Machine",
+    "OSINT",
+    "SOCMINT",
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -28,7 +27,7 @@ classifiers = [
     "Topic :: Software Development",
     "Topic :: Utilities",
 ]
-exclude = ["app/**", "assets/**", "docs/**", ".streamlit/**"]
+exclude = ["app/**", "legacy_app/**", ".streamlit/**", "assets/**", "docs/**", "build/**", ".github/**", ".git/**", ".gitignore", ".pre-commit-config.yaml", "CITATION.cff"]
 
 [tool.poetry.urls]
 "Homepage" = "https://waybacktweets.claromes.com/"
@@ -64,7 +63,7 @@ profile = "black"
 
 [tool.flake8]
 max-line-length = 88
-extend-ignore = ["E203", "E701"]
+extend-ignore = ["E203", "E701", "E501"]
 
 [tool.poetry.scripts]
 waybacktweets = 'waybacktweets._cli:main'

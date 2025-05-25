@@ -17,6 +17,40 @@ from waybacktweets.config.config import config
 PACKAGE_NAME = "waybacktweets"
 
 
+class CustomCommand(click.Command):
+    """
+    Custom Click command that overrides the default help message.
+    """
+
+    def format_help(
+        self, ctx: click.Context, formatter: click.HelpFormatter
+    ) -> None:  # noqa: E501
+        """
+        Customize the help message shown when the command is invoked with --help.
+
+        Args:
+            ctx (click.Context): The Click context for the command.
+            formatter (click.HelpFormatter): The formatter used to generate the help text.
+        """  # noqa: E501
+        formatter.write_heading("Usage")
+        formatter.write_text(f"  {PACKAGE_NAME} [OPTIONS] USERNAME")
+        formatter.write_text("  USERNAME: The Twitter username without @")
+
+        self.format_options(ctx, formatter)
+
+        formatter.write_heading("Examples")
+        formatter.write_text("  waybacktweets jack")
+        formatter.write_text(
+            "  waybacktweets --from 20200305 --to 20231231 --limit 300 --verbose jack"
+        )
+
+        formatter.write_heading("Repository")
+        formatter.write_text("  https://github.com/claromes/waybacktweets")
+
+        formatter.write_heading("Documentation")
+        formatter.write_text("  https://waybacktweets.claromes.com")
+
+
 def _parse_date(
     ctx: Optional[Any] = None, param: Optional[Any] = None, value: Optional[str] = None
 ) -> Optional[str]:
@@ -30,7 +64,7 @@ def _parse_date(
 
     Returns:
         The input date string formatted in the "YYYYMMDD" format, or None if no date string was provided.
-    """  # noqa: E501
+    """
     try:
         if value is None:
             return None
@@ -43,15 +77,7 @@ def _parse_date(
 
 
 @click.command(
-    context_settings={"help_option_names": ["-h", "--help"]},
-    epilog="""
-Examples:\n
-    Retrieve all tweets: waybacktweets jack\n\n
-    With options and verbose output: waybacktweets --from 20200305 --to 20231231 --limit 300 --verbose jack\n\n
-
-Documentation:\n
-    https://waybacktweets.claromes.com/
-    """,  # noqa: E501
+    cls=CustomCommand, context_settings={"help_option_names": ["-h", "--help"]}, help=""
 )
 @click.argument("username", type=str)
 @click.option(
@@ -123,8 +149,20 @@ def main(
     verbose: Optional[bool],
 ) -> None:
     """
-    USERNAME: The Twitter username without @
-    """
+    Handles CLI queries for archived tweets with filtering and pagination.
+
+    Args:
+        username (str): Twitter username to search (without the @ symbol).
+        collapse (Optional[str]): Collapse results based on a specific field or a substring
+            of a field. Possible values include 'urlkey', 'digest', or 'timestamp:XX', where
+            XX is the number of digits to match in timestamps (recommended: 4 or more).
+        timestamp_from (Optional[str]): Start date for filtering results (format: YYYYMMDD).
+        timestamp_to (Optional[str]): End date for filtering results (format: YYYYMMDD).
+        limit (Optional[int]): Maximum number of results to return.
+        resumption_key (Optional[str]): Resume a previous query using this key (for pagination).
+        matchtype (Optional[str]): Filter by URL match type: 'exact', 'prefix', 'host', or 'domain'.
+        verbose (Optional[bool]): Print verbose logs during execution.
+    """  # noqa: E501
     try:
         config.verbose = verbose
 

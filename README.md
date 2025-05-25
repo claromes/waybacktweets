@@ -6,19 +6,23 @@ Retrieves archived tweets CDX data from the Wayback Machine, performs necessary 
 
 ## Installation
 
+Python 3.10+ is required to install `waybacktweets`.
+
 ```shell
-pip install waybacktweets
+pipx install waybacktweets
 ```
+
+[Read more about the installation options](https://waybacktweets.claromes.com/installation).
 
 ## CLI
 
 ```shell
-Usage: waybacktweets [OPTIONS] USERNAME
-
+Usage:
+  waybacktweets [OPTIONS] USERNAME
   USERNAME: The Twitter username without @
 
 Options:
-  -c, --collapse [urlkey|digest|timestamp:XX]
+  -c, --collapse [urlkey|digest|timestamp:xx]
                                   Collapse results based on a field, or a
                                   substring of a field. XX in the timestamp
                                   value ranges from 1 to 14, comparing the
@@ -39,16 +43,13 @@ Options:
   -v, --verbose                   Shows the log.
   --version                       Show the version and exit.
   -h, --help                      Show this message and exit.
-
-  Examples:
-
-      Retrieve all tweets: waybacktweets jack
-
-      With options and verbose output: waybacktweets --from 20200305 --to 20231231 --limit 300 --verbose jack
-
-  Documentation:
-
-      https://waybacktweets.claromes.com/
+Examples:
+  waybacktweets jack
+  waybacktweets --from 20200305 --to 20231231 --limit 300 --verbose jack
+Repository:
+  https://github.com/claromes/waybacktweets
+Documentation:
+  https://waybacktweets.claromes.com
 ```
 
 ## Module
