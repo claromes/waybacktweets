@@ -1,3 +1,4 @@
+# flake8: noqa: E501
 """
 CLI functions for retrieving archived tweets.
 """
