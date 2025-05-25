@@ -5,11 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Quickstart &#8212; Wayback Tweets Documentation (1.0rc1.x)</title>
+    <title>Quickstart &#8212; Wayback Tweets Documentation (1.0.x)</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
     <link rel="stylesheet" type="text/css" href="_static/flask.css?v=b87c8d14" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e14f3222" />
-    <script src="_static/documentation_options.js?v=b2dc1058"></script>
+    <script src="_static/documentation_options.js?v=f2a433a1"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="icon" href="_static/parthenon.png"/>
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="installation.html" title="Installation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Wayback Tweets Documentation (1.0rc1.x)</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Wayback Tweets Documentation (1.0.x)</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Quickstart</a></li> 
       </ul>
     </div>  
@@ -64,11 +64,6 @@
 </pre></div>
 </div>
 </section>
-<section id="web-app">
-<h2>Web App<a class="headerlink" href="#web-app" title="Link to this heading">¶</a></h2>
-<p>Using Wayback Tweets as a Streamlit Web App.</p>
-<p><a class="reference external" href="https://waybacktweets.streamlit.app" rel="noopener noreferrer" target="_blank">Open the application</a>, a prototype written in Python with the Streamlit framework and hosted on Streamlit Cloud.</p>
-</section>
 <section id="module">
 <h2>Module<a class="headerlink" href="#module" title="Link to this heading">¶</a></h2>
 <p>Using Wayback Tweets as a Python Module.</p>
@@ -81,10 +76,21 @@
 
 <span class="k">if</span> <span class="n">archived_tweets</span><span class="p">:</span>
     <span class="n">field_options</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;archived_urlkey&quot;</span><span class="p">,</span>
         <span class="s2">&quot;archived_timestamp&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;original_tweet_url&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;parsed_archived_timestamp&quot;</span><span class="p">,</span>
         <span class="s2">&quot;archived_tweet_url&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;parsed_archived_tweet_url&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;original_tweet_url&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;parsed_tweet_url&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;available_tweet_text&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;available_tweet_is_RT&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;available_tweet_info&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;archived_mimetype&quot;</span><span class="p">,</span>
         <span class="s2">&quot;archived_statuscode&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;archived_digest&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;archived_length&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;resumption_key&quot;</span><span class="p">,</span>
     <span class="p">]</span>
 
     <span class="n">parser</span> <span class="o">=</span> <span class="n">TweetsParser</span><span class="p">(</span><span class="n">archived_tweets</span><span class="p">,</span> <span class="n">USERNAME</span><span class="p">,</span> <span class="n">field_options</span><span class="p">)</span>
@@ -92,8 +98,15 @@
 
     <span class="n">exporter</span> <span class="o">=</span> <span class="n">TweetsExporter</span><span class="p">(</span><span class="n">parsed_tweets</span><span class="p">,</span> <span class="n">USERNAME</span><span class="p">,</span> <span class="n">field_options</span><span class="p">)</span>
     <span class="n">exporter</span><span class="o">.</span><span class="n">save_to_csv</span><span class="p">()</span>
+    <span class="n">exporter</span><span class="o">.</span><span class="n">save_to_json</span><span class="p">()</span>
+    <span class="n">exporter</span><span class="o">.</span><span class="n">save_to_html</span><span class="p">()</span>
 </pre></div>
 </div>
+</section>
+<section id="web-app">
+<h2>Web App<a class="headerlink" href="#web-app" title="Link to this heading">¶</a></h2>
+<p>Using Wayback Tweets as a Streamlit Web App.</p>
+<p><a class="reference external" href="https://waybacktweets.streamlit.app" rel="noopener noreferrer" target="_blank">Open the application</a>, a prototype written in Python with the Streamlit framework and hosted on Streamlit Cloud.</p>
 </section>
 </section>
 
@@ -116,8 +129,8 @@
   <ul>
 <li><a class="reference internal" href="#">Quickstart</a><ul>
 <li><a class="reference internal" href="#cli">CLI</a></li>
-<li><a class="reference internal" href="#web-app">Web App</a></li>
 <li><a class="reference internal" href="#module">Module</a></li>
+<li><a class="reference internal" href="#web-app">Web App</a></li>
 </ul>
 </li>
 </ul>
@@ -146,7 +159,7 @@
     </div>
   
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2023 - 2025, Claromes · Icon by The Doodle Library · Title font by Google, licensed under the Open Font License · Pre-release: v1.0rc1.
+    &#169; Copyright 2023 - 2025, Claromes · Icon by The Doodle Library · Title font by Google, licensed under the Open Font License · Release: v1.0.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
     </div>
   <script src="_static/version_warning_offset.js"></script>

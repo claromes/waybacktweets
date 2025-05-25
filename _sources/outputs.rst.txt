@@ -14,9 +14,13 @@ This format allows for easy viewing of the archived tweets, through the use of t
 
 - ``original_tweet_url``: (`str`) The original tweet URL.
 
-- ``parsed_tweet_url``: (`str`) The original tweet URL after parsing. Old URLs were archived in a nested manner. The parsing applied here unnests these URLs, when necessary.  Check the :ref:`utils`.
+- ``parsed_tweet_url``: (`str`) The original tweet URL after parsing. Old URLs were archived in a nested manner. The parsing applied here unnests these URLs when necessary. Refer to the :ref:`utils` for more details.
 
 Additionally, other fields are displayed.
+
+.. note::
+
+    The iframes (accordions) are best viewed in Firefox.
 
 CSV
 --------

@@ -40,3 +40,5 @@ The package performs several parses to facilitate the analysis of archived tweet
 - ``archived_digest``: (`str`) The ``SHA1`` hash digest of the content, excluding the headers. It's usually a base-32-encoded string.
 
 - ``archived_length``: (`int`) The compressed byte size of the corresponding WARC record, which includes WARC headers, HTTP headers, and content payload.
+
+- ``resumption_key``: (`str`) Allows for a simple way to scroll through the results. Key to continue the query from the end of the previous query.

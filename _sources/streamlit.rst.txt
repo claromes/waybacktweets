@@ -1,6 +1,10 @@
 Web App
 =========
 
+.. note::
+
+   Starting from version 1.0, the web app will not receive all updates from the official package. To access all features, prefer the package via PyPI.
+
 The application is a prototype hosted on Streamlit Cloud, serving as an alternative to the command line tool.
 
 `Open the application <https://waybacktweets.streamlit.app>`_.
@@ -12,8 +16,6 @@ Filters
 - Filtering by date range: Using the ``from`` and ``to`` filters
 
 - Limit: Query result limits.
-
-- Resumption Key: Allows for a simple way to scroll through the results. Key to continue the query from the end of the previous query.
 
 - Only unique Wayback Machine URLs: Filtering by the collapse option using the ``urlkey`` field and the URL Match Scope ``prefix``
 
