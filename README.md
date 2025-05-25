@@ -97,8 +97,7 @@ if archived_tweets:
 
 A prototype written in Python with the Streamlit framework and hosted on Streamlit Cloud.
 
-> [!NOTE]
-> Starting from version 1.0, the web app will not receive all updates from the official package. To access all features, prefer the package via PyPI.
+Important: Starting from version 1.0, the web app will no longer receive all updates from the official package. To access all features, prefer using the package from PyPI.
 
 ## Documentation
 

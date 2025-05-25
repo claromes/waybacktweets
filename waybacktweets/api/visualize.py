@@ -66,7 +66,7 @@ class HTMLTweetsVisualizer:
         html += (
             '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
         )
-        html += f"<title>Wayback Tweets from @{self.username}</title>\n"
+        html += f"<title>Archived tweets of @{self.username}</title>\n"
 
         # Adds styling
         html += "<style>\n"

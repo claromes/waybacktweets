@@ -34,8 +34,12 @@ html_static_path = ["_static"]
 html_css_files = ["css/custom.css"]
 html_context = {
     "project_links": [
-        ProjectLink("PyPI Releases", "https://pypi.org/project/waybacktweets/"),
+        ProjectLink("PyPI", "https://pypi.org/project/waybacktweets/"),
         ProjectLink("Source Code", "https://github.com/claromes/waybacktweets/"),
+        ProjectLink(
+            "License",
+            "https://raw.githubusercontent.com/claromes/waybacktweets/refs/heads/main/LICENSE.md",  # noqa: E501
+        ),
         ProjectLink(
             "Issue Tracker", "https://github.com/claromes/waybacktweets/issues/"
         ),

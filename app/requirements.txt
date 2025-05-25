@@ -1,2 +1,2 @@
-streamlit==1.36.0
-waybacktweets==1.0a5
+streamlit==1.45.0
+waybacktweets

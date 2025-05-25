@@ -52,7 +52,7 @@ sphinx-autodoc-typehints = "^2.1.1"
 sphinxcontrib-youtube = "^1.4.1"
 
 [tool.poetry.group.dev.dependencies]
-streamlit = "1.36.0"
+streamlit = "1.45.0"
 black = "^24.4.2"
 flake8 = "^7.0.0"
 isort = "^5.13.2"
