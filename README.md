@@ -2,7 +2,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/waybacktweets)](https://pypi.org/project/waybacktweets) [![PyPI Downloads](https://static.pepy.tech/badge/waybacktweets)](https://pepy.tech/projects/waybacktweets)
 
-Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing (see [Field Options](https://claromes.github.io/waybacktweets/field_options.html)), and saves the data in HTML, for easy viewing of the tweets using the iframe tags, CSV, and JSON formats.
+Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing (see [Field Options](https://waybacktweets.claromes.com/field_options)), and saves the data in HTML, for easy viewing of the tweets using the iframe tags, CSV, and JSON formats.
 
 ## Installation
 
@@ -48,7 +48,7 @@ Options:
 
   Documentation:
 
-      https://claromes.github.io/waybacktweets/
+      https://waybacktweets.claromes.com/
 ```
 
 ## Module
@@ -101,7 +101,7 @@ Important: Starting from version 1.0, the web app will no longer receive all upd
 
 ## Documentation
 
-- [Wayback Tweets documentation](https://claromes.github.io/waybacktweets)
+- [Wayback Tweets documentation](https://waybacktweets.claromes.com/)
 - [Wayback CDX Server API (Beta) documentation](https://archive.org/developers/wayback-cdx-server.html)
 
 ## Acknowledgements

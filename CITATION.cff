@@ -14,29 +14,25 @@ authors:
 identifiers:
   - type: doi
     value: 10.5281/zenodo.12528447
-    description: The concept DOI of the work.
+    description: Retrieves archived tweets from Wayback Machine in HTML, CSV, and JSON.
   - type: url
     value: "https://pypi.org/project/waybacktweets/"
     description: Python Package Index.
   - type: url
-    value: "https://claromes.github.io/waybacktweets/"
+    value: "https://waybacktweets.claromes.com/"
     description: Documentation.
 repository-code: "https://github.com/claromes/waybacktweets"
-url: "https://claromes.github.io/waybacktweets"
+url: "https://waybacktweets.claromes.com/"
 abstract: >-
-  Retrieves archived tweets CDX data from the Wayback
-  Machine, performs necessary parsing, and saves the data in
-  HTML (for easy viewing of the tweets using the iframe
-  tag), CSV, and JSON formats.
+  Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data in HTML, for easy viewing of the tweets using the iframe tags, CSV, and JSON formats.
 keywords:
   - Twitter
-  - Wayback Machine
+  - X
   - Tweets
-  - Python
+  - Wayback Machine
   - OSINT
   - SOCMINT
-  - X
+  - Python
 license: GPL-3.0
-commit: 16f9997a8e2e2b87932ca061bf5731cd65d1d588
-version: 1.0a5
-date-released: "2024-06-24"
+version: 1.0
+date-released: "2025-05-26"

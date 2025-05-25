@@ -50,7 +50,7 @@ Examples:\n
     With options and verbose output: waybacktweets --from 20200305 --to 20231231 --limit 300 --verbose jack\n\n
 
 Documentation:\n
-    https://claromes.github.io/waybacktweets/
+    https://waybacktweets.claromes.com/
     """,  # noqa: E501
 )
 @click.argument("username", type=str)

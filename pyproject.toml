@@ -31,8 +31,8 @@ classifiers = [
 exclude = ["app/**", "assets/**", "docs/**", ".streamlit/**"]
 
 [tool.poetry.urls]
-"Homepage" = "https://claromes.github.io/waybacktweets/"
-"Documentation" = "https://claromes.github.io/waybacktweets/"
+"Homepage" = "https://waybacktweets.claromes.com/"
+"Documentation" = "https://waybacktweets.claromes.com/"
 "Issue Tracker" = "https://github.com/claromes/waybacktweets/issues"
 
 [tool.poetry.dependencies]
