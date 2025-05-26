@@ -17,7 +17,7 @@ waybacktweets [OPTIONS] USERNAME
 Module
 -------------
 
-Using Wayback Tweets as a Python Module.
+Using Wayback Tweets as a Python Module. `Open in Colab <https://colab.research.google.com/drive/1tnaM3rMWpoSHBZ4P_6iHFPjraWRQ3OGe>`_.
 
 .. code-block:: python
 
