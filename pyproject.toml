@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "waybacktweets"
-version = "1.0rc1"
+version = "1.0"
 description = "Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data."
 authors = ["Claromes <support@claromes.com>"]
 license = "GPLv3"
@@ -16,7 +16,7 @@ keywords = [
     "SOCMINT",
 ]
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
