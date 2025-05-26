@@ -17,4 +17,5 @@ FIELD_OPTIONS = [
     "archived_statuscode",
     "archived_digest",
     "archived_length",
+    "resumption_key",
 ]

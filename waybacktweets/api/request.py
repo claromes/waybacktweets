@@ -27,7 +27,7 @@ class WaybackTweets:
         timestamp_from (str, optional): The timestamp to start retrieving tweets from.
         timestamp_to (str, optional): The timestamp to stop retrieving tweets at.
         limit (int, optional): The maximum number of results to return.
-        offset (int, optional): The number of lines to skip in the results.
+        resumption_key (int, optional): Key to continue the query from the end of the previous query.
         matchtype (str, optional): Results matching a certain prefix, a certain host or all subdomains.
     """  # noqa: E501
 
@@ -38,7 +38,7 @@ class WaybackTweets:
         timestamp_from: str = None,
         timestamp_to: str = None,
         limit: int = None,
-        offset: int = None,
+        resumption_key: str = None,
         matchtype: str = None,
     ):
         self.username = username
@@ -46,7 +46,7 @@ class WaybackTweets:
         self.timestamp_from = timestamp_from
         self.timestamp_to = timestamp_to
         self.limit = limit
-        self.offset = offset
+        self.resumption_key = resumption_key
         self.matchtype = matchtype
 
     def get(self) -> Optional[Dict[str, Any]]:
@@ -58,12 +58,13 @@ class WaybackTweets:
         """  # noqa: E501
         url = "https://web.archive.org/cdx/search/cdx"
 
-        wildcard_pathname = "/*"
-        if self.matchtype:
-            wildcard_pathname = ""
+        wildcard_pathname = "" if self.matchtype else "/*"
+
+        show_resume_key = bool(self.limit)
 
         params = {
             "url": f"https://twitter.com/{self.username}/status{wildcard_pathname}",
+            "showResumeKey": show_resume_key,
             "output": "json",
         }
 
@@ -79,15 +80,15 @@ class WaybackTweets:
         if self.limit:
             params["limit"] = self.limit
 
-        if self.offset:
-            params["offset"] = self.offset
+        if self.resumption_key:
+            params["resumption_key"] = self.resumption_key
 
         if self.matchtype:
             params["matchType"] = self.matchtype
 
         try:
             response = get_response(url=url, params=params)
-            return response.json()
+            return response.json(), {"show_resume_key": show_resume_key}
         except ReadTimeoutError:
             if config.verbose:
                 rprint("[red]Connection to web.archive.org timed out.")

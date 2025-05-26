@@ -8,6 +8,15 @@ Usage
    :prog: waybacktweets
    :nested: full
 
+Examples
+---------
+
+``waybacktweets jack``
+
+``waybacktweets --from 20200305 --to 20231231 --limit 300 --verbose jack``
+
+``waybacktweets -f 20200305 -t 20231231 -l 300 -v jack``
+
 Collapsing
 ------------
 

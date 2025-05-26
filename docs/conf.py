@@ -5,7 +5,7 @@ from pallets_sphinx_themes import ProjectLink, get_version
 project = "Wayback Tweets"
 release, version = get_version("waybacktweets")
 rst_epilog = f".. |release| replace:: v{release}"
-copyright = f"2023 - {datetime.datetime.now().year}, Claromes · Icon by The Doodle Library · Title font by Google, licensed under the Open Font License · Pre-release: v{release}"  # noqa: E501
+copyright = f"2023 - {datetime.datetime.now().year}, Claromes · Icon by The Doodle Library · Title font by Google, licensed under the Open Font License · Release: v{release}"  # noqa: E501
 author = "Claromes"
 
 # -- General configuration ---------------------------------------------------
@@ -34,8 +34,12 @@ html_static_path = ["_static"]
 html_css_files = ["css/custom.css"]
 html_context = {
     "project_links": [
-        ProjectLink("PyPI Releases", "https://pypi.org/project/waybacktweets/"),
+        ProjectLink("PyPI", "https://pypi.org/project/waybacktweets/"),
         ProjectLink("Source Code", "https://github.com/claromes/waybacktweets/"),
+        ProjectLink(
+            "License",
+            "https://raw.githubusercontent.com/claromes/waybacktweets/refs/heads/main/LICENSE.md",  # noqa: E501
+        ),
         ProjectLink(
             "Issue Tracker", "https://github.com/claromes/waybacktweets/issues/"
         ),

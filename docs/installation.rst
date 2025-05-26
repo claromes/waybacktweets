@@ -3,12 +3,19 @@ Installation
 
 **It is compatible with Python versions 3.10 and above.**
 
+Using pipx
+------------
+
+    .. code-block:: shell
+
+        pipx install waybacktweets
+
 Using pip
 ------------
 
     .. code-block:: shell
 
-        pip install waybacktweets
+        pip3 install waybacktweets
 
 Using Poetry
 ------------
@@ -38,8 +45,7 @@ From source
 
     .. code-block:: shell
 
-        pip install poetry
-
+        pip3 install poetry
 
     **Install the dependencies:**
 
@@ -57,19 +63,21 @@ From source
 
     .. code-block:: shell
 
-        poetry run waybacktweets [SUBCOMMANDS]
-
-    **Starts a new shell and activates the virtual environment:**
-
-    .. code-block:: shell
-
-        poetry shell
+        poetry run waybacktweets [OPTIONS] USERNAME
 
     **Run the Streamlit App:**
 
-    .. code-block:: shell
+    - Starts a new shell and activates the virtual environment:
 
-        streamlit run app/app.py
+        .. code-block:: shell
+
+            poetry shell
+
+    - Run the Streamlit:
+
+        .. code-block:: shell
+
+            streamlit run app/app.py
 
     **Build the docs:**
 
@@ -80,5 +88,3 @@ From source
     .. code-block:: shell
 
         make clean html
-
-`Read the Poetry CLI documentation <https://python-poetry.org/docs/cli/>`_.

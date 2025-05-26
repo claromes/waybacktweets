@@ -1,36 +1,37 @@
 [tool.poetry]
 name = "waybacktweets"
-version = "1.0rc1"
+version = "1.0"
 description = "Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data."
 authors = ["Claromes <support@claromes.com>"]
 license = "GPLv3"
 readme = "README.md"
 repository = "https://github.com/claromes/waybacktweets"
 keywords = [
-    "twitter",
+    "Twitter",
+    "X",
     "tweet",
-    "internet-archive",
-    "wayback-machine",
-    "osint-tools",
-    "osint",
-    "command-line",
+    "Internet Archive",
+    "Wayback Machine",
+    "OSINT",
+    "SOCMINT",
 ]
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     "Natural Language :: English",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Topic :: Software Development",
     "Topic :: Utilities",
 ]
-exclude = ["app/**", "assets/**", "docs/**", ".streamlit/**"]
+exclude = ["app/**", "legacy_app/**", ".streamlit/**", "assets/**", "docs/**", "build/**", ".github/**", ".git/**", ".gitignore", ".pre-commit-config.yaml", "CITATION.cff"]
 
 [tool.poetry.urls]
-"Homepage" = "https://claromes.github.io/waybacktweets/"
-"Documentation" = "https://claromes.github.io/waybacktweets/"
+"Homepage" = "https://waybacktweets.claromes.com/"
+"Documentation" = "https://waybacktweets.claromes.com/"
 "Issue Tracker" = "https://github.com/claromes/waybacktweets/issues"
 
 [tool.poetry.dependencies]
@@ -50,7 +51,7 @@ sphinx-autodoc-typehints = "^2.1.1"
 sphinxcontrib-youtube = "^1.4.1"
 
 [tool.poetry.group.dev.dependencies]
-streamlit = "1.36.0"
+streamlit = "1.45.0"
 black = "^24.4.2"
 flake8 = "^7.0.0"
 isort = "^5.13.2"

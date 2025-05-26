@@ -1,4 +1,3 @@
-import base64
 from datetime import datetime, timedelta
 
 import streamlit as st
@@ -8,13 +7,28 @@ from waybacktweets.api.export import TweetsExporter
 from waybacktweets.api.parse import TweetsParser
 from waybacktweets.api.request import WaybackTweets
 from waybacktweets.api.visualize import HTMLTweetsVisualizer
-from waybacktweets.config import FIELD_OPTIONS, config
+from waybacktweets.config import config
 
 # ------ Initial Settings ------ #
 
 PAGE_ICON = "assets/parthenon.png"
 TITLE = "assets/waybacktweets.png"
-DOWNLOAD = "assets/download.svg"
+FIELD_OPTIONS = [
+    "archived_urlkey",
+    "archived_timestamp",
+    "parsed_archived_timestamp",
+    "archived_tweet_url",
+    "parsed_archived_tweet_url",
+    "original_tweet_url",
+    "parsed_tweet_url",
+    "available_tweet_text",
+    "available_tweet_is_RT",
+    "available_tweet_info",
+    "archived_mimetype",
+    "archived_statuscode",
+    "archived_digest",
+    "archived_length",
+]
 
 collapse = None
 matchtype = None
@@ -34,13 +48,9 @@ st.set_page_config(
     layout="centered",
     menu_items={
         "About": f"""
-    [![License](https://img.shields.io/github/license/claromes/waybacktweets)](https://github.com/claromes/waybacktweets/blob/main/LICENSE.md)
+© 2023-{end_date.year} [Claromes](https://claromes.com). Licensed under the [GPL-3.0](https://raw.githubusercontent.com/claromes/waybacktweets/refs/heads/main/LICENSE.md). Icon by The Doodle Library. Title font by Google, licensed under the Open Font License (OFL).
 
-    The application is a prototype hosted on Streamlit Cloud, serving as an alternative to the command line tool.
-
-    © 2023 - {end_date.year}, [Claromes](https://claromes.com)
-
-    ---
+---
 """,  # noqa: E501
         "Report a bug": "https://github.com/claromes/waybacktweets/issues",
     },
@@ -93,11 +103,14 @@ st.html(
         div[class="st-emotion-cache-1v0mbdj e115fcil1"] {
             max-width: 100%;
         }
+        div[data-testid="stElementToolbarButtonContainer"] {
+            display: none;
+        }
     </style>
     """
 )
 
-# ------ Requestings ------ #
+# ------ Functions ------ #
 
 
 @st.cache_data(ttl=600, show_spinner=False)
@@ -107,7 +120,6 @@ def wayback_tweets(
     timestamp_from,
     timestamp_to,
     limit,
-    offset,
     matchtype,
 ):
     response = WaybackTweets(
@@ -116,7 +128,6 @@ def wayback_tweets(
         timestamp_from,
         timestamp_to,
         limit,
-        offset,
         matchtype,
     )
     archived_tweets = response.get()
@@ -166,22 +177,15 @@ if st.query_params.username != "":
     st.session_state.update_component += 1
     scroll_page()
 
-# ------ User Interface Settings ------ #
+# ------ UI Settings ------ #
 
-st.image(TITLE, use_column_width="never")
-st.caption(
-    "[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/claromes/waybacktweets?include_prereleases)](https://github.com/claromes/waybacktweets/releases) [![documentation](https://img.shields.io/badge/read_the-documentation-0a507a?logo=sphinx)](https://claromes.github.io/waybacktweets)"  # noqa: E501
-)
+st.image(TITLE, width=None)
 st.write(
-    "Retrieves archived tweets CDX data in HTML (for easy viewing of the tweets), CSV, and JSON formats."  # noqa: E501
+    "Retrieves archived tweets CDX data in HTML, CSV, and JSON formats."  # noqa: E501
 )
 
 st.write(
-    "For better performance, use the CLI version, available on [PyPI](https://pypi.org/project/waybacktweets)."  # noqa: E501
-)
-
-st.write(
-    "To access the legacy version of Wayback Tweets, [click here](https://waybacktweets-legacy.streamlit.app)."  # noqa: E501
+    "This application is a prototype based on the Python package and does not include all available features. To explore the package, including CLI and Module usage, visit the [GitHub repository](https://github.com/claromes/waybacktweets)."  # noqa: E501
 )
 
 st.divider()
@@ -189,53 +193,41 @@ st.divider()
 # -- Filters -- #
 
 username = st.text_input(
-    "Username *",
+    "Username",
     value=st.session_state.username_value,
     key="username",
     placeholder="Without @",
 )
 
-with st.expander("Filtering", expanded=st.session_state.expanded_value):
+st.session_state.archived_timestamp_filter = st.date_input(
+    "Tweets saved between",
+    (start_date, end_date),
+    min_date,
+    end_date,
+    format="YYYY/MM/DD",
+    help="Using the `from` and `to` filters. Format: YYYY/MM/DD",
+)
+st.caption(
+    ":gray[Note: Large date ranges may take longer to process and exceed the app's resource limits. Use smaller ranges for faster results.]"  # noqa: E501
+)
 
-    st.session_state.archived_timestamp_filter = st.date_input(
-        "Tweets saved between",
-        (start_date, end_date),
-        min_date,
-        end_date,
-        format="YYYY/MM/DD",
-        help="Using the `from` and `to` filters. Format: YYYY/MM/DD",
-    )
-    st.caption(
-        ":orange[note: large date range takes a long time to process, and the app's resources may not be sufficient. Try to perform searches with smaller ranges to get faster results.]"  # noqa: E501
-    )
+limit = st.text_input(
+    "Limit",
+    key="limit",
+    help="Query result limits (int)",
+)
 
-    col1, col2 = st.columns(2)
-
-    with col1:
-        limit = st.text_input(
-            "Limit",
-            key="limit",
-            help="Query result limits",
-        )
-
-    with col2:
-        offset = st.text_input(
-            "Offset",
-            key="offset",
-            help="Allows for a simple way to scroll through the results",
-        )
-
-    unique = st.checkbox(
-        "Only unique Wayback Machine URLs",
-        key="unique",
-        help="Filtering by the collapse option using the `urlkey` field and the URL Match Scope `prefix`",  # noqa: E501
-    )
-    st.caption(
-        ":orange[note: according to the official documentation of the Wayback CDX Server API, the query to retrieve unique URLs may be slow at the moment.]"  # noqa: E501
-    )
+unique = st.checkbox(
+    "Only unique Wayback Machine URLs",
+    key="unique",
+    help="Filtering by the collapse option using the `urlkey` field and the URL Match Scope `prefix`",  # noqa: E501
+)
+st.caption(
+    ":gray[Note: As noted in the official Wayback CDX Server API documentation, retrieving unique URLs may experience slow performance at this time.]"  # noqa: E501
+)
 
 
-query = st.button("Query", type="primary", use_container_width=True)
+query = st.button("Go", type="primary", use_container_width=True)
 
 if st.query_params.username == "":
     st.query_params.clear()
@@ -252,16 +244,13 @@ if (st.session_state.query and username) or st.session_state.count:
         matchtype = "prefix"
 
     try:
-        with st.spinner(
-            f"Waybacking @{st.session_state.current_username}'s archived tweets"
-        ):
+        with st.spinner(f"Retrieving @{st.session_state.current_username}..."):
             wayback_tweets = wayback_tweets(
                 st.session_state.current_username,
                 collapse,
                 st.session_state.archived_timestamp_filter[0],
                 st.session_state.archived_timestamp_filter[1],
                 limit,
-                offset,
                 matchtype,
             )
 
@@ -269,9 +258,7 @@ if (st.session_state.query and username) or st.session_state.count:
             st.error("No data was saved due to an empty response.")
             st.stop()
 
-        with st.spinner(
-            f"Parsing @{st.session_state.current_username}'s archived tweets"
-        ):
+        with st.spinner(f"Parsing @{st.session_state.current_username}..."):
             parsed_tweets = tweets_parser(
                 wayback_tweets, st.session_state.current_username, FIELD_OPTIONS
             )
@@ -288,73 +275,47 @@ if (st.session_state.query and username) or st.session_state.count:
         # -- Rendering -- #
 
         st.session_state.count = len(df)
-        st.write(f"**{st.session_state.count} URLs have been captured**")
+        st.caption(f"{st.session_state.count} URLs have been captured.")
 
         tab1, tab2, tab3 = st.tabs(["HTML", "CSV", "JSON"])
 
         # -- HTML -- #
         with tab1:
-            st.write(
-                f"Visualize tweets more efficiently through iframe tags. Download the @{st.session_state.current_username}'s archived tweets in HTML."  # noqa: E501
+            st.download_button(
+                label=f"Download @{st.session_state.current_username} in HTML",
+                data=html_content,
+                file_name=f"{file_name}.html",
+                mime="text/html",
+                icon=":material/download:",
             )
 
-            col5, col6 = st.columns([1, 18])
-
-            with col5:
-                st.image(DOWNLOAD, width=22)
-
-            with col6:
-                b64_html = base64.b64encode(html_content.encode()).decode()
-                href_html = f"data:text/html;base64,{b64_html}"
-
-                st.markdown(
-                    f'<a href="{href_html}" download="{file_name}.html" title="Download {file_name}.html">{file_name}.html</a>',  # noqa: E501
-                    unsafe_allow_html=True,
-                )
+            st.caption("Note: The iframes are best viewed in Firefox.")
 
             # -- CSV -- #
         with tab2:
-            st.write(
-                "Check the data returned in the dataframe below and download the file."
+            st.download_button(
+                label=f"Download @{st.session_state.current_username} in CSV",
+                data=csv_data,
+                file_name=f"{file_name}.csv",
+                mime="text/csv",
+                icon=":material/download:",
             )
 
-            col7, col8 = st.columns([1, 18])
-
-            with col7:
-                st.image(DOWNLOAD, width=22)
-
-            with col8:
-                b64_csv = base64.b64encode(csv_data.encode()).decode()
-                href_csv = f"data:file/csv;base64,{b64_csv}"
-
-                st.markdown(
-                    f'<a href="{href_csv}" download="{file_name}.csv" title="Download {file_name}.csv">{file_name}.csv</a>',  # noqa: E501
-                    unsafe_allow_html=True,
-                )
-
+            st.caption("Preview:")
             st.dataframe(df, use_container_width=True)
 
             # -- JSON -- #
         with tab3:
-            st.write(
-                "Check the data returned in JSON format below and download the file."
+            st.download_button(
+                label=f"Download @{st.session_state.current_username} in JSON",
+                data=json_data,
+                file_name=f"{file_name}.json",
+                mime="application/json",
+                icon=":material/download:",
             )
 
-            col9, col10 = st.columns([1, 18])
-
-            with col9:
-                st.image(DOWNLOAD, width=22)
-
-            with col10:
-                b64_json = base64.b64encode(json_data.encode()).decode()
-                href_json = f"data:file/json;base64,{b64_json}"
-
-                st.markdown(
-                    f'<a href="{href_json}" download="{file_name}.json" title="Download {file_name}.json">{file_name}.json</a>',  # noqa: E501
-                    unsafe_allow_html=True,
-                )
-
-            st.json(json_data, expanded=False)
+            st.caption("Preview:")
+            st.json(json_data, expanded=1)
     except TypeError as e:
         st.error(
             f"""

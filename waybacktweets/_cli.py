@@ -1,8 +1,10 @@
+# flake8: noqa: E501
 """
 CLI functions for retrieving archived tweets.
 """
 
 from datetime import datetime
+from importlib.metadata import version
 from typing import Any, Optional
 
 import click
@@ -12,6 +14,45 @@ from waybacktweets.api.export import TweetsExporter
 from waybacktweets.api.parse import TweetsParser
 from waybacktweets.api.request import WaybackTweets
 from waybacktweets.config.config import config
+
+PACKAGE_NAME = "waybacktweets"
+
+
+class CustomCommand(click.Command):
+    """
+    Custom Click command that overrides the default help message.
+    """
+
+    def format_help(
+        self, ctx: click.Context, formatter: click.HelpFormatter
+    ) -> None:  # noqa: E501
+        """
+        Customize the help message shown when the command is invoked with --help.
+
+        Args:
+            ctx (click.Context): The Click context for the command.
+            formatter (click.HelpFormatter): The formatter used to generate the help text.
+        """  # noqa: E501
+        formatter.write_heading("Usage")
+        formatter.write_text(f"  {PACKAGE_NAME} [OPTIONS] USERNAME")
+        formatter.write_text("  USERNAME: The Twitter username without @")
+
+        self.format_options(ctx, formatter)
+        formatter.write("\n")
+
+        formatter.write_heading("Examples")
+        formatter.write_text("  waybacktweets jack")
+        formatter.write_text(
+            "  waybacktweets --from 20200305 --to 20231231 --limit 300 --verbose jack"
+        )
+        formatter.write("\n")
+
+        formatter.write_heading("Repository")
+        formatter.write_text("  https://github.com/claromes/waybacktweets")
+        formatter.write("\n")
+
+        formatter.write_heading("Documentation")
+        formatter.write_text("  https://waybacktweets.claromes.com")
 
 
 def _parse_date(
@@ -27,7 +68,7 @@ def _parse_date(
 
     Returns:
         The input date string formatted in the "YYYYMMDD" format, or None if no date string was provided.
-    """  # noqa: E501
+    """
     try:
         if value is None:
             return None
@@ -39,7 +80,9 @@ def _parse_date(
         raise click.BadParameter("Date must be in format YYYYmmdd")
 
 
-@click.command()
+@click.command(
+    cls=CustomCommand, context_settings={"help_option_names": ["-h", "--help"]}, help=""
+)
 @click.argument("username", type=str)
 @click.option(
     "-c",
@@ -77,12 +120,11 @@ def _parse_date(
     help="Query result limits.",
 )
 @click.option(
-    "-o",
-    "--offset",
-    type=int,
-    metavar="INTEGER",
+    "-rk",
+    "--resumption_key",
+    type=str,
     default=None,
-    help="Allows for a simple way to scroll through the results.",
+    help="Allows for a simple way to scroll through the results. Key to continue the query from the end of the previous query.",  # noqa: E501
 )
 @click.option(
     "-mt",
@@ -99,29 +141,46 @@ def _parse_date(
     default=False,
     help="Shows the log.",
 )
+@click.version_option(version=version(PACKAGE_NAME), prog_name=PACKAGE_NAME)
 def main(
     username: str,
     collapse: Optional[str],
     timestamp_from: Optional[str],
     timestamp_to: Optional[str],
     limit: Optional[int],
-    offset: Optional[int],
+    resumption_key: Optional[str],
     matchtype: Optional[str],
     verbose: Optional[bool],
 ) -> None:
     """
-    Retrieves archived tweets CDX data from the Wayback Machine, performs necessary parsing, and saves the data.
+    Handles CLI queries for archived tweets with filtering and pagination.
 
-    USERNAME: The Twitter username without @.
+    Args:
+        username (str): Twitter username to search (without the @ symbol).
+        collapse (Optional[str]): Collapse results based on a specific field or a substring
+            of a field. Possible values include 'urlkey', 'digest', or 'timestamp:XX', where
+            XX is the number of digits to match in timestamps (recommended: 4 or more).
+        timestamp_from (Optional[str]): Start date for filtering results (format: YYYYMMDD).
+        timestamp_to (Optional[str]): End date for filtering results (format: YYYYMMDD).
+        limit (Optional[int]): Maximum number of results to return.
+        resumption_key (Optional[str]): Resume a previous query using this key (for pagination).
+        matchtype (Optional[str]): Filter by URL match type: 'exact', 'prefix', 'host', or 'domain'.
+        verbose (Optional[bool]): Print verbose logs during execution.
     """  # noqa: E501
     try:
         config.verbose = verbose
 
         api = WaybackTweets(
-            username, collapse, timestamp_from, timestamp_to, limit, offset, matchtype
+            username,
+            collapse,
+            timestamp_from,
+            timestamp_to,
+            limit,
+            resumption_key,
+            matchtype,
         )
 
-        print(f"Waybacking @{username}'s archived tweets...")
+        print("Retrieving...")
         archived_tweets = api.get()
 
         if archived_tweets:
@@ -140,6 +199,7 @@ def main(
                 "archived_statuscode",
                 "archived_digest",
                 "archived_length",
+                "resumption_key",
             ]
 
             parser = TweetsParser(archived_tweets, username, field_options)
@@ -152,7 +212,3 @@ def main(
             exporter.save_to_html()
     except Exception as e:
         rprint(f"[red]{e}")
-    finally:
-        rprint(
-            "[yellow]\nNeed help? Read the docs: https://claromes.github.io/waybacktweets"  # noqa: E501
-        )

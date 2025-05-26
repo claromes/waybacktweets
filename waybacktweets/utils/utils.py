@@ -223,7 +223,7 @@ def is_tweet_url(twitter_url: str) -> bool:
     return False
 
 
-def timestamp_parser(timestamp):
+def timestamp_parser(timestamp: str) -> Optional[str]:
     """
     Parses a timestamp into a formatted string.
 
@@ -231,9 +231,8 @@ def timestamp_parser(timestamp):
         timestamp (str): The timestamp string to parse.
 
     Returns:
-        The parsed timestamp in the format "%Y/%m/%d %H:%M:%S", or None if the
-        timestamp could not be parsed.
-    """
+        Returns the parsed timestamp in strftime format, or None if parsing fails.
+    """  # noqa: E501
     formats = [
         "%Y",
         "%Y%m",
@@ -245,12 +244,14 @@ def timestamp_parser(timestamp):
 
     for fmt in formats:
         try:
+            if not timestamp:
+                return None
             parsed_time = datetime.strptime(timestamp, fmt)
 
             formatted_time = parsed_time.strftime("%Y/%m/%d %H:%M:%S")
             return formatted_time
         except ValueError:
-            continue
+            return None
 
     return None
 
