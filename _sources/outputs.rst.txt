@@ -16,6 +16,8 @@ This format allows for easy viewing of the archived tweets, through the use of t
 
 - ``parsed_tweet_url``: (`str`) The original tweet URL after parsing. Old URLs were archived in a nested manner. The parsing applied here unnests these URLs when necessary. Refer to the :ref:`utils` for more details.
 
+If you want to define which viewing options should be displayed in the HTML file, you need to use the package as a module and specify the desired view in the field options. See the :ref:`api` Reference and the :ref:`module` usage example.
+
 Additionally, other fields are displayed.
 
 .. note::

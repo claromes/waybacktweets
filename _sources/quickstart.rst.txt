@@ -12,10 +12,12 @@ waybacktweets [OPTIONS] USERNAME
 
     waybacktweets --from 20150101 --to 20191231 --limit 250 jack
 
+.. _module:
+
 Module
 -------------
 
-Using Wayback Tweets as a Python Module.
+Using Wayback Tweets as a Python Module. `Open in Colab <https://colab.research.google.com/drive/1tnaM3rMWpoSHBZ4P_6iHFPjraWRQ3OGe>`_.
 
 .. code-block:: python
 
