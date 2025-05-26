@@ -38,15 +38,18 @@ class CustomCommand(click.Command):
         formatter.write_text("  USERNAME: The Twitter username without @")
 
         self.format_options(ctx, formatter)
+        formatter.write("\n")
 
         formatter.write_heading("Examples")
         formatter.write_text("  waybacktweets jack")
         formatter.write_text(
             "  waybacktweets --from 20200305 --to 20231231 --limit 300 --verbose jack"
         )
+        formatter.write("\n")
 
         formatter.write_heading("Repository")
         formatter.write_text("  https://github.com/claromes/waybacktweets")
+        formatter.write("\n")
 
         formatter.write_heading("Documentation")
         formatter.write_text("  https://waybacktweets.claromes.com")

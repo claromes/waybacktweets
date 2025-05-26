@@ -321,7 +321,7 @@ class TweetsParser:
 
             if self.show_resume_key:
                 rprint(
-                    f'[blue]Resumption Key: [bold]{self.archived_tweets_response[-1][0]}[/bold][/blue]\nUse this Resumption Key option (--resumption_key in the CLI or "resumption_key" in field_options via the API) to continue the query from where the previous one left off. This allows you to split a large query into smaller, more efficient ones.\n'  # noqa: E501
+                    f'[blue]Resumption Key: [bold]{self.archived_tweets_response[-1][0]}[/bold][/blue]\nUse this Resumption Key option (--resumption_key in the CLI or "resumption_key" in the Module) to continue the query from where the previous one left off. This allows you to split a large query into smaller, more efficient ones.\n'  # noqa: E501
                 )
 
             return self.parsed_tweets

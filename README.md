@@ -6,13 +6,11 @@ Retrieves archived tweets CDX data from the Wayback Machine, performs necessary 
 
 ## Installation
 
-Python 3.10+ is required to install `waybacktweets`.
+It is compatible with Python versions 3.10 and above. [See installation options](https://waybacktweets.claromes.com/installation).
 
 ```shell
 pipx install waybacktweets
 ```
-
-[Read more about the installation options](https://waybacktweets.claromes.com/installation).
 
 ## CLI
 
@@ -43,11 +41,14 @@ Options:
   -v, --verbose                   Shows the log.
   --version                       Show the version and exit.
   -h, --help                      Show this message and exit.
+
 Examples:
   waybacktweets jack
   waybacktweets --from 20200305 --to 20231231 --limit 300 --verbose jack
+
 Repository:
   https://github.com/claromes/waybacktweets
+
 Documentation:
   https://waybacktweets.claromes.com
 ```
@@ -102,13 +103,13 @@ Important: Starting from version 1.0, the web app will no longer receive all upd
 
 ## Documentation
 
-- [Wayback Tweets documentation](https://waybacktweets.claromes.com/)
-- [Wayback CDX Server API (Beta) documentation](https://archive.org/developers/wayback-cdx-server.html)
+- [Wayback Tweets documentation](https://waybacktweets.claromes.com/).
+- [Wayback CDX Server API (Beta) documentation](https://archive.org/developers/wayback-cdx-server.html).
 
 ## Acknowledgements
 
 - Tristan Lee (Bellingcat's Data Scientist) for the idea.
-- Jessica Smith (Snowflake's Community Growth Specialist) and Streamlit/Snowflake team for the additional server resources on Streamlit Cloud.
+- Jessica Smith (Snowflake's Community Growth Specialist) and Streamlit team for the additional server resources on Streamlit Cloud.
 - OSINT Community for recommending the package and the application.
 
 ## License

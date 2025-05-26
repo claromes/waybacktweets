@@ -12,6 +12,8 @@ waybacktweets [OPTIONS] USERNAME
 
     waybacktweets --from 20150101 --to 20191231 --limit 250 jack
 
+.. _module:
+
 Module
 -------------
 

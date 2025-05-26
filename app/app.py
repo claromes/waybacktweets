@@ -103,6 +103,9 @@ st.html(
         div[class="st-emotion-cache-1v0mbdj e115fcil1"] {
             max-width: 100%;
         }
+        div[data-testid="stElementToolbarButtonContainer"] {
+            display: none;
+        }
     </style>
     """
 )
@@ -176,7 +179,7 @@ if st.query_params.username != "":
 
 # ------ UI Settings ------ #
 
-st.image(TITLE, use_container_width="never")
+st.image(TITLE, width=None)
 st.write(
     "Retrieves archived tweets CDX data in HTML, CSV, and JSON formats."  # noqa: E501
 )
@@ -211,7 +214,7 @@ st.caption(
 limit = st.text_input(
     "Limit",
     key="limit",
-    help="Query result limits",
+    help="Query result limits (int)",
 )
 
 unique = st.checkbox(
